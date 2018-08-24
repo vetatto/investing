@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:background="@color/colorPrimary"
+    android:background="#2f9efe"
     tools:context=".LoginActivity">
 
     <android.support.constraint.Guideline
@@ -44,6 +44,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/holo_blue_light"
+        android:drawableLeft="@drawable/ic_account"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"

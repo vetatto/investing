@@ -1,5 +1,6 @@
 package ru.vetatto.investing.investing;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -77,21 +79,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        ImageView img_exit = (ImageView) navigationView.findViewById(R.id.exit_image);
-        img_exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("email", "");
-                editor.putString("password", "");
-                editor.putString("API_TOKEN", " ");
-                editor.commit();
-                Intent intent = new Intent(context,LoginActivity.class);
-                context.startActivity(intent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -137,6 +124,16 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
+        }
+        else if(id == R.id.nav_logout){
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("email", "");
+            editor.putString("password", "");
+            editor.putString("API_TOKEN", " ");
+            editor.commit();
+            Intent intent = new Intent(context,LoginActivity.class);
+            context.startActivity(intent);
+            finish();
         }
         // Выделяем выбранный пункт меню в шторке
         item.setChecked(true);

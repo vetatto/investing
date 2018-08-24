@@ -7,32 +7,18 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_briefcase_outline"
-            android:title="Портфель"/>
+            android:title="@string/portfolio"/>
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Аналитика" />
+            android:title="@string/analitycs" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Операции" />
+            android:title="@string/operations" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Паевые фонды" />
+            android:title="@string/pif" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>

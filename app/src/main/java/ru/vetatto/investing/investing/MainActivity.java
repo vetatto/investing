@@ -111,52 +111,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_filter_pif) {
-            Intent intent = new Intent(context,filterpif.class);
-            super.startActivityForResult(intent,1);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-        // Создадим новый фрагмент
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
             fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
-
-        // Вставляем фрагмент, заменяя текущий фрагмент
-        //FragmentManager fragmentManager = getSupportFragmentManager();
-        //getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-
         // Выделяем выбранный пункт меню в шторке
         item.setChecked(true);
         // Выводим выбранный пункт в заголовке

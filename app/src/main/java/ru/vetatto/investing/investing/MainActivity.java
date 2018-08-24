@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuPresenter;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         context = this;
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         api_token = sp.getString("API_TOKEN", " ");
+        String email = sp.getString("email", "");
+
 
                 if(api_token.isEmpty()){
             android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -79,6 +83,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView mNameTextView = (TextView) header.findViewById(R.id.investor_name);
+        mNameTextView.setText(email);
+
     }
 
     @Override

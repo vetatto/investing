@@ -120,4 +120,12 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/spider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="#e1e1e1"
+        android:contentDescription="@string/todo" />
+
 </LinearLayout>

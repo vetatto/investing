@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ImageView img_exit = (ImageView) findViewById(R.id.exit_image);
+        ImageView img_exit = (ImageView) navigationView.findViewById(R.id.exit_image);
         img_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

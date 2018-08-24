@@ -1,6 +1,14 @@
 <resources>
     <string name="sort">Сортировка</string>
+    <string name="your_capital">Ваш капитал</string>
+    <string name="pif">Паевые фонды</string>
     <string name="app_name">investing</string>
+    <string name="authorization">Авторизация</string>
+    <string name="portfolio">Портфель</string>
+    <string name="analitycs">Аналитика</string>
+    <string name="operations">Операции</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -8,7 +16,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="authorization">Авторизация</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

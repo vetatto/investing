@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "191851896894",
+    "firebase_url": "https://investing-a7d78.firebaseio.com",
+    "project_id": "investing-a7d78",
+    "storage_bucket": "investing-a7d78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191851896894:android:4c9da96e5c4f1c8c",
+        "android_client_info": {
+          "package_name": "ru.vetatto.investing.investing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191851896894-k9vsceciplc35qbts4m37fcp85ijm4o5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdvu9LqNTX-yekzZex4_VAavJKRYzsBE4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

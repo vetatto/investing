@@ -11,13 +11,13 @@ public class Post {
    /* public static final MediaType FORM
             = MediaType.parse("application/x-www-form-urlencode;");*/
 
-    OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient();
 
-    Call post(String url, Callback callback) {
+    Call post(String url, String email, String password,  Callback callback) {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("email", "vetatto@mail.ru")
-                .addFormDataPart("password", "118823vet")
+                .addFormDataPart("email", email)
+                .addFormDataPart("password", password)
                 .build();
         Request request = new Request.Builder()
                 .header("Accept", "application/json")

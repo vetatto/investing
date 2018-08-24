@@ -27,34 +27,42 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        String email = prefs.getString("email"," ");
+        String email = prefs.getString("email", " ");
+        String password = prefs.getString("password", " ");
         Log.d("TEST", "Class of view: " + email);
-        if(!email.isEmpty()){
-            Log.d("TEST","Логин и пароль указаны");
-            Log.d("TEST","Получаем токены доступа");
+        if(email.equals(" ") || !password.equals(" ")) {
+        } else {
+            Log.d("TEST", "Логин и пароль указаны");
+            Log.d("TEST", "Получаем токены доступа");
             Post example = new Post();
             String response = null;
 
-            example.post("", new Callback() {
+            example.post("", email, password, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    String responseStr = null;
                     if (response.isSuccessful()) {
-                        String responseStr = response.body().string();
-                        Log.d("TEST",responseStr);
-                        Log.d("TEST","Сохраняем токены доступа");
+                        try {
+                            responseStr = response.body().string();
+                        }
+                        catch (NullPointerException e){
+                            
+                        }
+                        Log.d("TEST", responseStr);
+                        Log.d("TEST", "Сохраняем токены доступа");
                         try {
                             JSONObject dataJsonObj = new JSONObject(responseStr);
                             JSONObject data = dataJsonObj.getJSONObject("data");
                             String api_token = data.getString("api_token");
-                            Log.d("TEST","API_TOKEN: "+api_token);
+                            Log.d("TEST", "API_TOKEN: " + api_token);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("API_TOKEN", api_token);
                             editor.commit();
-                            if(!api_token.isEmpty()){
+                            if (!api_token.isEmpty()) {
                                 FragmentTransaction tran = getFragmentManager().beginTransaction();
                                 tran.replace(R.id.container, new SecondFragment()).commit();
                             }
@@ -62,20 +70,15 @@ public class FirstFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                    } else {
-                        // Request not successful
+                    }else{
+
                     }
                 }
             });
-
-        }
-        else {
-            Log.d("TEST","ЛОГИН НЕ УКАЗАН");
-           //Intent intent = new Intent(this.getContext(), FullscreenActivity.class);
-           // this.getContext().startActivity(intent);
         }
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
+
     public static FirstFragment newInstance() {
         FirstFragment fragment = new FirstFragment();
         Bundle args = new Bundle();

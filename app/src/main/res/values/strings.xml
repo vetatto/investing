@@ -7,8 +7,10 @@
     <string name="portfolio">Портфель</string>
     <string name="analitycs">Аналитика</string>
     <string name="operations">Операции</string>
-
-
+    <string name="autorization">Авторизация</string>
+    <string name="email">E-mail</string>
+    <string name="password">Пароль</string>
+    <string name="registration">Регистрация</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>

@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("email", "");
                 editor.putString("password", "");
+                editor.putString("API_TOKEN", " ");
                 editor.commit();
                 Intent intent = new Intent(context,LoginActivity.class);
                 context.startActivity(intent);

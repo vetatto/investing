@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity
         context = this;
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         api_token = sp.getString("API_TOKEN", " ");
+
                 if(api_token.isEmpty()){
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -67,14 +69,28 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+       /* DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ImageView img_exit = (ImageView) findViewById(R.id.exit_image);
+        img_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("email", "");
+                editor.putString("password", "");
+                editor.commit();
+                Intent intent = new Intent(context,LoginActivity.class);
+                context.startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override

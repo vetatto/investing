@@ -61,14 +61,15 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("TEST", responseStr);
                                 Log.d("TEST", "Сохраняем токены доступа");
                                 try {
-                                    prefs.getString("email",input_email);
-                                    prefs.getString("password",input_password);
+
                                     JSONObject dataJsonObj = new JSONObject(responseStr);
                                     JSONObject data = dataJsonObj.getJSONObject("data");
                                     String api_token = data.getString("api_token");
                                     Log.d("TEST", "API_TOKEN: " + api_token);
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putString("API_TOKEN", api_token);
+                                    editor.putString("email",input_email);
+                                    editor.putString("password",input_password);
                                     editor.commit();
                                     if (!api_token.isEmpty()) {
                                         Intent intent = new Intent(context, MainActivity.class);

@@ -37,7 +37,7 @@
             tools:layout_editor_absoluteX="8dp" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/exit_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

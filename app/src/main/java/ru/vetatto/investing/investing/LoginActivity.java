@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
          prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final String email = prefs.getString("email"," ");
         final String password = prefs.getString("password"," ");
+        final String GCM_id = prefs.getString("GCM_TOKEN","");
         final Post example = new Post();
         String response = null;
         Button btn_autorization = (Button) findViewById(R.id.button);
@@ -60,8 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String responseStr = response.body().string();
                                 Log.d("TEST", responseStr);
                                 Log.d("TEST", "Сохраняем токены доступа");
-                                try {
-
+                                try{
                                     JSONObject dataJsonObj = new JSONObject(responseStr);
                                     JSONObject data = dataJsonObj.getJSONObject("data");
                                     String api_token = data.getString("api_token");
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("INVESTING", "E-mail не указан");
         }
         else {
-            example.post("", email, password, new Callback() {
+             example.post("", email, password, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                 }

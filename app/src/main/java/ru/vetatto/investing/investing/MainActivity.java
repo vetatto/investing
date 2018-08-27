@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         api_token = sp.getString("API_TOKEN", " ");
         String email = sp.getString("email", "");
-
+        String GCM_id =sp.getString("GCM_TOKEN","");
                 if(api_token.isEmpty()){
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
-
+            if(!GCM_id.isEmpty()) {
+                send_gcm(GCM_id, api_token);
+            }
         }
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -150,5 +152,21 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void send_gcm(String token_gcm, String api_token){
+        Get send_gcm=new Get();
+        send_gcm.Get("/update_GCM/"+token_gcm, api_token, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("TEST", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
     }
 }

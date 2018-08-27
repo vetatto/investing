@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.container, new FirstFragment()).commit();
         }
         else{
+
+                        send_gcm(GCM_id, api_token);
+
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
-            if(!GCM_id.isEmpty()) {
-                send_gcm(GCM_id, api_token);
-            }
         }
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -157,15 +157,16 @@ public class MainActivity extends AppCompatActivity
 
     public void send_gcm(String token_gcm, String api_token){
         Get send_gcm=new Get();
+        Log.d("TESTE","/update_GCM/"+token_gcm);
         send_gcm.Get("/update_GCM/"+token_gcm, api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TEST", e.getMessage());
+                Log.d("TESTE", e.getMessage());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
+                Log.d("TESTE", response.toString());
             }
         });
     }

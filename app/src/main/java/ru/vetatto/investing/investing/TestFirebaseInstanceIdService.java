@@ -21,6 +21,7 @@ public class TestFirebaseInstanceIdService  extends FirebaseInstanceIdService {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("GCM_TOKEN", token);
+        editor.commit();
     }
 
 }

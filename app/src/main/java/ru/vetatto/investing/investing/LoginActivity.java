@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         final String GCM_id = prefs.getString("GCM_TOKEN","");
         final Post example = new Post();
         String response = null;
+        TextView btn_registration = (TextView) findViewById(R.id.textView16);
+        btn_registration.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Registration.class);
+                context.startActivity(intent);
+                //finish();
+            }
+        });
         Button btn_autorization = (Button) findViewById(R.id.button);
         btn_autorization.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -115,4 +115,6 @@
     <string name="title_activity_add">Add</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_filterpif">filterpif</string>
+
+    <string name="title_activity_registration">Registration</string>
 </resources>

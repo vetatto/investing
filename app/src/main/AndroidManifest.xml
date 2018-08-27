@@ -58,7 +58,11 @@
             android:name=".filterpif"
             android:label="@string/title_activity_filterpif"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Registration"></activity>
+        <activity
+            android:name=".Registration"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

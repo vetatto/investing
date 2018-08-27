@@ -49,14 +49,17 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-        api_token = sp.getString("API_TOKEN", " ");
+        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        api_token = sp.getString("API_TOKEN", "");
         String email = sp.getString("email", "");
         String GCM_id =sp.getString("GCM_TOKEN","");
                 if(api_token.isEmpty()){
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
+            /*android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container, new FirstFragment()).commit();
+            fragmentTransaction.replace(R.id.container, new FirstFragment()).commit();*/
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                    finish();
         }
         else{
 

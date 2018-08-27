@@ -266,8 +266,10 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("API_TOKEN", null);
                         editor.commit();
-                        FragmentTransaction tran = getFragmentManager().beginTransaction();
-                        tran.replace(R.id.container, new FirstFragment()).commit();
+                        Intent intent = new Intent(context,LoginActivity.class);
+                        context.startActivity(intent);
+                       /* FragmentTransaction tran = getFragmentManager().beginTransaction();
+                        tran.replace(R.id.container, new FirstFragment()).commit();*/
                     }
                 }
                 final Activity act = getActivity();
@@ -355,8 +357,10 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("API_TOKEN", null);
                         editor.commit();
-                        FragmentTransaction tran = getFragmentManager().beginTransaction();
-                        tran.replace(R.id.container, new FirstFragment()).commit();
+                        /*FragmentTransaction tran = getFragmentManager().beginTransaction();
+                        tran.replace(R.id.container, new SecondFragment()).commit();*/
+                        Intent intent = new Intent(context,LoginActivity.class);
+                        context.startActivity(intent);
                     }
                 }
                 final Activity act = getActivity();

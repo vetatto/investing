@@ -1,6 +1,7 @@
 package ru.vetatto.investing.investing;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,8 +30,10 @@ public class FirstFragment extends Fragment {
         prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         String email = prefs.getString("email", " ");
         String password = prefs.getString("password", " ");
-        Log.d("TEST", "Class of view: " + email);
-        if(email.equals(" ") || !password.equals(" ")) {
+        Log.d("TESTE", "Class of view: " + email);
+        if(email.isEmpty()|| password.isEmpty()) {
+            Log.d("TESTE", "Логин и password пустые");
+
         } else {
             Log.d("TEST", "Логин и пароль указаны");
             Log.d("TEST", "Получаем токены доступа");
@@ -58,20 +61,29 @@ public class FirstFragment extends Fragment {
                             JSONObject dataJsonObj = new JSONObject(responseStr);
                             JSONObject data = dataJsonObj.getJSONObject("data");
                             String api_token = data.getString("api_token");
-                            Log.d("TEST", "API_TOKEN: " + api_token);
+                            Log.d("TESTE", "API_TOKEN: " + api_token);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("API_TOKEN", api_token);
                             editor.commit();
                             if (!api_token.isEmpty()) {
-                                FragmentTransaction tran = getFragmentManager().beginTransaction();
-                                tran.replace(R.id.container, new SecondFragment()).commit();
+                                final Activity act = getActivity();
+                                if (act != null)
+                                    act.runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            FragmentTransaction tran = getFragmentManager().beginTransaction();
+                                            tran.replace(R.id.container, new SecondFragment()).commit();
+                                        }
+                                    });
+
+
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                     }else{
-
+                        Log.d("TESTE", "Ошибка авторизации");
                     }
                 }
             });

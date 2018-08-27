@@ -34,6 +34,10 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login2);
+        final EditText text_email = (EditText) findViewById(R.id.editText6);
+        final EditText text_password = (EditText) findViewById(R.id.editText7);
+        text_email.setVisibility(View.VISIBLE);
+        text_password.setVisibility(View.VISIBLE);
          context = this;
          prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final String email = prefs.getString("email"," ");
@@ -45,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         btn_autorization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                text_email.setVisibility(View.INVISIBLE);
+                text_password.setVisibility(View.INVISIBLE);
                EditText text_email = (EditText) findViewById(R.id.editText6);
                EditText text_password = (EditText) findViewById(R.id.editText7);
                final String input_email = text_email.getText().toString();
@@ -87,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                     });
                 }
                 else {
+                    text_email.setVisibility(View.VISIBLE);
+                    text_password.setVisibility(View.VISIBLE);
                     Log.d("INVESTING", "Логин и пароль пустые");
                 }
             }
@@ -95,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(email.equals(" ") || password.equals(" ")){
+            text_email.setVisibility(View.VISIBLE);
+            text_password.setVisibility(View.VISIBLE);
             Log.d("INVESTING", "E-mail не указан");
         }
         else {

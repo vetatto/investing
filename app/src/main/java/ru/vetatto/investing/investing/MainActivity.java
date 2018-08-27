@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity
         api_token = sp.getString("API_TOKEN", " ");
         String email = sp.getString("email", "");
 
-
                 if(api_token.isEmpty()){
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();

@@ -14,6 +14,7 @@ public class TestFirebaseInstanceIdService  extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
+
         /*if (refreshedToken!=null) {
             SettingPreferences.setStringValueInPref(this, SettingPreferences.REG_ID, refreshedToken);
         }*/

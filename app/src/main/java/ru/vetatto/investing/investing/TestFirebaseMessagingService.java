@@ -40,7 +40,7 @@ public class TestFirebaseMessagingService extends FirebaseMessagingService {
     void ShowNotification(String title, String text, int color) {
         NotificationCompat.Builder mNotify = new NotificationCompat.Builder(getApplicationContext(), "");
         mNotify.setLights(color, 100, 200);
-        mNotify.setSmallIcon(R.drawable.ic_launcher_background);
+        mNotify.setSmallIcon(R.drawable.ic_briefcase_outline);
         mNotify.setContentTitle(title);
         mNotify.setContentText(text);
         mNotify.setDefaults(Notification.DEFAULT_SOUND);

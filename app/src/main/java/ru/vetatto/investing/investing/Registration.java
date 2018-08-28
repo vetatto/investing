@@ -23,7 +23,13 @@ public class Registration extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_registration);
 
-
+        /**
+         * Для регистрации POST запрос на register
+         * name
+         * email
+         * password
+         * password_confirmation
+         */
     }
 
 }

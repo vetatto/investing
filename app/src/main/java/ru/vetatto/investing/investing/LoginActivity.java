@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -35,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login2);
-        final EditText text_email = (EditText) findViewById(R.id.editText6);
-        final EditText text_password = (EditText) findViewById(R.id.editText7);
+        final EditText text_email = (EditText) findViewById(R.id.login_email);
+        final EditText text_password = (EditText) findViewById(R.id.login_password);
         text_email.setVisibility(View.VISIBLE);
         text_password.setVisibility(View.VISIBLE);
          context = this;
@@ -60,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 text_email.setVisibility(View.INVISIBLE);
                 text_password.setVisibility(View.INVISIBLE);
-               EditText text_email = (EditText) findViewById(R.id.editText6);
-               EditText text_password = (EditText) findViewById(R.id.editText7);
+               EditText text_email = (EditText) findViewById(R.id.registration_email);
+               EditText text_password = (EditText) findViewById(R.id.registration_password);
                final String input_email = text_email.getText().toString();
                final String input_password=text_password.getText().toString();
                 if(!input_email.isEmpty() || !input_password.isEmpty()) {

@@ -17,15 +17,16 @@ public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
 
     Context context;
     int resource, textViewResourceId;
-    List<UkAutocompleteData> items, tempItems, suggestions;
+    ArrayList<UkAutocompleteData> items;
+    ArrayList<UkAutocompleteData> tempItems;
+    ArrayList<UkAutocompleteData> suggestions;
 
-    public UkAutocompleteAdapter(Context context, int resource, int textViewResourceId, List<UkAutocompleteData> items) {
+    public UkAutocompleteAdapter(Context context, int resource, int textViewResourceId, ArrayList<UkAutocompleteData> items) {
         super(context, resource, textViewResourceId, items);
         this.context = context;
         this.resource = resource;
         this.textViewResourceId = textViewResourceId;
         this.items = items;
-        tempItems = new ArrayList<UkAutocompleteData>(items); // this makes the difference.
         suggestions = new ArrayList<UkAutocompleteData>();
     }
 
@@ -47,47 +48,54 @@ public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
 
     @Override
     public Filter getFilter() {
+        Filter nameFilter = new Filter() {
+           @Override
+           public CharSequence convertResultToString(Object resultValue) {
+                String str = ((UkAutocompleteData) resultValue).getName();
+                return str;
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if(tempItems == null) {
+                    tempItems = new ArrayList<UkAutocompleteData>(items);
+                }
+                if (constraint == null || constraint.length()==0) {
+                    ArrayList<UkAutocompleteData> list =new ArrayList<UkAutocompleteData>(tempItems);
+                    filterResults.values = list;
+                    filterResults.count = list.size();
+                }
+                else{
+                    suggestions.clear();
+                    for (UkAutocompleteData people : tempItems) {
+                        Log.d("FILTER", people.getName());
+                        if (people.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                            suggestions.add(people);
+                        }
+                    }
+                    filterResults.values = suggestions;
+                    filterResults.count = suggestions.size();
+                }
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                ArrayList<UkAutocompleteData> filter = (ArrayList<UkAutocompleteData>) results.values;
+                if (results != null && results.count > 0) {
+                    clear();
+                    for (UkAutocompleteData cust : filter) {
+                        add(cust);
+                        notifyDataSetChanged();
+                    }
+
+                }
+                 else {
+                    notifyDataSetInvalidated();
+                }
+            }
+        };
         return nameFilter;
     }
-
-    /**
-     * Custom Filter implementation for custom suggestions we provide.
-     */
-    Filter nameFilter = new Filter() {
-        @Override
-        public CharSequence convertResultToString(Object resultValue) {
-            String str = ((UkAutocompleteData) resultValue).getName();
-            return str;
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            if (constraint != null) {
-                suggestions.clear();
-                for (UkAutocompleteData people : items) {
-                    if (people.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
-                        suggestions.add(people);
-                    }
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
-                return filterResults;
-            } else {
-                return new FilterResults();
-            }
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<UkAutocompleteData> filterList = (ArrayList<UkAutocompleteData>) results.values;
-            if (results != null && results.count > 0) {
-                clear();
-                for (UkAutocompleteData people : filterList) {
-                    add(people);
-                }
-                    notifyDataSetChanged();
-                }
-            }
-    };
 }

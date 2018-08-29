@@ -11,6 +11,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
@@ -69,7 +70,7 @@ public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
                 else{
                     suggestions.clear();
                     for (UkAutocompleteData people : tempItems) {
-                        Log.d("FILTER", people.getName());
+                        //Log.d("FILTER", people.getName());
                         if (people.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                             suggestions.add(people);
                         }
@@ -85,11 +86,10 @@ public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
                 ArrayList<UkAutocompleteData> filter = (ArrayList<UkAutocompleteData>) results.values;
                 if (results != null && results.count > 0) {
                     clear();
-                    for (UkAutocompleteData cust : filter) {
-                        add(cust);
-                        notifyDataSetChanged();
-                    }
-
+                        for (UkAutocompleteData cust : filter) {
+                            add(cust);
+                            notifyDataSetChanged();
+                        }
                 }
                  else {
                     notifyDataSetInvalidated();

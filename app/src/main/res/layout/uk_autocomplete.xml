@@ -6,25 +6,19 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/UkNameLabel"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="AutoCompleteTextView"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toTopOf="parent"></TextView>
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Название УК"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

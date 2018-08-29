@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +28,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,6 +53,9 @@ public class AddPageFragment extends Fragment  {
     TextView plus;
     public String api_token;
     NumberFormat f;
+    UkAutocompleteAdapter UkAdapter;
+    List<String> ukList = new ArrayList<String>();
+
     static AddPageFragment newInstance(int page) {
         AddPageFragment pageFragment = new AddPageFragment();
         Bundle arguments = new Bundle();
@@ -77,29 +83,26 @@ public class AddPageFragment extends Fragment  {
     }
 
 
-
-///Отображение полного списка портфеля
     private void add_pif(){
         context=this.getContext();
-        //recyclerView = view.findViewById(R.id.RV1);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-//        recyclerView.setLayoutManager(mLayoutManager);
         sum_invest=0;
         sum_money=0;
         final ArrayList<String> responseList = new ArrayList<String>();
         final TextView text = view.findViewById(R.id.textView3);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_dropdown_item_1line, responseList);
-        AutoCompleteTextView textView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
-        textView.setAdapter(adapter);
-        //text.setText("Авторизация пройдена");
+
+        UkAutocompleteAdapter adapter = new UkAutocompleteAdapter(context,
+                R.layout.uk_autocomplete, ukList);
+        AutoCompleteTextView nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+        nameTV.setAdapter(adapter);
+        nameTV.setOnItemClickListener(onItemClickListener);
+
         Get example = new Get();
         String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
 
-       // adapter = new PifAdapter(context, phones);
-//        recyclerView.setAdapter(adapter);
+
         money_sum = view.findViewById(R.id.sum_money);
         plus = view.findViewById(R.id.plus);
 
@@ -110,7 +113,6 @@ public class AddPageFragment extends Fragment  {
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                //Log.d("TESTE",response.toString());
                 if (response.isSuccessful()) {
 
                     String responseStr = response.body().string();
@@ -121,7 +123,7 @@ public class AddPageFragment extends Fragment  {
                         for (int i = 0; i < friends.length(); i++) {
                                 JSONObject dataJsonObj2 = friends.getJSONObject(i);
                                 String title = dataJsonObj2.getString("minTitle");
-                                responseList.add(title);
+                                ukList.add(title);
                             }
 
 
@@ -133,7 +135,6 @@ public class AddPageFragment extends Fragment  {
                     String responseStr = response.body().string();
                     String resp = response.message().toString();
                     if(resp.equals("Unauthorized")) {
-                       // Log.d("TEST",response.message().toString()+ "нет авторизации");
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("API_TOKEN", null);
@@ -146,10 +147,22 @@ public class AddPageFragment extends Fragment  {
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-                            adapter.notifyDataSetChanged();
+                           // adapter.notifyDataSetChanged();
                         }
                     });
             }
         });
     }
+    private AdapterView.OnItemClickListener onItemClickListener =
+            new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    Toast.makeText(context,
+                            "Clicked item from auto completion list "
+                                    + adapterView.getItemAtPosition(i)
+                            , Toast.LENGTH_SHORT).show();
+                }
+            };
+
 }

@@ -45,7 +45,6 @@ public class AddPageFragment extends Fragment  {
     ArrayList<PifData> phones = new ArrayList();
     ArrayList<PortfoliListData> PortfolioArray = new ArrayList();
     RecyclerView recyclerView;
-    PifAdapter adapter;
     PortfolioListAdapter PortfolioListAdapter;
     float sum_money;
     float sum_invest;
@@ -53,8 +52,8 @@ public class AddPageFragment extends Fragment  {
     TextView plus;
     public String api_token;
     NumberFormat f;
-    UkAutocompleteAdapter UkAdapter;
-    List<String> ukList = new ArrayList<String>();
+    UkAutocompleteAdapter adapter;
+    ArrayList<UkAutocompleteData> ukList = new ArrayList<UkAutocompleteData>();
 
     static AddPageFragment newInstance(int page) {
         AddPageFragment pageFragment = new AddPageFragment();
@@ -88,28 +87,23 @@ public class AddPageFragment extends Fragment  {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         sum_invest=0;
         sum_money=0;
-        final ArrayList<String> responseList = new ArrayList<String>();
+        //final ArrayList<String> responseList = new ArrayList<String>();
         final TextView text = view.findViewById(R.id.textView3);
-
-        UkAutocompleteAdapter adapter = new UkAutocompleteAdapter(context,
-                R.layout.uk_autocomplete, ukList);
+        adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
         AutoCompleteTextView nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
         nameTV.setAdapter(adapter);
         nameTV.setOnItemClickListener(onItemClickListener);
-
         Get example = new Get();
         String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
-
-
         money_sum = view.findViewById(R.id.sum_money);
         plus = view.findViewById(R.id.plus);
 
         example.Get("/get_uk", api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TEST",e.getMessage());
+                Log.d("TESTE",e.getMessage());
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -123,7 +117,8 @@ public class AddPageFragment extends Fragment  {
                         for (int i = 0; i < friends.length(); i++) {
                                 JSONObject dataJsonObj2 = friends.getJSONObject(i);
                                 String title = dataJsonObj2.getString("minTitle");
-                                ukList.add(title);
+                                int id = Integer.valueOf(dataJsonObj2.getString("id"));
+                                ukList.add(new UkAutocompleteData(title,"",id));
                             }
 
 
@@ -147,7 +142,7 @@ public class AddPageFragment extends Fragment  {
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-                           // adapter.notifyDataSetChanged();
+                           adapter.notifyDataSetChanged();
                         }
                     });
             }
@@ -160,7 +155,7 @@ public class AddPageFragment extends Fragment  {
 
                     Toast.makeText(context,
                             "Clicked item from auto completion list "
-                                    + adapterView.getItemAtPosition(i)
+                                    + adapter.getItem(i).getName().toString()
                             , Toast.LENGTH_SHORT).show();
                 }
             };

@@ -70,7 +70,6 @@ public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
                 else{
                     suggestions.clear();
                     for (UkAutocompleteData people : tempItems) {
-                        //Log.d("FILTER", people.getName());
                         if (people.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                             suggestions.add(people);
                         }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class AddPageFragment extends Fragment  {
+public class AddPageFragment extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -54,6 +55,9 @@ public class AddPageFragment extends Fragment  {
     NumberFormat f;
     UkAutocompleteAdapter adapter;
     ArrayList<UkAutocompleteData> ukList = new ArrayList<UkAutocompleteData>();
+    ProgressBar load;
+    AutoCompleteTextView nameTV;
+    TextView nameUkaLibel;
 
     static AddPageFragment newInstance(int page) {
         AddPageFragment pageFragment = new AddPageFragment();
@@ -65,7 +69,7 @@ public class AddPageFragment extends Fragment  {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-               super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
     }
 
@@ -73,8 +77,8 @@ public class AddPageFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        f=NumberFormat.getInstance();
-        if(pageNumber==0){
+        f = NumberFormat.getInstance();
+        if (pageNumber == 0) {
             view = inflater.inflate(R.layout.add_pif, null);
             add_pif();
         }
@@ -82,15 +86,15 @@ public class AddPageFragment extends Fragment  {
     }
 
 
-    private void add_pif(){
-        context=this.getContext();
+    private void add_pif() {
+        context = this.getContext();
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        sum_invest=0;
-        sum_money=0;
+        sum_invest = 0;
+        sum_money = 0;
         //final ArrayList<String> responseList = new ArrayList<String>();
-        final TextView text = view.findViewById(R.id.textView3);
+        nameUkaLibel = view.findViewById(R.id.addNameUkaLable);
         adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
-        AutoCompleteTextView nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+        nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
         nameTV.setAdapter(adapter);
         nameTV.setOnItemClickListener(onItemClickListener);
         Get example = new Get();
@@ -99,37 +103,39 @@ public class AddPageFragment extends Fragment  {
         api_token = sp.getString("API_TOKEN", " ");
         money_sum = view.findViewById(R.id.sum_money);
         plus = view.findViewById(R.id.plus);
-
+        load = (ProgressBar) view.findViewById(R.id.progressBar);
+        hide();
         example.Get("/get_uk", api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TESTE",e.getMessage());
+                Log.d("TESTE", e.getMessage());
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-
+                    Log.d("TESTE", "Загружено");
                     String responseStr = response.body().string();
-                    Log.d("TESTE",responseStr);
+                    Log.d("TESTE", responseStr);
                     try {
                         JSONObject dataJsonObj = new JSONObject(responseStr);
                         JSONArray friends = dataJsonObj.getJSONArray("data");
                         for (int i = 0; i < friends.length(); i++) {
-                                JSONObject dataJsonObj2 = friends.getJSONObject(i);
-                                String title = dataJsonObj2.getString("minTitle");
-                                int id = Integer.valueOf(dataJsonObj2.getString("id"));
-                                ukList.add(new UkAutocompleteData(title,"",id));
-                            }
+                            JSONObject dataJsonObj2 = friends.getJSONObject(i);
+                            String title = dataJsonObj2.getString("minTitle");
+                            int id = Integer.valueOf(dataJsonObj2.getString("id"));
+                            ukList.add(new UkAutocompleteData(title, "", id));
+                        }
 
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    Log.d("TESTE",response.body().string());
+                    Log.d("TESTE", response.body().string());
                     String responseStr = response.body().string();
                     String resp = response.message().toString();
-                    if(resp.equals("Unauthorized")) {
+                    if (resp.equals("Unauthorized")) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("API_TOKEN", null);
@@ -142,14 +148,16 @@ public class AddPageFragment extends Fragment  {
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-                           adapter.notifyDataSetChanged();
+                            show();
+                            adapter.notifyDataSetChanged();
                         }
                     });
             }
         });
     }
+
     private AdapterView.OnItemClickListener onItemClickListener =
-            new AdapterView.OnItemClickListener(){
+            new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -159,5 +167,17 @@ public class AddPageFragment extends Fragment  {
                             , Toast.LENGTH_SHORT).show();
                 }
             };
+
+
+    private void hide() {
+        nameUkaLibel.setVisibility(View.INVISIBLE);
+        nameTV.setVisibility(View.INVISIBLE);
+        load.setVisibility(View.VISIBLE);
+    }
+    private void show() {
+        nameUkaLibel.setVisibility(View.VISIBLE);
+        nameTV.setVisibility(View.VISIBLE);
+        load.setVisibility(View.INVISIBLE);
+    }
 
 }

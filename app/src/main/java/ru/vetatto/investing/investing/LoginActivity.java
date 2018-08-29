@@ -58,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 text_email.setVisibility(View.INVISIBLE);
                 text_password.setVisibility(View.INVISIBLE);
-               EditText text_email = (EditText) findViewById(R.id.registration_email);
-               EditText text_password = (EditText) findViewById(R.id.registration_password);
+               EditText text_email = (EditText) findViewById(R.id.login_email);
+               EditText text_password = (EditText) findViewById(R.id.login_password);
                final String input_email = text_email.getText().toString();
                final String input_password=text_password.getText().toString();
                 if(!input_email.isEmpty() || !input_password.isEmpty()) {
@@ -72,13 +72,13 @@ public class LoginActivity extends AppCompatActivity {
                         public void onResponse(Call call, Response response) throws IOException {
                             if (response.isSuccessful()) {
                                 String responseStr = response.body().string();
-                                Log.d("TEST", responseStr);
-                                Log.d("TEST", "Сохраняем токены доступа");
+                                Log.d("TESTE", responseStr);
+                                Log.d("TESTE", "Сохраняем токены доступа");
                                 try{
                                     JSONObject dataJsonObj = new JSONObject(responseStr);
                                     JSONObject data = dataJsonObj.getJSONObject("data");
                                     String api_token = data.getString("api_token");
-                                    Log.d("TEST", "API_TOKEN: " + api_token);
+                                    Log.d("TESTE", "API_TOKEN: " + api_token);
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putString("API_TOKEN", api_token);
                                     editor.putString("email",input_email);
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                             } else {
-                                // Request not successful
+                                Log.d("TESTE",response.toString());
                             }
                         }
                     });
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     text_email.setVisibility(View.VISIBLE);
                     text_password.setVisibility(View.VISIBLE);
-                    Log.d("INVESTING", "Логин и пароль пустые");
+                    Log.d("TESTE", "Логин и пароль пустые");
                 }
             }
 
@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         if(email.equals(" ") || password.equals(" ")){
             text_email.setVisibility(View.VISIBLE);
             text_password.setVisibility(View.VISIBLE);
-            Log.d("INVESTING", "E-mail не указан");
+            Log.d("TESTE", "E-mail не указан");
         }
         else {
              example.post("", email, password, new Callback() {
@@ -124,13 +124,13 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String responseStr = response.body().string();
-                        Log.d("TEST", responseStr);
-                        Log.d("TEST", "Сохраняем токены доступа");
+                        Log.d("TESTE", responseStr);
+                        Log.d("TESTE", "Сохраняем токены доступа");
                         try {
                             JSONObject dataJsonObj = new JSONObject(responseStr);
                             JSONObject data = dataJsonObj.getJSONObject("data");
                             String api_token = data.getString("api_token");
-                            Log.d("TEST", "API_TOKEN: " + api_token);
+                            Log.d("TESTE", "API_TOKEN: " + api_token);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("API_TOKEN", api_token);
                             editor.commit();

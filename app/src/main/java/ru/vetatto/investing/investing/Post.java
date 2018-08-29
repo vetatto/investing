@@ -21,7 +21,7 @@ public class Post {
                 .build();
         Request request = new Request.Builder()
                 .header("Accept", "application/json")
-                .url("http://hobbyhome44.ru:8080/api/loginPost")
+                .url("http://hobbyhome44.ru:8080/api/login")
                 .post(requestBody)
                 .build();
         Call call = client.newCall(request);

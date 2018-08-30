@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +59,7 @@ public class AddPageFragment extends Fragment {
     ProgressBar load;
     AutoCompleteTextView nameTV;
     TextView nameUkaLibel;
-
+    LinearLayout ll;
     static AddPageFragment newInstance(int page) {
         AddPageFragment pageFragment = new AddPageFragment();
         Bundle arguments = new Bundle();
@@ -93,6 +94,7 @@ public class AddPageFragment extends Fragment {
         sum_money = 0;
         //final ArrayList<String> responseList = new ArrayList<String>();
         nameUkaLibel = view.findViewById(R.id.addNameUkaLable);
+        ll = (LinearLayout) view.findViewById(R.id.mainAddLayout);
         adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
         nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
         nameTV.setAdapter(adapter);
@@ -170,14 +172,12 @@ public class AddPageFragment extends Fragment {
 
 
     private void hide() {
-        nameUkaLibel.setVisibility(View.INVISIBLE);
-        nameTV.setVisibility(View.INVISIBLE);
         load.setVisibility(View.VISIBLE);
+        ll.setVisibility(View.INVISIBLE);
     }
     private void show() {
-        nameUkaLibel.setVisibility(View.VISIBLE);
-        nameTV.setVisibility(View.VISIBLE);
-        load.setVisibility(View.INVISIBLE);
+        ll.setVisibility(View.VISIBLE);
+        load.setVisibility(View.GONE);
     }
 
 }

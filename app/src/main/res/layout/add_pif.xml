@@ -34,6 +34,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Название УК"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,23 +54,29 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="8dp"
+            android:text="Выберите фонд"
+            android:textColor="@color/colorPrimaryDark" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="8dp"
+            android:text="Количество паев"
+            android:textColor="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@+id/amount_pay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:ems="10"
             android:inputType="textPersonName" />
 
@@ -77,12 +84,15 @@
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="8dp"
+            android:text="Сумма инвестирования"
+            android:textColor="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@+id/amount_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:ems="10"
             android:inputType="textPersonName" />
 

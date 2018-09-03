@@ -32,6 +32,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +87,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         f=NumberFormat.getInstance();
+
         if(pageNumber==0){
+
             view = inflater.inflate(R.layout.second_first, null);
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -340,7 +347,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         sum_money=0;
         TextView text = view.findViewById(R.id.textView3);
         Get example = new Get();
-
         String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");

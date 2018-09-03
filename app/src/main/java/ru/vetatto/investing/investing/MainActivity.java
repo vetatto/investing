@@ -1,16 +1,9 @@
 package ru.vetatto.investing.investing;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.internal.NavigationMenuPresenter;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,11 +16,11 @@ import android.view.MenuItem;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 
@@ -41,6 +34,8 @@ public class MainActivity extends AppCompatActivity
     String api_token="";
     Context context;
     FloatingActionButton fab;
+    boolean back = false;
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +44,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
+        MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3909765981983100/6253573812");
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         api_token = sp.getString("API_TOKEN", "");
         String email = sp.getString("email", "");
@@ -104,11 +102,20 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(!back) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+                back=true;
+            }
+            else{
+                finish();
+            }
         }
     }
     public void showFloatingActionButton() {

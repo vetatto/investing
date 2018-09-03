@@ -1,4 +1,5 @@
 <resources>
+    <string name="banner_portfolio">ca-app-pub-3909765981983100/8827874069</string>
     <string name="name">Ваше имя</string>
     <string name="sort">Сортировка</string>
     <string name="your_capital">Ваш капитал</string>

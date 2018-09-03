@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -38,6 +42,14 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         final PifData phone = phones.get(position);
         Log.d("TEST","Type:"+divider_check);
         NumberFormat f = NumberFormat.getInstance();
+        Log.d("ADS","position "+position+" size "+phones.size());
+        if(position==phones.size()-1){
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("95A895D25C18E95F46845472700A79EB").build();
+            holder.adView.loadAd(adRequest);
+        }
+        else{
+            holder.adView.setVisibility(View.GONE);
+        }
         if (phone.getTypeInstrument() == 1){
             if(divider_check==phone.getTypeInstrument()) {
                 holder.divider.setVisibility(View.GONE);
@@ -106,7 +118,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     public class ViewHolder extends RecyclerView.ViewHolder{
        final ImageView spider;
         final TextView nameView,  ukTitle, companyView, all_procent, datePif, procent, cat_name, /*sr_price,*/ divider;
-
+        AdView adView;
         ViewHolder(View view) {
             super(view);
             spider= (ImageView) view.findViewById(R.id.spider);
@@ -118,6 +130,9 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
             procent= (TextView) view.findViewById(R.id.izm_day);
             cat_name= (TextView) view.findViewById(R.id.name_cat_pif);
             divider = (TextView) view.findViewById(R.id.divider);
+            MobileAds.initialize(view.getContext(), "ca-app-pub-3909765981983100~5463344129");
+           adView = view.findViewById(R.id.adView);
+
         }
         }
     }

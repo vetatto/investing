@@ -2,9 +2,12 @@ package ru.vetatto.investing.investing;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar load;
     LinearLayout ll;
     Activity activity;
+    Post example;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         final String email = prefs.getString("email"," ");
         final String password = prefs.getString("password"," ");
         final String GCM_id = prefs.getString("GCM_TOKEN","");
-        final Post example = new Post();
+        example = new Post();
         String response = null;
         TextView btn_registration = (TextView) findViewById(R.id.textView16);
         btn_registration.setOnClickListener(new View.OnClickListener(){
@@ -137,57 +141,92 @@ public class LoginActivity extends AppCompatActivity {
                 });
         }
         else {
-             example.post("", email, password, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                }
+            auth(email,password);
+            hide();
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        String responseStr = response.body().string();
-                        Log.d("TESTE", responseStr);
-                        Log.d("TESTE", "Сохраняем токены доступа");
-                        try {
-                            JSONObject dataJsonObj = new JSONObject(responseStr);
-                            JSONObject data = dataJsonObj.getJSONObject("data");
-                            String api_token = data.getString("api_token");
-                            Log.d("TESTE", "API_TOKEN: " + api_token);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("API_TOKEN", api_token);
-                            editor.commit();
-                            if (!api_token.isEmpty()) {
-                                Intent intent = new Intent(context, MainActivity.class);
-                                context.startActivity(intent);
-                                finish();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    } else {
-                        final Activity act = activity; //only neccessary if you use fragments
-                        if (act != null)
-                            act.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    show();
-                                }
-                            });
-                    }
-                }
-            });
 
         }
     }
 
+    private void auth(final String email, final String password){
+       Post autorize_post = new Post();
+        autorize_post.post("", email, password, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                final Activity act = activity;
+                if (act != null)
+                    act.runOnUiThread(new Runnable() {
+                        public void run() {
+                            AlertDialog.Builder builder;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                            } else {
+                                builder = new AlertDialog.Builder(context);
+                            }
+                            builder.setCancelable(false);
+                            builder.setTitle("Сервер не отвечает")
+                                    .setMessage("Нам не удалось установить связь с сервером. Проверьте подключение к интернету или попробуйте позже!")
+                                    .setPositiveButton("Повторить", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            auth(email,password);
+                                        }
+                                    })
+                                    .setNegativeButton("Выход", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+                    });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseStr = response.body().string();
+                    Log.d("TESTE", responseStr);
+                    Log.d("TESTE", "Сохраняем токены доступа");
+                    try {
+                        JSONObject dataJsonObj = new JSONObject(responseStr);
+                        JSONObject data = dataJsonObj.getJSONObject("data");
+                        String api_token = data.getString("api_token");
+                        Log.d("TESTE", "API_TOKEN: " + api_token);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("API_TOKEN", api_token);
+                        editor.commit();
+                        if (!api_token.isEmpty()) {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            context.startActivity(intent);
+                            finish();
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    final Activity act = activity; //only neccessary if you use fragments
+                    if (act != null)
+                        act.runOnUiThread(new Runnable() {
+                            public void run() {
+                                show();
+                            }
+                        });
+                }
+            }
+        });
+    }
     private void hide() {
-        load.setVisibility(View.VISIBLE);
         ll.setVisibility(View.INVISIBLE);
+        load.setVisibility(View.VISIBLE);
+
     }
     private void show() {
         ll.setVisibility(View.VISIBLE);
-        load.setVisibility(View.GONE);
+        load.setVisibility(View.INVISIBLE);
     }
 
 }

@@ -106,7 +106,7 @@ public class AddPageFragment extends Fragment {
         api_token = sp.getString("API_TOKEN", " ");
         money_sum = view.findViewById(R.id.sum_money);
         plus = view.findViewById(R.id.plus);
-        load = (ProgressBar) view.findViewById(R.id.progressBar);
+        load = (ProgressBar) view.findViewById(R.id.load_add_pif);
         hide();
         example.Get("/get_uk", api_token, new Callback() {
             @Override
@@ -178,7 +178,7 @@ public class AddPageFragment extends Fragment {
     }
     private void show() {
         ll.setVisibility(View.VISIBLE);
-        load.setVisibility(View.GONE);
+        load.setVisibility(View.INVISIBLE);
     }
 
 }

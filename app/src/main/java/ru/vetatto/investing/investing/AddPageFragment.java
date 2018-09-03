@@ -108,7 +108,23 @@ public class AddPageFragment extends Fragment {
         nameTV.setOnItemClickListener(onItemClickListener);
         namePif = (Spinner) view.findViewById(R.id.spinner);
         namePif.setAdapter(adapterPif);
-       // namePif.setOnItemClickListener(onItemClickListenerPif);
+        namePif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                Toast.makeText(context,
+                        "Clicked item from auto completion list "
+                                + adapterPif.getItem(pos).getName().toString()
+                        , Toast.LENGTH_SHORT).show();
+                nameTV.setFocusable(false);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
         Get example = new Get();
         String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
@@ -197,17 +213,7 @@ public class AddPageFragment extends Fragment {
                             , Toast.LENGTH_SHORT).show();
                 }
             };
-    private AdapterView.OnItemClickListener onItemClickListenerPif =
-            new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Toast.makeText(context,
-                            "Clicked item from auto completion list "
-                                    + adapterPif.getItem(i).getName().toString()
-                            , Toast.LENGTH_SHORT).show();
-                }
-            };
 
     private void hide() {
         load.setVisibility(View.VISIBLE);

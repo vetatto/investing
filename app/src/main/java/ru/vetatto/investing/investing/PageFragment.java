@@ -5,9 +5,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -15,6 +18,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +28,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -53,7 +59,10 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     TextView plus;
     private static MenuItem menuItem, menuItem2;
     public String api_token;
+    LinearLayout portfolio_main;
+    ProgressBar load_portfolio;
     NumberFormat f;
+
     static PageFragment newInstance(int page) {
         PageFragment pageFragment = new PageFragment();
         Bundle arguments = new Bundle();
@@ -81,11 +90,13 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
+
             portfolio_info();
            // ((MainActivity) getActivity()).showFloatingActionButton();
         }
         else if(pageNumber==1){
             view = inflater.inflate(R.layout.allpiffragment, null);
+
                 get_all_pif_list("");
         }
         return view;
@@ -196,12 +207,13 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         context=this.getContext();
         recyclerView = view.findViewById(R.id.RV1);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        portfolio_main = view.findViewById(R.id.portfolio_main);
+        load_portfolio = view.findViewById(R.id.load_portfolio);
+        load_portfolio.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(mLayoutManager);
         sum_invest=0;
         sum_money=0;
-        TextView text = view.findViewById(R.id.textView3);
         Get example = new Get();
-        String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
         phones.clear();
@@ -209,10 +221,36 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         recyclerView.setAdapter(adapter);
         money_sum = view.findViewById(R.id.sum_money);
         plus = view.findViewById(R.id.plus);
+        hide();
         example.Get("/get_portfolio_instrument", api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TEST",e.getMessage());
+                final Activity act = getActivity();
+                if (act != null)
+                    act.runOnUiThread(new Runnable() {
+                        public void run() {
+                            AlertDialog.Builder builder;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                            } else {
+                                builder = new AlertDialog.Builder(context);
+                            }
+                            builder.setTitle("Сервер не отвечает")
+                                    .setMessage("Нам не удалось установить связь с сервером. Проверьте подключение к интернету или попробуйте позже!")
+                                    .setPositiveButton("Повторить", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            portfolio_info();
+                                        }
+                                    })
+                                    .setNegativeButton("Выход", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            getActivity().finish();
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+                    });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -259,7 +297,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         e.printStackTrace();
                     }
                 } else {
-                    String responseStr = response.body().string();
                     String resp = response.message().toString();
                     if(resp.equals("Unauthorized")) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -268,8 +305,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         editor.commit();
                         Intent intent = new Intent(context,LoginActivity.class);
                         context.startActivity(intent);
-                       /* FragmentTransaction tran = getFragmentManager().beginTransaction();
-                        tran.replace(R.id.container, new FirstFragment()).commit();*/
                     }
                 }
                 final Activity act = getActivity();
@@ -286,13 +321,13 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             else{
                                 plus.setText(f.format(sum_money - sum_invest)+" \u20BD");
                             }
+                            show();
                             adapter.notifyDataSetChanged();
 
                         }
                     });
             }
         });
-
     }
 
     private  void get_all_pif_list(String sort) {
@@ -305,6 +340,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         sum_money=0;
         TextView text = view.findViewById(R.id.textView3);
         Get example = new Get();
+
         String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
@@ -316,7 +352,32 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         example.Get("/get_all_pif_list"+sort, api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TEST",e.getMessage());
+                final Activity act = getActivity();
+                if (act != null)
+                    act.runOnUiThread(new Runnable() {
+                        public void run() {
+                            AlertDialog.Builder builder;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                            } else {
+                                builder = new AlertDialog.Builder(context);
+                            }
+                            builder.setTitle("Сервер не отвечает")
+                                    .setMessage("Нам не удалось установить связь с сервером. Проверьте подключение к интернету или попробуйте позже!")
+                                    .setPositiveButton("Повторить", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                           portfolio_info();
+                                        }
+                                    })
+                                    .setNegativeButton("Выход", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                           getActivity().finish();
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+                    });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -327,22 +388,12 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         JSONObject dataJsonObj = new JSONObject(responseStr);
                         JSONArray friends = dataJsonObj.getJSONArray("pif");
                         for (int i = 0; i < friends.length(); i++) {
-                          //  JSONArray friends2 = friends.getJSONArray(i);
-                           // for (int d = 0; d < friends2.length(); d++) {
                                 JSONObject dataJsonObj2 = friends.getJSONObject(i);
                                 String title = dataJsonObj2.getString("minTitle");
                                 String sr_price = dataJsonObj2.getString("end_pay");
-
-                            String change_y = dataJsonObj2.getString("change_y");
-             
-                                //String amount = dataJsonObj2.getString("sum_amount");
+                                String change_y = dataJsonObj2.getString("change_y");
                                 String ukTitle = dataJsonObj2.getString("ukId");
-                                //String date = dataJsonObj2.getString("date");
                                 int id =dataJsonObj2.getInt("id");
-                               // String procent = dataJsonObj2.getString("sum_izm");
-                                //String nameCat = dataJsonObj2.getString("name_cat");
-                                //sum_money=sum_money+Float.valueOf(date_price)*Float.valueOf(amount);
-                                //sum_invest=sum_invest+Float.valueOf(sr_price)*Float.valueOf(amount);
                                 allPif.add(new PifAllListData(api_token, title, Float.valueOf(sr_price),  change_y, "33", id, 0,ukTitle, "2018-01-12",0, 1, "test"));
                             }
                         }
@@ -350,15 +401,12 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         e.printStackTrace();
                     }
                 } else {
-                    String responseStr = response.body().string();
                     String resp = response.message().toString();
                     if(resp.equals("Unauthorized")) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("API_TOKEN", null);
                         editor.commit();
-                        /*FragmentTransaction tran = getFragmentManager().beginTransaction();
-                        tran.replace(R.id.container, new SecondFragment()).commit();*/
                         Intent intent = new Intent(context,LoginActivity.class);
                         context.startActivity(intent);
                     }
@@ -367,16 +415,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-                          //  money_sum.setText(f.format(sum_money)+" \u20BD");
-                           /* if(sum_money-sum_invest<0) {
-                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD");
-                            }
-                            else if(sum_money-sum_invest>0){
-                                plus.setText("+"+f.format(sum_money - sum_invest)+" \u20BD");
-                            }
-                            else{
-                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD");
-                            }*/
                             allPifAdapter.notifyDataSetChanged();
 
                         }
@@ -385,5 +423,12 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
 
     }
-
+    private void hide() {
+        portfolio_main.setVisibility(View.INVISIBLE);
+        load_portfolio.setVisibility(View.VISIBLE);
+    }
+    private void show() {
+        portfolio_main.setVisibility(View.VISIBLE);
+        load_portfolio.setVisibility(View.INVISIBLE);
+    }
 }

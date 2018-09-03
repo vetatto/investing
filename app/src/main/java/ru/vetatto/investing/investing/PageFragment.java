@@ -284,7 +284,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price),ukTitle, date,Float.valueOf(procent), 1, nameCat));
                             }
                         }
-                        JSONArray currency = dataJsonObj.getJSONArray("currency");
+                       /* JSONArray currency = dataJsonObj.getJSONArray("currency");
                         for (int i = 0; i < currency.length(); i++) {
                             JSONArray currency2 = currency.getJSONArray(i);
                             for (int d = 0; d < currency2.length(); d++) {
@@ -299,7 +299,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 sum_invest=sum_invest+Float.valueOf(date_price)*Float.valueOf(amount);
                                 phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, 0,title, date, 0,2, ""));
                             }
-                        }
+                        }*/
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -395,12 +395,13 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         JSONArray friends = dataJsonObj.getJSONArray("pif");
                         for (int i = 0; i < friends.length(); i++) {
                                 JSONObject dataJsonObj2 = friends.getJSONObject(i);
-                                String title = dataJsonObj2.getString("minTitle");
+                                String title = dataJsonObj2.getString("pifTitle");
                                 String sr_price = dataJsonObj2.getString("end_pay");
                                 String change_y = dataJsonObj2.getString("change_y");
-                                String ukTitle = dataJsonObj2.getString("ukId");
-                                int id =dataJsonObj2.getInt("id");
-                                allPif.add(new PifAllListData(api_token, title, Float.valueOf(sr_price),  change_y, "33", id, 0,ukTitle, "2018-01-12",0, 1, "test"));
+                                String ukTitle = dataJsonObj2.getString("ukTitle");
+                                String pif_cat = dataJsonObj2.getString("pif_cat");
+                                int id =dataJsonObj2.getInt("pif_id");
+                                allPif.add(new PifAllListData(api_token, title, Float.valueOf(sr_price),  change_y, "33", id, 0,ukTitle, "2018-01-12",0, 1, pif_cat));
                             }
                         }
                     catch (JSONException e) {

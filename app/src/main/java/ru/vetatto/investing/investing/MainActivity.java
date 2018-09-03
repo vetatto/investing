@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
-        MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
+      /*  MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3909765981983100/6253573812");
+        mInterstitialAd.setAdUnitId("ca-app-pub-3909765981983100/6253573812");*/
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         api_token = sp.getString("API_TOKEN", "");
         String email = sp.getString("email", "");
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if(!back) {
-                if (mInterstitialAd.isLoaded()) {
+               /* if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
-                }
+                }*/
                 back=true;
             }
             else{

@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,9 +57,13 @@ public class AddPageFragment extends Fragment {
     public String api_token;
     NumberFormat f;
     UkAutocompleteAdapter adapter;
+    PifAutocompleteAdapter adapterPif;
     ArrayList<UkAutocompleteData> ukList = new ArrayList<UkAutocompleteData>();
+    ArrayList<PifAutocompleteData> PifList = new ArrayList<PifAutocompleteData>();
     ProgressBar load;
+    JSONArray pif;
     AutoCompleteTextView nameTV;
+    Spinner namePif;
     TextView nameUkaLibel;
     LinearLayout ll;
     static AddPageFragment newInstance(int page) {
@@ -97,9 +102,13 @@ public class AddPageFragment extends Fragment {
         nameUkaLibel = view.findViewById(R.id.addNameUkaLable);
         ll = (LinearLayout) view.findViewById(R.id.mainAddLayout);
         adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
+        adapterPif = new PifAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, PifList);
         nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
         nameTV.setAdapter(adapter);
         nameTV.setOnItemClickListener(onItemClickListener);
+        namePif = (Spinner) view.findViewById(R.id.spinner);
+        namePif.setAdapter(adapterPif);
+       // namePif.setOnItemClickListener(onItemClickListenerPif);
         Get example = new Get();
         String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
@@ -129,6 +138,8 @@ public class AddPageFragment extends Fragment {
                             int id = Integer.valueOf(dataJsonObj2.getString("id"));
                             ukList.add(new UkAutocompleteData(title,id));
                         }
+                        JSONObject dataJsonObj2 = new JSONObject(responseStr);
+                        pif = dataJsonObj2.getJSONArray("pif");
 
 
                     } catch (JSONException e) {
@@ -153,6 +164,7 @@ public class AddPageFragment extends Fragment {
                         public void run() {
                             show();
                             adapter.notifyDataSetChanged();
+                            //adapterPif.notifyDataSetChanged();
                         }
                     });
             }
@@ -163,14 +175,39 @@ public class AddPageFragment extends Fragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                    int clickid = adapter.getItem(i).getId();
+                    PifList.clear();
+                    for (int ii = 0; ii < pif.length(); ii++) {
+                        try {
+                        JSONObject dataJsonObj3 = pif.getJSONObject(ii);
+                        String title = dataJsonObj3.getString("minTitle");
+                        int id = Integer.valueOf(dataJsonObj3.getString("id"));
+                        int ukid = Integer.valueOf(dataJsonObj3.getString("ukId"));
+                        if(ukid==clickid) {
+                            PifList.add(new PifAutocompleteData(title, id));
+                        }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    adapterPif.notifyDataSetChanged();
                     Toast.makeText(context,
                             "Clicked item from auto completion list "
-                                    + adapter.getItem(i).getName().toString()
+                                    + adapter.getItem(i).getId()
                             , Toast.LENGTH_SHORT).show();
                 }
             };
+    private AdapterView.OnItemClickListener onItemClickListenerPif =
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                    Toast.makeText(context,
+                            "Clicked item from auto completion list "
+                                    + adapterPif.getItem(i).getName().toString()
+                            , Toast.LENGTH_SHORT).show();
+                }
+            };
 
     private void hide() {
         load.setVisibility(View.VISIBLE);

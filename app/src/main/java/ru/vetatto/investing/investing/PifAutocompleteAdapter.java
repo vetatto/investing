@@ -10,21 +10,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class PifAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
+public class PifAutocompleteAdapter extends ArrayAdapter<PifAutocompleteData> {
 
     Context context;
     int resource, textViewResourceId;
-    ArrayList<UkAutocompleteData> items;
-    ArrayList<UkAutocompleteData> tempItems;
-    ArrayList<UkAutocompleteData> suggestions;
+    ArrayList<PifAutocompleteData> items;
+    ArrayList<PifAutocompleteData> tempItems;
+    ArrayList<PifAutocompleteData> suggestions;
 
-    public PifAutocompleteAdapter(Context context, int resource, int textViewResourceId, ArrayList<UkAutocompleteData> items) {
+    public PifAutocompleteAdapter(Context context, int resource, int textViewResourceId, ArrayList<PifAutocompleteData> items) {
         super(context, resource, textViewResourceId, items);
         this.context = context;
         this.resource = resource;
         this.textViewResourceId = textViewResourceId;
         this.items = items;
-        suggestions = new ArrayList<UkAutocompleteData>();
+        suggestions = new ArrayList<PifAutocompleteData>();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class PifAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.uk_autocomplete, parent, false);
         }
-        UkAutocompleteData people = items.get(position);
+        PifAutocompleteData people = items.get(position);
         if (people != null) {
             TextView lblName = (TextView) view.findViewById(R.id.UkNameLabel);
             if (lblName != null)
@@ -48,7 +48,7 @@ public class PifAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
         Filter nameFilter = new Filter() {
             @Override
             public CharSequence convertResultToString(Object resultValue) {
-                String str = ((UkAutocompleteData) resultValue).getName();
+                String str = ((PifAutocompleteData) resultValue).getName();
                 return str;
             }
 
@@ -56,15 +56,15 @@ public class PifAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (tempItems == null) {
-                    tempItems = new ArrayList<UkAutocompleteData>(items);
+                    tempItems = new ArrayList<PifAutocompleteData>(items);
                 }
                 if (constraint == null || constraint.length() == 0) {
-                    ArrayList<UkAutocompleteData> list = new ArrayList<UkAutocompleteData>(tempItems);
+                    ArrayList<PifAutocompleteData> list = new ArrayList<PifAutocompleteData>(tempItems);
                     filterResults.values = list;
                     filterResults.count = list.size();
                 } else {
                     suggestions.clear();
-                    for (UkAutocompleteData people : tempItems) {
+                    for (PifAutocompleteData people : tempItems) {
                         if (people.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                             suggestions.add(people);
                         }
@@ -77,10 +77,10 @@ public class PifAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                ArrayList<UkAutocompleteData> filter = (ArrayList<UkAutocompleteData>) results.values;
+                ArrayList<PifAutocompleteData> filter = (ArrayList<PifAutocompleteData>) results.values;
                 if (results != null && results.count > 0) {
                     clear();
-                    for (UkAutocompleteData cust : filter) {
+                    for (PifAutocompleteData cust : filter) {
                         add(cust);
                         notifyDataSetChanged();
                     }

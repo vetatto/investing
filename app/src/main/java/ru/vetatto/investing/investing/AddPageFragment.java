@@ -127,7 +127,7 @@ public class AddPageFragment extends Fragment {
                             JSONObject dataJsonObj2 = friends.getJSONObject(i);
                             String title = dataJsonObj2.getString("minTitle");
                             int id = Integer.valueOf(dataJsonObj2.getString("id"));
-                            ukList.add(new UkAutocompleteData(title, "", id));
+                            ukList.add(new UkAutocompleteData(title,id));
                         }
 
 

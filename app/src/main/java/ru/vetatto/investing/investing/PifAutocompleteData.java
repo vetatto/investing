@@ -1,19 +1,10 @@
 package ru.vetatto.investing.investing;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-public class UkAutocompleteData {
-
+public class PifAutocompleteData {
     private String name;
     private int id;
 
-    public UkAutocompleteData(String name, int id) {
+    public PifAutocompleteData(String name, int id) {
         this.name = name;
         this.id = id;
     }

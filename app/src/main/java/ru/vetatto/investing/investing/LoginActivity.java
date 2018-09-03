@@ -1,5 +1,6 @@
 package ru.vetatto.investing.investing;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -26,6 +29,9 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
     SharedPreferences prefs;
     Context context;
+    ProgressBar load;
+    LinearLayout ll;
+    Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login2);
+        activity=this;
+        load = (ProgressBar) findViewById(R.id.load_autorize);
+        ll = (LinearLayout) findViewById(R.id.autorize_main);
         final EditText text_email = (EditText) findViewById(R.id.login_email);
         final EditText text_password = (EditText) findViewById(R.id.login_password);
         text_email.setVisibility(View.VISIBLE);
@@ -56,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_autorization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hide();
                 text_email.setVisibility(View.INVISIBLE);
                 text_password.setVisibility(View.INVISIBLE);
                EditText text_email = (EditText) findViewById(R.id.login_email);
@@ -100,8 +110,13 @@ public class LoginActivity extends AppCompatActivity {
                     });
                 }
                 else {
-                    text_email.setVisibility(View.VISIBLE);
-                    text_password.setVisibility(View.VISIBLE);
+                    final Activity act = activity; //only neccessary if you use fragments
+                    if (act != null)
+                        act.runOnUiThread(new Runnable() {
+                            public void run() {
+                                show();
+                            }
+                        });
                     Log.d("TESTE", "Логин и пароль пустые");
                 }
             }
@@ -113,6 +128,13 @@ public class LoginActivity extends AppCompatActivity {
             text_email.setVisibility(View.VISIBLE);
             text_password.setVisibility(View.VISIBLE);
             Log.d("TESTE", "E-mail не указан");
+            final Activity act = activity; //only neccessary if you use fragments
+            if (act != null)
+                act.runOnUiThread(new Runnable() {
+                    public void run() {
+                        show();
+                    }
+                });
         }
         else {
              example.post("", email, password, new Callback() {
@@ -138,17 +160,34 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                                 finish();
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                     } else {
-                        // Request not successful
+                        final Activity act = activity; //only neccessary if you use fragments
+                        if (act != null)
+                            act.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    show();
+                                }
+                            });
                     }
                 }
             });
 
         }
     }
+
+    private void hide() {
+        load.setVisibility(View.VISIBLE);
+        ll.setVisibility(View.INVISIBLE);
+    }
+    private void show() {
+        ll.setVisibility(View.VISIBLE);
+        load.setVisibility(View.GONE);
+    }
+
 }

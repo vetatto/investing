@@ -47,7 +47,6 @@
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
             android:text=""
-            android:textColor="@android:color/darker_gray"
             android:textColorHint="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +58,8 @@
             android:layout_height="0.5dp"
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@android:color/darker_gray"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/textView"
@@ -85,7 +85,8 @@
             android:layout_height="0.5dp"
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
-            app:srcCompat="@android:color/darker_gray" />
+            app:srcCompat="@android:color/darker_gray"
+            android:contentDescription="TODO" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,9 +105,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Сумма инвестирования"
+                    android:text="Стоимость пая"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <EditText
                     android:id="@+id/amount_money"
@@ -120,7 +121,6 @@
                     android:inputType="textPersonName"
                     android:paddingEnd="8dp"
                     android:paddingStart="8dp"
-                    android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <ImageView
@@ -128,6 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_margin="0dp"
+                    android:contentDescription="TODO"
                     app:srcCompat="@android:color/darker_gray" />
             </LinearLayout>
 
@@ -136,6 +137,7 @@
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:layout_margin="0dp"
+                android:contentDescription="TODO"
                 app:srcCompat="@android:color/darker_gray" />
 
             <LinearLayout
@@ -150,12 +152,62 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Количество паев"
+                    android:text="Дата приобретения"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/amount_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@android:color/transparent"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:hint="04.09.2018"
+                    android:inputType="textPersonName"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:textColorHint="@android:color/darker_gray" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:contentDescription="TODO"
+                    app:srcCompat="@android:color/darker_gray" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Сумма инвестирования"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
 
                 <EditText
-                    android:id="@+id/amount_pay"
+                    android:id="@+id/pay_price"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
@@ -166,15 +218,62 @@
                     android:inputType="textPersonName"
                     android:paddingEnd="8dp"
                     android:paddingStart="8dp"
-                    android:textColor="@android:color/darker_gray"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/imageView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_margin="0dp"
+                    android:contentDescription="TODO"
+                    app:srcCompat="@android:color/darker_gray" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:contentDescription="TODO"
+                app:srcCompat="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Количество паев"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/date_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@android:color/transparent"
+                    android:ems="10"
+                    android:hint="0.00"
+                    android:inputType="textPersonName"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:textColorHint="@android:color/darker_gray" />
+
+                <ImageView
+                    android:id="@+id/imageView16"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginEnd="0dp"
                     android:layout_marginStart="0dp"
+                    android:contentDescription="TODO"
                     app:srcCompat="@android:color/darker_gray" />
 
             </LinearLayout>

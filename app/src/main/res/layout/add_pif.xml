@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#ececec">
 
     <ProgressBar
         android:id="@+id/load_add_pif"
@@ -26,154 +26,121 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/addNameUkaLable"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="23dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Название УК"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:background="@android:color/transparent"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:text=""
-            android:textColorHint="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:contentDescription="TODO"
-            app:srcCompat="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:text="Выберите фонд"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="40dp"
-            android:paddingEnd="8dp"
-            android:paddingStart="0dp"
-            android:theme="@style/SpinnerStyle" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:contentDescription="TODO"
-            app:srcCompat="@android:color/darker_gray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:elevation="2dp"
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Стоимость пая"
+                    android:text="@string/pif_info"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="12sp" />
-
-                <EditText
-                    android:id="@+id/amount_money"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:hint="0.00"
-                    android:inputType="textPersonName"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_margin="0dp"
-                    android:contentDescription="TODO"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
                     app:srcCompat="@android:color/darker_gray" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:contentDescription="TODO"
-                app:srcCompat="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textView28"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Дата приобретения"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/uk"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/amount_pay"
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="0dp"
                     android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="center_vertical"
-                    android:hint="04.09.2018"
-                    android:inputType="textPersonName"
+                    android:hint="@string/hint_uk"
                     android:paddingEnd="8dp"
                     android:paddingStart="8dp"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:text=""
+                    android:textColorHint="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/hr_pif"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:visibility="invisible"
+                    app:srcCompat="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Название фонда"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:minHeight="0dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="0dp"
+                    android:paddingTop="16dp"
+                    android:theme="@style/SpinnerStyle" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:paddingBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/investing_info"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginEnd="0dp"
@@ -181,107 +148,200 @@
                     android:contentDescription="TODO"
                     app:srcCompat="@android:color/darker_gray" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Стоимость пая"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/amount_money"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:hint="0.00"
+                            android:inputType="textPersonName"
+                            android:paddingEnd="8dp"
+                            android:paddingStart="8dp"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_margin="0dp"
+                            android:contentDescription="TODO"
+                            app:srcCompat="@android:color/darker_gray" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:contentDescription="TODO"
+                        app:srcCompat="@android:color/darker_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/date_pay"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/amount_pay"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:gravity="center_vertical"
+                            android:hint="04.09.2018"
+                            android:padding="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingStart="8dp"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginStart="0dp"
+                            android:contentDescription="TODO"
+                            app:srcCompat="@android:color/darker_gray" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Сумма инвестирования"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/pay_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:hint="0.00"
+                            android:inputType="textPersonName"
+                            android:paddingEnd="8dp"
+                            android:paddingStart="8dp"
+                            android:textColorHint="@android:color/darker_gray" />
+
+                        <ImageView
+                            android:id="@+id/imageView9"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_margin="0dp"
+                            android:contentDescription="TODO"
+                            app:srcCompat="@android:color/darker_gray" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:maxHeight="80dp"
+                        app:srcCompat="@android:color/darker_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/amount_pay"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/date_pay"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:hint="0.00"
+                            android:inputType="textPersonName"
+                            android:paddingEnd="8dp"
+                            android:paddingStart="8dp"
+                            android:textColorHint="@android:color/darker_gray" />
+
+                        <ImageView
+                            android:id="@+id/imageView16"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginStart="0dp"
+                            android:contentDescription="TODO"
+                            app:srcCompat="@android:color/darker_gray" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Сумма инвестирования"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="12sp" />
-
-                <EditText
-                    android:id="@+id/pay_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:hint="0.00"
-                    android:inputType="textPersonName"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_margin="0dp"
-                    android:contentDescription="TODO"
-                    app:srcCompat="@android:color/darker_gray" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:maxHeight="80dp"
-                app:srcCompat="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Количество паев"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="12sp" />
-
-                <EditText
-                    android:id="@+id/date_pay"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:hint="0.00"
-                    android:inputType="textPersonName"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <ImageView
-                    android:id="@+id/imageView16"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginStart="0dp"
-                    android:contentDescription="TODO"
-                    app:srcCompat="@android:color/darker_gray" />
-
-            </LinearLayout>
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
 
 
 </android.support.constraint.ConstraintLayout>

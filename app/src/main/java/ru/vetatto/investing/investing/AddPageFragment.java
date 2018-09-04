@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -41,15 +42,9 @@ import okhttp3.Response;
 public class AddPageFragment extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     int pageNumber;
-    int backColor;
     View view;
     Context context;
-    ArrayList<PifData> phones = new ArrayList();
-    ArrayList<PortfoliListData> PortfolioArray = new ArrayList();
-    RecyclerView recyclerView;
-    PortfolioListAdapter PortfolioListAdapter;
     float sum_money;
     float sum_invest;
     TextView money_sum;
@@ -64,7 +59,7 @@ public class AddPageFragment extends Fragment {
     JSONArray pif;
     AutoCompleteTextView nameTV;
     Spinner namePif;
-    TextView nameUkaLibel;
+    ImageView hr_pif;
     LinearLayout ll;
     static AddPageFragment newInstance(int page) {
         AddPageFragment pageFragment = new AddPageFragment();
@@ -97,13 +92,9 @@ public class AddPageFragment extends Fragment {
 
     private void add_pif() {
         context = this.getContext();
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         sum_invest = 0;
         sum_money = 0;
-
-        //final ArrayList<String> responseList = new ArrayList<String>();
-        nameUkaLibel = view.findViewById(R.id.addNameUkaLable);
-
+        hr_pif = view.findViewById(R.id.hr_pif);
         adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
         adapterPif = new PifAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, PifList);
         nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
@@ -112,7 +103,6 @@ public class AddPageFragment extends Fragment {
         namePif = (Spinner) view.findViewById(R.id.spinner);
         namePif.setAdapter(adapterPif);
         namePif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
@@ -121,6 +111,8 @@ public class AddPageFragment extends Fragment {
                                 + adapterPif.getItem(pos).getName().toString()
                         , Toast.LENGTH_SHORT).show();
                 nameTV.clearFocus();
+                namePif.setMinimumHeight(40);
+                hr_pif.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -129,7 +121,6 @@ public class AddPageFragment extends Fragment {
             }
         });
         Get example = new Get();
-        String response = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
         money_sum = view.findViewById(R.id.sum_money);

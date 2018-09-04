@@ -4,4 +4,7 @@
     <string name="todo">TODO</string>
     <string name="name_pif">Название фонда</string>
     <string name="uk">Управляющая</string>
+    <string name="hint_uk">Введите название УК</string>
+    <string name="date_pay">Дата приобретения</string>
+    <string name="amount_pay">Количество паев</string>
 </resources>

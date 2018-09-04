@@ -14,6 +14,7 @@
     <string name="password">Пароль</string>
     <string name="registration">Регистрация</string>
     <string name="logout">Выход</string>
+    <string name="title_activity_add">Операции с паями</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -114,11 +115,15 @@
     <string name="title_activity_protfolio_pif_info">protfolioPifInfo</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="title_activity_add">Add</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_filterpif">filterpif</string>
 
     <string name="title_activity_registration">Registration</string>
     <string name="name_pif">Название фонда</string>
     <string name="uk">Управляющая</string>
+    <string name="hint_uk">Введите название УК</string>
+    <string name="date_pay">Дата приобретения</string>
+    <string name="amount_pay">Количество паев</string>
+    <string name="pif_info">Информация о фонде</string>
+    <string name="investing_info">Информация о сумме инвестиций</string>
 </resources>

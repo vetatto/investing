@@ -41,14 +41,30 @@
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:text=""
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            app:srcCompat="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/textView"
@@ -62,7 +78,11 @@
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:background="@drawable/edit_text_shape_blue"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:theme="@style/SpinnerStyle" />
 
         <TextView
             android:id="@+id/textView2"
@@ -75,10 +95,13 @@
         <EditText
             android:id="@+id/amount_pay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
+            android:background="@drawable/edit_text_shape_blue"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp" />
 
         <TextView
             android:id="@+id/textView12"
@@ -91,10 +114,13 @@
         <EditText
             android:id="@+id/amount_money"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
+            android:background="@drawable/edit_text_shape_blue"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

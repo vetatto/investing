@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,7 +53,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     static PifAllListAdater allPifAdapter;
     float sum_money;
     float sum_invest;
-    TextView money_sum;
+    TextView money_sum, procent_dohod;
     TextView plus;
     private static MenuItem menuItem, menuItem2;
     public String api_token;
@@ -312,13 +313,13 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         public void run() {
                             money_sum.setText(f.format(sum_money)+" \u20BD");
                             if(sum_money-sum_invest<0) {
-                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD");
+                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD ("+f.format((sum_money - sum_invest) / sum_invest * 100)+"%)");
                             }
                             else if(sum_money-sum_invest>0){
-                                plus.setText("+"+f.format(sum_money - sum_invest)+" \u20BD");
+                                plus.setText("+"+f.format(sum_money - sum_invest)+" \u20BD (+"+f.format((sum_money - sum_invest) / sum_invest * 100)+"%)");
                             }
                             else{
-                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD");
+                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD ("+f.format((sum_money - sum_invest) / sum_invest * 100)+"%)");
                             }
                             show();
                             adapter.notifyDataSetChanged();

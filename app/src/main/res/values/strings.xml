@@ -119,4 +119,6 @@
     <string name="title_activity_filterpif">filterpif</string>
 
     <string name="title_activity_registration">Registration</string>
+    <string name="name_pif">Название фонда</string>
+    <string name="uk">Управляющая</string>
 </resources>

@@ -32,7 +32,7 @@ public class PifAutocompleteAdapter extends ArrayAdapter<PifAutocompleteData> {
         View view = convertView;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.uk_autocomplete, parent, false);
+            view = inflater.inflate(R.layout.pif_spinner, parent, false);
         }
         PifAutocompleteData people = items.get(position);
         if (people != null) {

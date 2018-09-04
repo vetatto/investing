@@ -87,6 +87,8 @@ public class AddPageFragment extends Fragment {
         f = NumberFormat.getInstance();
         if (pageNumber == 0) {
             view = inflater.inflate(R.layout.add_pif, null);
+            load = (ProgressBar) view.findViewById(R.id.load_add_pif);
+            ll = (LinearLayout) view.findViewById(R.id.mainAddLayout);
             add_pif();
         }
         return view;
@@ -98,9 +100,10 @@ public class AddPageFragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         sum_invest = 0;
         sum_money = 0;
+
         //final ArrayList<String> responseList = new ArrayList<String>();
         nameUkaLibel = view.findViewById(R.id.addNameUkaLable);
-        ll = (LinearLayout) view.findViewById(R.id.mainAddLayout);
+
         adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
         adapterPif = new PifAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, PifList);
         nameTV = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
@@ -117,7 +120,7 @@ public class AddPageFragment extends Fragment {
                         "Clicked item from auto completion list "
                                 + adapterPif.getItem(pos).getName().toString()
                         , Toast.LENGTH_SHORT).show();
-                nameTV.setFocusable(false);
+                nameTV.clearFocus();
             }
 
             @Override
@@ -131,7 +134,6 @@ public class AddPageFragment extends Fragment {
         api_token = sp.getString("API_TOKEN", " ");
         money_sum = view.findViewById(R.id.sum_money);
         plus = view.findViewById(R.id.plus);
-        load = (ProgressBar) view.findViewById(R.id.load_add_pif);
         hide();
         example.Get("/get_uk", api_token, new Callback() {
             @Override
@@ -161,6 +163,15 @@ public class AddPageFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    final Activity act = getActivity(); //only neccessary if you use fragments
+                    if (act != null)
+                        act.runOnUiThread(new Runnable() {
+                            public void run() {
+                                show();
+                                adapter.notifyDataSetChanged();
+                                //adapterPif.notifyDataSetChanged();
+                            }
+                        });
                 } else {
                     Log.d("TESTE", response.body().string());
                     String responseStr = response.body().string();
@@ -174,15 +185,6 @@ public class AddPageFragment extends Fragment {
                         tran.replace(R.id.container, new FirstFragment()).commit();
                     }
                 }
-                final Activity act = getActivity(); //only neccessary if you use fragments
-                if (act != null)
-                    act.runOnUiThread(new Runnable() {
-                        public void run() {
-                            show();
-                            adapter.notifyDataSetChanged();
-                            //adapterPif.notifyDataSetChanged();
-                        }
-                    });
             }
         });
     }

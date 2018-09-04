@@ -36,4 +36,7 @@
         <item name="android:background">@drawable/spinner_drop</item>
         <item name="android:clickable">true</item>
     </style>
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+    </style>
 </resources>

@@ -200,10 +200,7 @@ public class AddPageFragment extends Fragment {
                         }
                     }
                     adapterPif.notifyDataSetChanged();
-                    Toast.makeText(context,
-                            "Clicked item from auto completion list "
-                                    + adapter.getItem(i).getId()
-                            , Toast.LENGTH_SHORT).show();
+                    namePif.performClick();
                 }
             };
 

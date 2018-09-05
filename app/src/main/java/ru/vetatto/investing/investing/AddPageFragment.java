@@ -201,7 +201,7 @@ public class AddPageFragment extends Fragment {
                         int id = Integer.valueOf(dataJsonObj3.getString("id"));
                         int ukid = Integer.valueOf(dataJsonObj3.getString("ukId"));
                         String end_pay = dataJsonObj3.getString("end_pay");
-                        String end_date = dataJsonObj3.getString("end_pay");
+                        String end_date = dataJsonObj3.getString("end_date");
                         if(ukid==clickid) {
                             PifList.add(new PifAutocompleteData(title, id, end_pay,end_date));
                         }

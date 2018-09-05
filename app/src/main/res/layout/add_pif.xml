@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="Название фонда"
+                    android:text="@string/name_pif"
                     android:textSize="12sp" />
 
                 <Spinner
@@ -168,14 +168,14 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/amount_money"
+                            android:id="@+id/pay_price"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:background="@android:color/transparent"
                             android:ems="10"
-                            android:hint="0.00"
+                            android:hint="@string/null_amount"
                             android:inputType="number|numberSigned|numberDecimal"
                             android:numeric="integer|signed|decimal"
                             android:paddingEnd="8dp"
@@ -216,7 +216,7 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/amount_pay"
+                            android:id="@+id/date_pay"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"
@@ -246,7 +246,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="0.5"
                     android:orientation="horizontal">
 
@@ -266,7 +266,7 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/pay_price"
+                            android:id="@+id/money_price"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"
@@ -313,7 +313,7 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/date_pay"
+                            android:id="@+id/amount_pay"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginEnd="8dp"

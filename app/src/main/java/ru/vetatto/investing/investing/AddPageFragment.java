@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -42,25 +43,30 @@ import okhttp3.Response;
 public class AddPageFragment extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    int pageNumber;
+
     View view;
+    TextView money_sum, plus, date_pay;
+    Spinner namePif;
+    ImageView hr_pif;
+    LinearLayout ll;
+    AutoCompleteTextView nameTV;
+    ProgressBar load;
+    EditText pay_price;
+
+    int pageNumber;
     Context context;
     float sum_money;
     float sum_invest;
-    TextView money_sum;
-    TextView plus;
     public String api_token;
     NumberFormat f;
     UkAutocompleteAdapter adapter;
     PifAutocompleteAdapter adapterPif;
     ArrayList<UkAutocompleteData> ukList = new ArrayList<UkAutocompleteData>();
     ArrayList<PifAutocompleteData> PifList = new ArrayList<PifAutocompleteData>();
-    ProgressBar load;
+
     JSONArray pif;
-    AutoCompleteTextView nameTV;
-    Spinner namePif;
-    ImageView hr_pif;
-    LinearLayout ll;
+
+
     static AddPageFragment newInstance(int page) {
         AddPageFragment pageFragment = new AddPageFragment();
         Bundle arguments = new Bundle();
@@ -94,6 +100,8 @@ public class AddPageFragment extends Fragment {
         context = this.getContext();
         sum_invest = 0;
         sum_money = 0;
+        pay_price = view.findViewById(R.id.pay_price);
+        date_pay = view.findViewById(R.id.date_pay);
         hr_pif = view.findViewById(R.id.hr_pif);
         adapter = new UkAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, ukList);
         adapterPif = new PifAutocompleteAdapter(context, R.layout.uk_autocomplete, R.id.UkNameLabel, PifList);
@@ -113,11 +121,11 @@ public class AddPageFragment extends Fragment {
                 nameTV.clearFocus();
                 namePif.setMinimumHeight(40);
                 hr_pif.setVisibility(View.VISIBLE);
+                pay_price.setText(adapterPif.getItem(pos).getPay().toString());
+                date_pay.setText(adapterPif.getItem(pos).getEndDate().toString());
             }
-
-            @Override
+             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-
             }
         });
         Get example = new Get();
@@ -192,8 +200,10 @@ public class AddPageFragment extends Fragment {
                         String title = dataJsonObj3.getString("minTitle");
                         int id = Integer.valueOf(dataJsonObj3.getString("id"));
                         int ukid = Integer.valueOf(dataJsonObj3.getString("ukId"));
+                        String end_pay = dataJsonObj3.getString("end_pay");
+                        String end_date = dataJsonObj3.getString("end_pay");
                         if(ukid==clickid) {
-                            PifList.add(new PifAutocompleteData(title, id));
+                            PifList.add(new PifAutocompleteData(title, id, end_pay,end_date));
                         }
                         } catch (JSONException e) {
                             e.printStackTrace();

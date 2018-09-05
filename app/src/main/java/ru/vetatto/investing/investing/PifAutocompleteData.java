@@ -8,7 +8,7 @@ public class PifAutocompleteData {
         this.name = name;
         this.id = id;
         this.pay =pay;
-        this.end_date = end_date;
+        this.end_date =end_date;
     }
 
     public int getId() {

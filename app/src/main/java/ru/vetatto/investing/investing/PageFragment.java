@@ -44,7 +44,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private SwipeRefreshLayout mSwipeRefreshLayout;
     int pageNumber;
     int backColor;
-    View view;
+    View view,Rootview;
     Context context;
     ArrayList<PifData> phones = new ArrayList();
     ArrayList<PifAllListData> allPif = new ArrayList();
@@ -82,7 +82,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         f=NumberFormat.getInstance();
 
         if(pageNumber==0){
-
+            Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.second_first, null);
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -95,6 +95,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
            // ((MainActivity) getActivity()).showFloatingActionButton();
         }
         else if(pageNumber==1){
+            Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.allpiffragment, null);
 
                 get_all_pif_list("");
@@ -219,8 +220,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         phones.clear();
         adapter = new PifAdapter(context, phones);
         recyclerView.setAdapter(adapter);
-        money_sum = view.findViewById(R.id.sum_money);
-        plus = view.findViewById(R.id.plus);
+        money_sum = getActivity().findViewById(R.id.sum_money);
+        plus = getActivity().findViewById(R.id.plus);
         hide();
         example.Get("/get_portfolio_instrument", api_token, new Callback() {
             @Override

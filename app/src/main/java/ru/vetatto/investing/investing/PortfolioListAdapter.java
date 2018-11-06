@@ -39,7 +39,7 @@ public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdap
         holder.nameView.setText(PortfolioData.getPifTitle());
         holder.amount.setText(String.format("%.2f", PortfolioData.getGoalAmount()) + " \u20BD");
         holder.portfolioGoalName.setText(PortfolioData.getGoalName());
-        holder.progressTextView.setValue(15); // устанавливаем нужное значение
+       // holder.progressTextView.setValue(15); // устанавливаем нужное значение
     }
 
     @Override
@@ -50,13 +50,13 @@ public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
        // final ImageView imageView;
         final TextView nameView, amount, portfolioGoalName;
-        final LineralLayoutProgressBar progressTextView;
+       // final LineralLayoutProgressBar progressTextView;
         ViewHolder(View view) {
             super(view);
             nameView = (TextView) view.findViewById(R.id.titlePortfolio);
             amount=(TextView) view.findViewById(R.id.amount);
             portfolioGoalName=(TextView) view.findViewById(R.id.portfolioGoalName);
-            progressTextView = (LineralLayoutProgressBar) view.findViewById(R.id.lineralPort);
+           // progressTextView = (LineralLayoutProgressBar) view.findViewById(R.id.lineralPort);
         }
         }
     }

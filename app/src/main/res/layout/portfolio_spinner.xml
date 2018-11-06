@@ -10,19 +10,19 @@
     android:elevation="0dp"
     android:orientation="vertical">
 
-    <ru.vetatto.investing.investing.LineralLayoutProgressBar
-        android:id="@+id/lineralPort"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="6dp"
         android:layout_weight="1"
-        android:background="@drawable/background"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:elevation="5dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4">
+            android:layout_margin="5dp"
+            android:layout_weight="0.4"
+            android:elevation="5dp">
 
             <TextView
                 android:id="@+id/titlePortfolio"
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:text="Название фонда"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 android:typeface="monospace"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,16 +53,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="TextView"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/goal"
                 app:layout_constraintTop_toBottomOf="@+id/titlePortfolio" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_weight="0.6">
 
             <TextView
                 android:id="@+id/amount"
@@ -76,17 +69,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </android.support.constraint.ConstraintLayout>
-
-    </ru.vetatto.investing.investing.LineralLayoutProgressBar>
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#e1e1e1"
-        android:contentDescription="@string/todo" />
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

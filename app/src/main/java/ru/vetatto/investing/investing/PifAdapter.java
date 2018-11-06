@@ -55,12 +55,12 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                 holder.divider.setVisibility(View.GONE);
                 holder.spider.setVisibility(View.GONE);
             }
-            else{
+            /*else{
                 holder.divider.setVisibility(View.VISIBLE);
                 holder.spider.setVisibility(View.VISIBLE);
                 divider_check=phone.getTypeInstrument();
                 holder.divider.setText("Паевые фонды");
-            }
+            }*/
             holder.datePif.setText(phone.getDate());
         holder.nameView.setText(phone.getPifTitle());
         procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);

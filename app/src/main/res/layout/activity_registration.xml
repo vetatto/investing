@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:background="#2f9efe"
-    tools:context=".Registration">
+    tools:context=".Login.Registration">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

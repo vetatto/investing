@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:background="#2f9efe"
-    tools:context=".LoginActivity">
+    tools:context=".Login.LoginActivity">
 
     <ProgressBar
         android:id="@+id/load_autorize"

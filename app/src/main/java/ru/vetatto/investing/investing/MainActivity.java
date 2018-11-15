@@ -17,16 +17,15 @@ import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.Add.Add;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

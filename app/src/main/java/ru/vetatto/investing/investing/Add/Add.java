@@ -1,8 +1,10 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Add;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ru.vetatto.investing.investing.R;
 
 public class Add extends AppCompatActivity {
 

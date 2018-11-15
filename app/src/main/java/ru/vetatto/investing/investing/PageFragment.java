@@ -26,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.data.Entry;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,7 +100,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.allpiffragment, null);
 
-                get_all_pif_list("");
+                //get_all_pif_list("");
         }
         return view;
     }
@@ -118,7 +120,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onPrepareOptionsMenu(menu);
         menuItem = menu.findItem(R.id.menu_filter_pif);
         menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
-        if(pageNumber==0) {
+       /* if(pageNumber==0) {
             menuItem.setVisible(false);
             menuItem2.setVisible(false);
         }
@@ -131,7 +133,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 menuItem.setVisible(true);
                 menuItem2.setVisible(false);
             }
-        }
+        }*/
     }
 
     @Override
@@ -188,17 +190,17 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         menuItem = menu.findItem(R.id.menu_filter_pif);
         MenuItem menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
         if(pageNumber==0) {
-            menuItem.setVisible(false);
-            menuItem2.setVisible(false);
+          /*  menuItem.setVisible(false);
+            menuItem2.setVisible(false);*/
         }
         if(pageNumber==1) {
-            if (allPifAdapter.infilter()) {
+           /* if (allPifAdapter.infilter()) {
                 menuItem.setVisible(false);
                 menuItem2.setVisible(true);
             } else {
                 menuItem.setVisible(true);
                 menuItem2.setVisible(false);
-            }
+            }*/
         }
     }
    // }
@@ -331,6 +333,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
     }
 
+
     private  void get_all_pif_list(String sort) {
         Log.d("TEST","ОТображаем весь список");
         context=this.getContext();
@@ -424,6 +427,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
 
     }
+
+
     private void hide() {
         portfolio_main.setVisibility(View.INVISIBLE);
         load_portfolio.setVisibility(View.VISIBLE);

@@ -18,6 +18,8 @@ import com.google.android.gms.ads.MobileAds;
 import java.text.NumberFormat;
 import java.util.List;
 
+import static java.lang.Math.round;
+
 public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     private LayoutInflater inflater;
     private List<PifData> phones;
@@ -51,21 +53,12 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
             holder.adView.setVisibility(View.GONE);
         }
         if (phone.getTypeInstrument() == 1){
-            if(divider_check==phone.getTypeInstrument()) {
-                holder.divider.setVisibility(View.GONE);
-                holder.spider.setVisibility(View.GONE);
-            }
-            /*else{
-                holder.divider.setVisibility(View.VISIBLE);
-                holder.spider.setVisibility(View.VISIBLE);
-                divider_check=phone.getTypeInstrument();
-                holder.divider.setText("Паевые фонды");
-            }*/
+
             holder.datePif.setText(phone.getDate());
         holder.nameView.setText(phone.getPifTitle());
         procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);
-        holder.cat_name.setText(phone.getPifNameCat());
-        holder.companyView.setText(f.format(phone.getPifSumAmount() * phone.getPifDatePrice()) + " \u20BD");
+       // holder.cat_name.setText(phone.getPifNameCat());
+        holder.companyView.setText(f.format(100.00*phone.getPifSumAmount()*phone.getPifDatePrice()/100) + " \u20BD");
         holder.ukTitle.setText(phone.getukTitle());
         if (procent_pif >= 0) {
             holder.all_procent.setTextColor(Color.parseColor("#FF99CC00"));
@@ -96,14 +89,14 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     }
     else if(phone.getTypeInstrument() == 2){
             if(divider_check==phone.getTypeInstrument()) {
-                holder.divider.setVisibility(View.GONE);
-                holder.spider.setVisibility(View.GONE);
+              //  holder.divider.setVisibility(View.GONE);
+               // holder.spider.setVisibility(View.GONE);
                 divider_check=phone.getTypeInstrument();
             }
             else{
-                holder.divider.setVisibility(View.VISIBLE);
-                holder.spider.setVisibility(View.VISIBLE);
-                holder.divider.setText("Денежные средства");
+                //holder.divider.setVisibility(View.VISIBLE);
+              //  holder.spider.setVisibility(View.VISIBLE);
+                //holder.divider.setText("Денежные средства");
                 divider_check=phone.getTypeInstrument();
 
             }
@@ -116,20 +109,20 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-       final ImageView spider;
-        final TextView nameView, ukTitle, companyView, all_procent, datePif, procent, cat_name, /*sr_price,*/ divider;
+     //  final ImageView spider;
+        final TextView nameView, ukTitle, companyView, all_procent, datePif, procent/* cat_name,*/ /*sr_price, divider*/;
         AdView adView;
         ViewHolder(View view) {
             super(view);
-            spider= (ImageView) view.findViewById(R.id.spider);
+           // spider= (ImageView) view.findViewById(R.id.spider);
             nameView = (TextView) view.findViewById(R.id.titlePortfolio);
             companyView = (TextView) view.findViewById(R.id.pay_price);
             ukTitle = (TextView) view.findViewById(R.id.textView6);
             all_procent = (TextView) view.findViewById(R.id.textView4);
             datePif = (TextView) view.findViewById(R.id.amount);
             procent= (TextView) view.findViewById(R.id.izm_day);
-            cat_name= (TextView) view.findViewById(R.id.name_cat_pif);
-            divider = (TextView) view.findViewById(R.id.divider);
+           // cat_name= (TextView) view.findViewById(R.id.name_cat_pif);
+           //divider = (TextView) view.findViewById(R.id.divider);
 
             MobileAds.initialize(view.getContext(), "ca-app-pub-3909765981983100~5463344129");
            adView = view.findViewById(R.id.adView);

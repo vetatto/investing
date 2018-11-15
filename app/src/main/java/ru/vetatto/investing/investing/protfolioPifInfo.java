@@ -11,10 +11,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,6 +44,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import lecho.lib.hellocharts.animation.ChartAnimationListener;
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.LineChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -57,6 +71,29 @@ public class protfolioPifInfo extends AppCompatActivity {
     Get example;
     Call call_link;
     ConstraintLayout pifinfo_view;
+    private LineChartView chart;
+    private LineChartData data;
+    private int numberOfLines = 1;
+    private int maxNumberOfLines = 4;
+    private int numberOfPoints = 12;
+
+    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+    private boolean hasAxes = true;
+    private boolean hasAxesNames = true;
+    private boolean hasLines = true;
+    private boolean hasPoints = true;
+    private ValueShape shape = ValueShape.CIRCLE;
+    private boolean isFilled = false;
+    private boolean hasLabels = false;
+    private boolean isCubic = false;
+    private boolean hasLabelForSelected = false;
+    private boolean pointsHaveDifferentColor;
+    private boolean hasGradientToTransparent = false;
+    List<PointValue> values = new ArrayList<PointValue>();
+    List<AxisValue> axisValues = new ArrayList<AxisValue>();
+
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +113,7 @@ public class protfolioPifInfo extends AppCompatActivity {
         //TextView infoTitle = (TextView) findViewById(R.id.textView22);
         //infoTitle.setText("Информация "+PifTitle);
         toolbar.setTitle(PifTitle);
+
         example = new Get();//Делаем запрос к серверу
        //Log.d("TEST", "/get_portfolio_instrument/"+id);
         example.Get("/get_portfolio_instrument/"+id, api_token, new Callback() {
@@ -104,7 +142,15 @@ public class protfolioPifInfo extends AppCompatActivity {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
                                 Date dates = sdf.parse(date);
                                 entries.add(new Entry(dates.getTime(), Float.valueOf(pay)));
-                                labels.add(date);
+                            values.add(new PointValue(dates.getTime(), Float.valueOf(pay)));
+                            AxisValue axisValue = new AxisValue(dates.getTime());
+                            axisValue.setLabel(date);
+                            axisValues.add(axisValue);
+                          /*  values.add(new PointValue(1, 4));
+                            values.add(new PointValue(2, 3));
+                            values.add(new PointValue(3, 4));*/
+
+                            labels.add(date);
                             }
                         //// ДАнные пифа
                         JSONObject pifinfo = dataJsonObj.getJSONObject("operation");
@@ -146,7 +192,34 @@ public class protfolioPifInfo extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            LineChart lineChart = (LineChart) findViewById(R.id.chart);
+
+                            chart = (LineChartView) findViewById(R.id.chart_line);
+
+                            //In most cased you can call data model methods in builder-pattern-like manner.
+                            Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+                            List<Line> lines = new ArrayList<Line>();
+                            line.setHasPoints(false);
+                            line.setStrokeWidth(1);
+                            lines.add(line);
+                            LineChartData data = new LineChartData();
+                            data.setLines(lines);
+
+                            Axis axisX = new Axis(axisValues);
+                            Axis axisY = new Axis().setHasLines(true);
+                            axisX.setName("Axis X");
+                            //axisY.setName("Axis Y");
+                            //axisX.setMaxLabelChars(4);
+                            axisX.setHasLines(true);
+                            axisX.setMaxLabelChars(10);
+                            data.setAxisYLeft(axisY);
+                            data.setAxisXBottom(axisX);
+                            LineChartView chart = (LineChartView) findViewById(R.id.chart_line);
+
+                            chart.setContainerScrollEnabled(true, ContainerScrollType.VERTICAL);
+                            data.setBaseValue(Float.NEGATIVE_INFINITY);
+                            chart.setLineChartData(data);
+                            chart.setViewportCalculationEnabled(false);
+                            /*LineChart lineChart = (LineChart) findViewById(R.id.chart);
                             lineChart.setDrawGridBackground(false);
                             lineChart.setBackgroundColor(Color.WHITE);
                             YAxis left = lineChart.getAxisLeft();
@@ -200,7 +273,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                             PieData data = new PieData(dataset2);
                             mChart.setData(data);
                             mChart.getLegend().setEnabled(false);
-                            mChart.invalidate();
+                            mChart.invalidate();*/
                             TextView change_m_text =  (TextView) findViewById(R.id.textView24);
                             change_m_text.setText(String.format("%.2f",change_m)+" %");
                             TextView change_3m_text =  (TextView) findViewById(R.id.textView26);
@@ -223,6 +296,7 @@ public class protfolioPifInfo extends AppCompatActivity {
 
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -235,4 +309,8 @@ public class protfolioPifInfo extends AppCompatActivity {
             call_link.cancel();
         }
     }
+
 }
+
+
+

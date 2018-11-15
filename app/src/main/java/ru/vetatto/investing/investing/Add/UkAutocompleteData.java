@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Add;
 
 import android.os.Parcel;
 import android.os.Parcelable;

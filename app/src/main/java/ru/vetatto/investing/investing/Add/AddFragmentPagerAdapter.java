@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Add;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

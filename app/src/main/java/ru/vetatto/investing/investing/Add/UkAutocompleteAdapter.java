@@ -1,8 +1,6 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Add;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +9,8 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.List;
+
+import ru.vetatto.investing.investing.R;
 
 public class UkAutocompleteAdapter extends ArrayAdapter<UkAutocompleteData> {
 

@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,9 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.HTTP.PostRegistration;
+import ru.vetatto.investing.investing.MainActivity;
+import ru.vetatto.investing.investing.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

@@ -1,33 +1,20 @@
 package ru.vetatto.investing.investing;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import ru.vetatto.investing.investing.PifList.PifAdapter;
+import ru.vetatto.investing.investing.PifList.PifData;
 
 public class SecondFragment extends Fragment {
     View view;
@@ -47,8 +34,8 @@ public class SecondFragment extends Fragment {
        // view = inflater.inflate(R.layout.second_first, container, false);
         view = inflater.inflate(R.layout.title_view, container, false);
         ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
-        PortfolioFragmentPagerAdapter pagerAdapter = new PortfolioFragmentPagerAdapter(getFragmentManager());
-        pager.setAdapter(pagerAdapter);
+        //PortfolioFragmentPagerAdapter pagerAdapter = new PortfolioFragmentPagerAdapter(getFragmentManager());
+        //pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(listener);
 
         return view;

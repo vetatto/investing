@@ -1,19 +1,20 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.PifList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.vetatto.investing.investing.R;
+import ru.vetatto.investing.investing.protfolioPifInfo;
 
 public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.ViewHolder>   {
     private static boolean infilter=false;
@@ -21,7 +22,7 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
     private static List<PifAllListData> allPif;
     private static List<PifAllListData> allPifCopy;
     int divider_check = 0;
-    PifAllListAdater(Context context, List<PifAllListData> allPif) {
+    public PifAllListAdater(Context context, List<PifAllListData> allPif) {
         this.allPif = allPif;
         this.allPifCopy = allPif;
         this.inflater = LayoutInflater.from(context);

@@ -1,8 +1,5 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Login;
 
-import android.accounts.Account;
-import android.accounts.AccountAuthenticatorActivity;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +28,9 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.HTTP.Post;
+import ru.vetatto.investing.investing.MainActivity;
+import ru.vetatto.investing.investing.R;
 
 public class LoginActivity extends AppCompatActivity {
     SharedPreferences prefs;

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.data.Entry;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +36,12 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.HTTP.Get;
+import ru.vetatto.investing.investing.Login.LoginActivity;
+import ru.vetatto.investing.investing.PifList.PifAdapter;
+import ru.vetatto.investing.investing.PifList.PifAllListAdater;
+import ru.vetatto.investing.investing.PifList.PifAllListData;
+import ru.vetatto.investing.investing.PifList.PifData;
 
 public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 

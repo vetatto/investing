@@ -1,8 +1,6 @@
 package ru.vetatto.investing.investing;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +19,7 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.HTTP.Post;
 
 public class FirstFragment extends Fragment {
     SharedPreferences prefs;

@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.HTTP;
 
 import java.util.concurrent.TimeUnit;
 

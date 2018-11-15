@@ -1,15 +1,17 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.PifList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class PifAllListData {
+public class PifData{
     String title;
-    String change_y;
+    float sr_price;
     float sum_amount;
-    float pay_price;
+    float date_price;
     String sum_price;
     String ukTitle;
     int pifId;
@@ -19,10 +21,10 @@ public class PifAllListData {
     String nameCat;
     int type_instrument;
 
-    PifAllListData(String apiToken, String title, float pay_price, String change_y, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat) {
+    public PifData(String apiToken, String title, float date_price, float sum_amount, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat) {
         this.title = title;
-        this.change_y = change_y;
-        this.pay_price = pay_price;
+        this.sr_price = sr_price;
+        this.date_price = date_price;
         this.sum_amount = sum_amount;
         this.sum_price = sum_price;
         this.pifId = pifId;
@@ -41,11 +43,11 @@ public class PifAllListData {
     public String getPifNameCat(){
         return nameCat;
     }
-    public String getPifChangeY(){
-        return change_y;
+    public float getPifSrPrice(){
+        return sr_price;
     }
     public float getPifSumAmount(){ return sum_amount; }
-    public float getPifPayPrice(){ return pay_price; }
+    public float getPifDatePrice(){ return date_price; }
     public int getTypeInstrument(){ return type_instrument; }
     public int getPifId(){ return pifId; }
     public float getProcent() {return procent;}

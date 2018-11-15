@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.PifList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -18,13 +17,16 @@ import com.google.android.gms.ads.MobileAds;
 import java.text.NumberFormat;
 import java.util.List;
 
+import ru.vetatto.investing.investing.R;
+import ru.vetatto.investing.investing.protfolioPifInfo;
+
 import static java.lang.Math.round;
 
 public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     private LayoutInflater inflater;
     private List<PifData> phones;
     int divider_check = 0;
-    PifAdapter(Context context, List<PifData> phones) {
+    public PifAdapter(Context context, List<PifData> phones) {
         this.phones = phones;
         this.inflater = LayoutInflater.from(context);
     }

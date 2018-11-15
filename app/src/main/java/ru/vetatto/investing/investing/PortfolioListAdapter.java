@@ -1,23 +1,20 @@
 package ru.vetatto.investing.investing;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdapter.ViewHolder>   {
     private LayoutInflater inflater;
-    private ArrayList<PortfoliListData> PortfolioArray;
+    private ArrayList<PortfoliListData1> PortfolioArray;
     int divider_check = 0;
-    PortfolioListAdapter(Context context, ArrayList<PortfoliListData> PortfolioArray) {
+    PortfolioListAdapter(Context context, ArrayList<PortfoliListData1> PortfolioArray) {
         this.PortfolioArray = PortfolioArray;
         this.inflater = LayoutInflater.from(context);
     }
@@ -34,7 +31,7 @@ public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdap
     public void onBindViewHolder(PortfolioListAdapter.ViewHolder holder, int position) {
         float procent_pif, procent_izm;
 
-        final PortfoliListData PortfolioData = PortfolioArray.get(position);
+        final PortfoliListData1 PortfolioData = PortfolioArray.get(position);
         Log.d("TEST","Type:"+divider_check);
         holder.nameView.setText(PortfolioData.getPifTitle());
         holder.amount.setText(String.format("%.2f", PortfolioData.getGoalAmount()) + " \u20BD");

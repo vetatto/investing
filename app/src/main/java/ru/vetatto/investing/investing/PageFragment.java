@@ -26,14 +26,27 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.data.Entry;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.view.LineChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -66,6 +79,10 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     LinearLayout portfolio_main;
     ProgressBar load_portfolio;
     NumberFormat f;
+    ArrayList<Entry> entries = new ArrayList<Entry>();
+    ArrayList<String> labels = new ArrayList<String>();
+    List<PointValue> values = new ArrayList<PointValue>();
+    List<AxisValue> axisValues = new ArrayList<AxisValue>();
 
     static PageFragment newInstance(int page) {
         PageFragment pageFragment = new PageFragment();
@@ -220,6 +237,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         recyclerView.setLayoutManager(mLayoutManager);
         sum_invest=0;
         sum_money=0;
+
         Get example = new Get();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
@@ -284,6 +302,36 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price),ukTitle, date,Float.valueOf(procent), 1, nameCat, sum_money));
                             }
                         }
+
+
+
+                        JSONArray dat =dataJsonObj.getJSONArray("dat");
+                        Log.d("TEST_JSON","Массив dat "+dat.length());
+                        for (int i = 0; i < dat.length(); i++) {
+                            Log.d("TEST_JSON",dat.toString());
+                            JSONArray dat2 =dat.getJSONArray(i);
+                            Log.d("TEST_JSON","Массив dat2 "+dat2.length());
+                            for (int d = 0; d < dat2.length(); d++) {
+                                JSONObject dataJsonObj3 = dat2.getJSONObject(d);
+                                Log.d("TEST_JSON", dat2.toString());
+                                String date2 = dataJsonObj3.getString("date");
+                                String pay2 = dataJsonObj3.getString("pif");
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+                                Date dates = sdf.parse(date2);
+                                entries.add(new Entry(dates.getTime(), Float.valueOf(pay2)));
+                                values.add(new PointValue(dates.getTime(), Float.valueOf(pay2)));
+                                AxisValue axisValue = new AxisValue(dates.getTime());
+                                axisValue.setLabel(date2);
+                                axisValues.add(axisValue);
+                                Log.d("TEST", date2);
+                          /*  values.add(new PointValue(1, 4));
+                            values.add(new PointValue(2, 3));
+                            values.add(new PointValue(3, 4));*/
+
+                                labels.add(date2);
+                            }
+                        }
+
                        /* JSONArray currency = dataJsonObj.getJSONArray("currency");
                         for (int i = 0; i < currency.length(); i++) {
                             JSONArray currency2 = currency.getJSONArray(i);
@@ -300,7 +348,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, 0,title, date, 0,2, ""));
                             }
                         }*/
-                    } catch (JSONException e) {
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -318,6 +368,37 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
+
+
+                            LineChartView chart = (LineChartView) act.findViewById(R.id.chart_line2);
+
+                            //In most cased you can call data model methods in builder-pattern-like manner.
+                            Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+                            List<Line> lines = new ArrayList<Line>();
+                            line.setHasPoints(false);
+                            line.setStrokeWidth(1);
+                            lines.add(line);
+                            LineChartData data = new LineChartData();
+                            data.setLines(lines);
+
+                            Axis axisX = new Axis(axisValues);
+                            Axis axisY = new Axis().setHasLines(true);
+                            //axisX.setName("Axis X");
+                            //axisY.setName("Axis Y");
+                            //axisX.setMaxLabelChars(4);
+                            axisX.setHasLines(true);
+                            axisX.setMaxLabelChars(10);
+                            //data.setAxisYLeft(axisY);
+                           // data.setAxisXBottom(axisX);
+
+
+                            chart.setContainerScrollEnabled(true, ContainerScrollType.VERTICAL);
+                            data.setBaseValue(Float.NEGATIVE_INFINITY);
+                            chart.setLineChartData(data);
+                            chart.setViewportCalculationEnabled(false);
+
+
+
                            TextView money_sums =act.findViewById(R.id.textView31);
                             TextView procent =act.findViewById(R.id.textView38);
                             money_sums.setText(f.format( Math.round(sum_money*100.00)/100.00)+" \u20BD");

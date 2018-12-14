@@ -31,11 +31,11 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // view = inflater.inflate(R.layout.second_first, container, false);
+        view = inflater.inflate(R.layout.second_first, container, false);
         view = inflater.inflate(R.layout.title_view, container, false);
         ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
-        //PortfolioFragmentPagerAdapter pagerAdapter = new PortfolioFragmentPagerAdapter(getFragmentManager());
-        //pager.setAdapter(pagerAdapter);
+        PortfolioFragmentPagerAdapter pagerAdapter = new PortfolioFragmentPagerAdapter(getFragmentManager());
+        pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(listener);
 
         return view;

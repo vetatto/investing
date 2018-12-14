@@ -59,7 +59,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
             holder.datePif.setText(phone.getDate());
         holder.nameView.setText(phone.getPifTitle());
         procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);
-       // holder.cat_name.setText(phone.getPifNameCat());
+       //holder.sum_money.setText(String.valueOf(phone.getSum_money()));
         holder.companyView.setText(f.format(100.00*phone.getPifSumAmount()*phone.getPifDatePrice()/100) + " \u20BD");
         holder.ukTitle.setText(phone.getukTitle());
         if (procent_pif >= 0) {
@@ -112,7 +112,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
      //  final ImageView spider;
-        final TextView nameView, ukTitle, companyView, all_procent, datePif, procent/* cat_name,*/ /*sr_price, divider*/;
+        final TextView nameView, ukTitle, companyView, all_procent, datePif, procent/*,sum_money, /*sr_price, divider*/;
         AdView adView;
         ViewHolder(View view) {
             super(view);
@@ -123,8 +123,8 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
             all_procent = (TextView) view.findViewById(R.id.textView4);
             datePif = (TextView) view.findViewById(R.id.amount);
             procent= (TextView) view.findViewById(R.id.izm_day);
-           // cat_name= (TextView) view.findViewById(R.id.name_cat_pif);
-           //divider = (TextView) view.findViewById(R.id.divider);
+          // sum_money= (TextView) view.findViewById(R.id.textView31);
+          // //divider = (TextView) view.findViewById(R.id.divider);
 
             MobileAds.initialize(view.getContext(), "ca-app-pub-3909765981983100~5463344129");
            adView = view.findViewById(R.id.adView);

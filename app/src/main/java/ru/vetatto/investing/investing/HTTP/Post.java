@@ -13,7 +13,7 @@ public class Post {
 
     private OkHttpClient client = new OkHttpClient();
 
-    Call post(String url, String email, String password,  Callback callback) {
+    public Call post(String url, String email, String password, Callback callback) {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("email", email)

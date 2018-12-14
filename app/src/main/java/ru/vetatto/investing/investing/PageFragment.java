@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -225,8 +226,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         phones.clear();
         adapter = new PifAdapter(context, phones);
         recyclerView.setAdapter(adapter);
-        money_sum = getActivity().findViewById(R.id.sum_money);
-        plus = getActivity().findViewById(R.id.plus);
+        //money_sum = getActivity().findViewById(R.id.sum_money);
+       // plus = getActivity().findViewById(R.id.plus);
         hide();
         example.Get("/get_portfolio_instrument", api_token, new Callback() {
             @Override
@@ -280,7 +281,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 String nameCat = dataJsonObj2.getString("name_cat");
                                 sum_money=sum_money+Float.valueOf(date_price)*Float.valueOf(amount);
                                 sum_invest=sum_invest+Float.valueOf(sr_price)*Float.valueOf(amount);
-                                phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price),ukTitle, date,Float.valueOf(procent), 1, nameCat));
+                                phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price),ukTitle, date,Float.valueOf(procent), 1, nameCat, sum_money));
                             }
                         }
                        /* JSONArray currency = dataJsonObj.getJSONArray("currency");
@@ -317,15 +318,21 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-                            money_sum.setText(f.format(sum_money)+" \u20BD");
+                           TextView money_sums =act.findViewById(R.id.textView31);
+                            TextView procent =act.findViewById(R.id.textView38);
+                            money_sums.setText(f.format( Math.round(sum_money*100.00)/100.00)+" \u20BD");
+                           // money_sum.
                             if(sum_money-sum_invest<0) {
-                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD ("+f.format((sum_money - sum_invest) / sum_invest * 100)+"%)");
+
+                                procent.setText("-"+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
+                                procent.setTextColor(Color.parseColor("#B71C1C"));
                             }
                             else if(sum_money-sum_invest>0){
-                                plus.setText("+"+f.format(sum_money - sum_invest)+" \u20BD (+"+f.format((sum_money - sum_invest) / sum_invest * 100)+"%)");
+                                procent.setText("+"+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
+                                procent.setTextColor(Color.parseColor("#00C853"));
                             }
                             else{
-                                plus.setText(f.format(sum_money - sum_invest)+" \u20BD ("+f.format((sum_money - sum_invest) / sum_invest * 100)+"%)");
+                                procent.setText(f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
                             }
                             show();
                             adapter.notifyDataSetChanged();

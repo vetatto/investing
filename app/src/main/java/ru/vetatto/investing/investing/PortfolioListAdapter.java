@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
+/*
 public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdapter.ViewHolder>   {
     private LayoutInflater inflater;
-    private ArrayList<PortfoliListData1> PortfolioArray;
+    private ArrayList<PortfoliListData> PortfolioArray;
     int divider_check = 0;
-    PortfolioListAdapter(Context context, ArrayList<PortfoliListData1> PortfolioArray) {
+    PortfolioListAdapter(Context context, ArrayList<PortfoliListData> PortfolioArray) {
         this.PortfolioArray = PortfolioArray;
         this.inflater = LayoutInflater.from(context);
     }
@@ -31,7 +31,7 @@ public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdap
     public void onBindViewHolder(PortfolioListAdapter.ViewHolder holder, int position) {
         float procent_pif, procent_izm;
 
-        final PortfoliListData1 PortfolioData = PortfolioArray.get(position);
+        final PortfoliListData PortfolioData = PortfolioArray.get(position);
         Log.d("TEST","Type:"+divider_check);
         holder.nameView.setText(PortfolioData.getPifTitle());
         holder.amount.setText(String.format("%.2f", PortfolioData.getGoalAmount()) + " \u20BD");
@@ -56,4 +56,4 @@ public class PortfolioListAdapter extends RecyclerView.Adapter<PortfolioListAdap
            // progressTextView = (LineralLayoutProgressBar) view.findViewById(R.id.lineralPort);
         }
         }
-    }
+    }*/

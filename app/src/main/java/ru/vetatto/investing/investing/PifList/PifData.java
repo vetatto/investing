@@ -20,8 +20,9 @@ public class PifData{
     String apiToken;
     String nameCat;
     int type_instrument;
+    float sum_money;
 
-    public PifData(String apiToken, String title, float date_price, float sum_amount, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat) {
+    public PifData(String apiToken, String title, float date_price, float sum_amount, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
         this.title = title;
         this.sr_price = sr_price;
         this.date_price = date_price;
@@ -34,6 +35,7 @@ public class PifData{
         this.apiToken = apiToken;
         this.type_instrument = type_instrument;
         this.nameCat=nameCat;
+        this.sum_money=sum_money;
     }
 
     public String getApiToken(){return apiToken;}
@@ -51,6 +53,7 @@ public class PifData{
     public int getTypeInstrument(){ return type_instrument; }
     public int getPifId(){ return pifId; }
     public float getProcent() {return procent;}
+    public float getSum_money() {return sum_money;}
     public String getDate(){
         SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat newDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());

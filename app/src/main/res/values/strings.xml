@@ -127,4 +127,5 @@
     <string name="pif_info">Информация о фонде</string>
     <string name="investing_info">Информация о сумме инвестиций</string>
     <string name="null_amount" />
+    <string name="you_capital">Ваш капитал</string>
 </resources>

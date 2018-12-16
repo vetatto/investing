@@ -139,8 +139,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menuItem = menu.findItem(R.id.menu_filter_pif);
-        menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
+       // menuItem = menu.findItem(R.id.menu_filter_pif);
+        //menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
        /* if(pageNumber==0) {
             menuItem.setVisible(false);
             menuItem2.setVisible(false);

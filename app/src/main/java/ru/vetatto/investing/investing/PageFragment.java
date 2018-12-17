@@ -157,7 +157,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }*/
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -189,7 +189,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
     public static void OnResult(int requestCode, int resultCode, Intent data) {
@@ -208,13 +208,13 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menuItem = menu.findItem(R.id.menu_filter_pif);
+      /*  menuItem = menu.findItem(R.id.menu_filter_pif);
         MenuItem menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
         if(pageNumber==0) {
           /*  menuItem.setVisible(false);
             menuItem2.setVisible(false);*/
-        }
-        if(pageNumber==1) {
+        /*}*/
+       /* if(pageNumber==1) {
            /* if (allPifAdapter.infilter()) {
                 menuItem.setVisible(false);
                 menuItem2.setVisible(true);
@@ -222,9 +222,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 menuItem.setVisible(true);
                 menuItem2.setVisible(false);
             }*/
-        }
+       /*}
+    }*/
     }
-   // }
 
 ///Отображение полного списка портфеля
     private void portfolio_info(){
@@ -406,11 +406,11 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             if(sum_money-sum_invest<0) {
 
                                 procent.setText("-"+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
-                                procent.setTextColor(Color.parseColor("#B71C1C"));
+                                //procent.setTextColor(Color.parseColor("#B71C1C"));
                             }
                             else if(sum_money-sum_invest>0){
                                 procent.setText("+"+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
-                                procent.setTextColor(Color.parseColor("#00C853"));
+                                //procent.setTextColor(Color.parseColor("#00C853"));
                             }
                             else{
                                 procent.setText(f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");

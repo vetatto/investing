@@ -3,8 +3,9 @@
     <color name="colorPrimary">#136df1</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorPlus">#FF99CC00</color>
+    <color name="colorPlus">#59bb70</color>
     <color name="colorMinus">#ffff4444</color>
     <color name="black_overlay">#66000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="colorToolbar">#2ed875</color>
 </resources>

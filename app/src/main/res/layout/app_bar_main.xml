@@ -31,7 +31,6 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:titleEnabled="true">
-
             <ImageView
                 android:id="@+id/toolbarImage"
                 android:layout_width="match_parent"

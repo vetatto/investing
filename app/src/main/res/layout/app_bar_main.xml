@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -31,6 +30,7 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:titleEnabled="true">
+
             <ImageView
                 android:id="@+id/toolbarImage"
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="160dp"
                 android:layout_marginBottom="1dp"
                 android:elevation="0dp"
                 android:paddingTop="8dp"

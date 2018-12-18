@@ -128,4 +128,5 @@
     <string name="investing_info">Информация о сумме инвестиций</string>
     <string name="null_amount" />
     <string name="you_capital">Ваш капитал</string>
+    <string name="investing">Инвестированно</string>
 </resources>

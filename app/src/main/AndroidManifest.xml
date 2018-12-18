@@ -46,7 +46,7 @@
         <activity
             android:name=".protfolioPifInfo"
             android:label="@string/title_activity_protfolio_pif_info"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"

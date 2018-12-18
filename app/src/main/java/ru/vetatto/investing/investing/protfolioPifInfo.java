@@ -1,9 +1,16 @@
 package ru.vetatto.investing.investing;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,10 +52,11 @@ public class protfolioPifInfo extends AppCompatActivity {
     ArrayList<String> labels;
     String PifTitle;
     private PieChart mChart;
-    float pif_price, change_m, change_3m, change_year;
+    float pif_price, change_m, change_3m, change_year,pif_amount;
     ProgressDialog dialog;
     Get example;
     Call call_link;
+    NumberFormat f;
     ConstraintLayout pifinfo_view;
     private LineChartView chart;
     private LineChartData data;
@@ -70,16 +79,30 @@ public class protfolioPifInfo extends AppCompatActivity {
     private boolean hasGradientToTransparent = false;
     List<PointValue> values = new ArrayList<PointValue>();
     List<AxisValue> axisValues = new ArrayList<AxisValue>();
-
+    TextView my_sum_pif,procent_m;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_protfolio_pif_info);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-        pifinfo_view = (ConstraintLayout) findViewById(R.id.pif_info_view);
-        pifinfo_view.setVisibility(View.INVISIBLE);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeButtonEnabled(true);
+        final CollapsingToolbarLayout mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mCollapsingToolbar.setTitle(" ");
+        toolbar.setTitle(" ");
+        f=NumberFormat.getInstance();
+        my_sum_pif = (TextView) findViewById(R.id.my_sum_pif);
+        procent_m = (TextView) findViewById(R.id.procent_m);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         dialog = new ProgressDialog(this);
         dialog.setMessage("Загружаем данные...");
         dialog.setCancelable(false);
@@ -90,7 +113,7 @@ public class protfolioPifInfo extends AppCompatActivity {
         PifTitle = getIntent().getStringExtra("name");
         //TextView infoTitle = (TextView) findViewById(R.id.textView22);
         //infoTitle.setText("Информация "+PifTitle);
-        toolbar.setTitle(PifTitle);
+        //toolbar.setTitle(PifTitle);
 
         example = new Get();//Делаем запрос к серверу
        //Log.d("TEST", "/get_portfolio_instrument/"+id);
@@ -105,7 +128,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                 call_link=call;
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
-                    Log.d("TEST",responseStr);
+                    Log.d("TEST_PIF",responseStr);
                     entries = new ArrayList<Entry>();
                     labels = new ArrayList<String>();
                     try {
@@ -146,7 +169,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                            catch(NumberFormatException e) {
                                Log.d("TEST",e.getMessage());
                         }
-                            float pif_amount =  Float.valueOf(pifinfo.getString("amount"));
+                            pif_amount =  Float.valueOf(pifinfo.getString("amount"));
                              float end_price =  Float.valueOf(pifinfo.getString("end_price"));
                            /* for (int d = 0; d < pifinfo2.length(); d++) {
                                 JSONObject dataJsonObj3 = pifinfo2.getJSONObject(d);
@@ -169,11 +192,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
-
                             chart = (LineChartView) findViewById(R.id.chart_line);
-
-                            //In most cased you can call data model methods in builder-pattern-like manner.
                             Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
                             List<Line> lines = new ArrayList<Line>();
                             line.setHasPoints(false);
@@ -197,69 +216,16 @@ public class protfolioPifInfo extends AppCompatActivity {
                             data.setBaseValue(Float.NEGATIVE_INFINITY);
                             chart.setLineChartData(data);
                             chart.setViewportCalculationEnabled(false);
-                            /*LineChart lineChart = (LineChart) findViewById(R.id.chart);
-                            lineChart.setDrawGridBackground(false);
-                            lineChart.setBackgroundColor(Color.WHITE);
-                            YAxis left = lineChart.getAxisLeft();
-                            left.setDrawLabels(true); // no axis labels
-                            //left.setDrawAxisLine(false); // no axis line
-                            left.setDrawGridLines(false); // no grid lines
-                            //left.setDrawZeroLine(true); // draw a zero line
-                            lineChart.getAxisRight().setEnabled(false); // no right axis
-                            XAxis xAxis = lineChart.getXAxis();
-                            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                            xAxis.setTextSize(10f);
-                            xAxis.setTextColor(Color.BLACK);
-                            //xAxis.setDrawAxisLine(false);
-                            xAxis.setDrawLabels(true);
-                            xAxis.setDrawGridLines(false);
-                            //xAxis.setCenterAxisLabels(true);
-                            //xAxis.setGranularity(1f); // one hour
-                            xAxis.setValueFormatter(new IAxisValueFormatter() {
-                                private SimpleDateFormat mFormat = new SimpleDateFormat("dd.M.yyyy");
-                                @Override
-                                public String getFormattedValue(float value, AxisBase axis) {
-                                    return mFormat.format(value);
-                                }
-                            });
-                                LineDataSet dataset = new LineDataSet(entries, PifTitle);
-                                dataset.setColors(ColorTemplate.getHoloBlue());
-                                dataset.setAxisDependency(YAxis.AxisDependency.LEFT);
-                                dataset.setDrawCircles(false);
-                                LineData lineData = new LineData(dataset);
-                                lineChart.setData(lineData);
-                                lineChart.invalidate();
-                            mChart = findViewById(R.id.chart1);
-                            mChart.setUsePercentValues(true);
-                            mChart.getDescription().setEnabled(false);
-                            mChart.setExtraOffsets(0, 0, 0, 0);
-                            mChart.setDrawCenterText(false);
-                            mChart.setDrawEntryLabels(true);
-                            mChart.setUsePercentValues(false);
-                            mChart.getDescription().setEnabled(false);
-                            mChart.setHoleRadius(60);
-                            mChart.setEntryLabelColor(R.color.colorPrimary);
-                           // entriesPie.add(new PieEntry(100f, "Доход")); //expense1
-                            List<Integer> colors = new ArrayList<Integer>();
-                            colors.add(R.color.colorPrimary);
-                            PieDataSet dataset2 = new PieDataSet(entriesPie, "PifTitle");
-
-
-                            //ab.setSubtitle("sub-title");
-                            dataset2.setColors(ColorTemplate.MATERIAL_COLORS);
-                            dataset2.setSliceSpace(2);
-                            PieData data = new PieData(dataset2);
-                            mChart.setData(data);
-                            mChart.getLegend().setEnabled(false);
-                            mChart.invalidate();*/
                             TextView change_m_text =  (TextView) findViewById(R.id.textView24);
                             change_m_text.setText(String.format("%.2f",change_m)+" %");
                             TextView change_3m_text =  (TextView) findViewById(R.id.textView26);
                             change_3m_text.setText(String.format("%.2f",change_3m)+" %");
                             TextView change_yaer_text =  (TextView) findViewById(R.id.textView9);
                             change_yaer_text.setText(String.format("%.2f",change_year)+" %");
+                             my_sum_pif.setText(f.format(Math.round(pif_amount * pif_price * 100.00) / 100.00) + " \u20BD");
+                             procent_m.setText(String.format("%.2f",change_m)+" %");
                             dialog.dismiss();
-                            pifinfo_view.setVisibility(View.VISIBLE);
+                            //pifinfo_view.setVisibility(View.VISIBLE);
 
                         }
                     });

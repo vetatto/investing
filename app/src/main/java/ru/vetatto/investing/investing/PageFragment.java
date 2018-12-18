@@ -1,5 +1,7 @@
 package ru.vetatto.investing.investing;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -401,8 +405,72 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                            TextView money_sums =act.findViewById(R.id.textView31);
                             TextView procent =act.findViewById(R.id.textView38);
+                            final CollapsingToolbarLayout mCollapsingToolbar = (CollapsingToolbarLayout) act.findViewById(R.id.collapsing_toolbar);
+
                             money_sums.setText(f.format( Math.round(sum_money*100.00)/100.00)+" \u20BD");
-                           // money_sum.
+                            AppBarLayout appBarLayout = (AppBarLayout) act.findViewById(R.id.appbar);
+                            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                                boolean isShow = true;
+                                int scrollRange = -1;
+
+                                @Override
+                                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                                    if (scrollRange == -1) {
+                                        scrollRange = appBarLayout.getTotalScrollRange();
+                                    }
+                                    if (scrollRange + verticalOffset == 0) {
+
+                                        ///Анимация исчезновения данных заезжающих на toolbar
+                                        TextView mvr = act.findViewById(R.id.textView40);
+                                        mvr.animate()
+                                                .setDuration(500)
+                                                .alpha(0)
+                                                .setListener(new AnimatorListenerAdapter() {
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+
+                                                    }
+                                                });
+                                        TextView mvr2 = act.findViewById(R.id.textView39);
+                                        mvr2.animate()
+                                                .setDuration(500)
+                                                .alpha(0)
+                                                .setListener(new AnimatorListenerAdapter() {
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+
+                                                    }
+                                                });
+                                        mCollapsingToolbar.setTitle(f.format( Math.round(sum_money*100.00)/100.00)+" \u20BD");
+                                        /////////
+                                        isShow = true;
+                                    } else if(isShow) {
+                                        mCollapsingToolbar.setTitle(" ");
+                                        //carefull there should a space between double quote otherwise it wont work
+                                        TextView mvr = act.findViewById(R.id.textView40);
+                                        mvr.animate()
+                                                .setDuration(500)
+                                                .alpha(1)
+                                                .setListener(new AnimatorListenerAdapter() {
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+
+                                                    }
+                                                });
+                                        TextView mvr2 = act.findViewById(R.id.textView39);
+                                        mvr2.animate()
+                                                .setDuration(500)
+                                                .alpha(1)
+                                                .setListener(new AnimatorListenerAdapter() {
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+
+                                                    }
+                                                });
+                                        isShow = false;
+                                    }
+                                }
+                            });
                             if(sum_money-sum_invest<0) {
 
                                 procent.setText("-"+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");

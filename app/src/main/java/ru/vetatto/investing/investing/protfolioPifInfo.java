@@ -1,15 +1,10 @@
 package ru.vetatto.investing.investing;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,7 +47,8 @@ public class protfolioPifInfo extends AppCompatActivity {
     ArrayList<String> labels;
     String PifTitle;
     private PieChart mChart;
-    float pif_price, change_m, change_3m, change_year,pif_amount;
+    float pif_price, change_m, change_3m, change_year,pif_amount,end_price;
+    int day_investing;
     ProgressDialog dialog;
     Get example;
     Call call_link;
@@ -95,7 +91,7 @@ public class protfolioPifInfo extends AppCompatActivity {
         toolbar.setTitle(" ");
         f=NumberFormat.getInstance();
         my_sum_pif = (TextView) findViewById(R.id.my_sum_pif);
-        procent_m = (TextView) findViewById(R.id.procent_m);
+        procent_m = (TextView) findViewById(R.id.procent);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +131,7 @@ public class protfolioPifInfo extends AppCompatActivity {
 
                         ///Данные графика
                         JSONObject dataJsonObj = new JSONObject(responseStr);
+                        day_investing= Integer.valueOf(dataJsonObj.getString("day_investing"));
                         JSONArray friends = dataJsonObj.getJSONArray("data");
                         for (int i = 0; i < friends.length(); i++) {
                                 JSONObject dataJsonObj2 = friends.getJSONObject(i);
@@ -170,7 +167,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                                Log.d("TEST",e.getMessage());
                         }
                             pif_amount =  Float.valueOf(pifinfo.getString("amount"));
-                             float end_price =  Float.valueOf(pifinfo.getString("end_price"));
+                            end_price =  Float.valueOf(pifinfo.getString("end_price"));
                            /* for (int d = 0; d < pifinfo2.length(); d++) {
                                 JSONObject dataJsonObj3 = pifinfo2.getJSONObject(d);
                                 float pif_price = Float.valueOf(dataJsonObj3.getString("pif_price"));
@@ -222,11 +219,11 @@ public class protfolioPifInfo extends AppCompatActivity {
                             change_3m_text.setText(String.format("%.2f",change_3m)+" %");
                             TextView change_yaer_text =  (TextView) findViewById(R.id.textView9);
                             change_yaer_text.setText(String.format("%.2f",change_year)+" %");
-                             my_sum_pif.setText(f.format(Math.round(pif_amount * pif_price * 100.00) / 100.00) + " \u20BD");
-                             procent_m.setText(String.format("%.2f",change_m)+" %");
+                             my_sum_pif.setText(f.format(Math.round(day_investing)));
+                             float proc_rasch=100-(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*100);
+                             procent_m.setText(String.format("%.2f",(proc_rasch)));
                             dialog.dismiss();
                             //pifinfo_view.setVisibility(View.VISIBLE);
-
                         }
                     });
 

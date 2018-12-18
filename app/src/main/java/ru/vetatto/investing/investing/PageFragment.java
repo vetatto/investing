@@ -473,7 +473,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             });
                             if(sum_money-sum_invest<0) {
 
-                                procent.setText("-"+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
+                                procent.setText(""+f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
                                 //procent.setTextColor(Color.parseColor("#B71C1C"));
                             }
                             else if(sum_money-sum_invest>0){

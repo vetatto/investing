@@ -220,7 +220,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                             TextView change_yaer_text =  (TextView) findViewById(R.id.textView9);
                             change_yaer_text.setText(String.format("%.2f",change_year)+" %");
                              my_sum_pif.setText(f.format(Math.round(day_investing)));
-                             float proc_rasch=100-(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*100);
+                             float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
                              procent_m.setText(String.format("%.2f",(proc_rasch)));
                             dialog.dismiss();
                             //pifinfo_view.setVisibility(View.VISIBLE);

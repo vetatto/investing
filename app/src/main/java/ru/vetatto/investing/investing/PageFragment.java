@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -109,6 +110,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         f=NumberFormat.getInstance();
 
         if(pageNumber==0){
+           // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.second_first, null);
             mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -117,15 +119,12 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
-
             portfolio_info();
-           // ((MainActivity) getActivity()).showFloatingActionButton();
         }
         else if(pageNumber==1){
+           // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
             Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.allpiffragment, null);
-
-                //get_all_pif_list("");
         }
         return view;
     }
@@ -140,62 +139,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         }, 4000);
     }
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-       // menuItem = menu.findItem(R.id.menu_filter_pif);
-        //menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
-       /* if(pageNumber==0) {
-            menuItem.setVisible(false);
-            menuItem2.setVisible(false);
-        }
-        if(pageNumber==1){
-            if(allPifAdapter.infilter()) {
-                menuItem.setVisible(false);
-                menuItem2.setVisible(true);
-            }
-            else{
-                menuItem.setVisible(true);
-                menuItem2.setVisible(false);
-            }
-        }*/
-    }
-
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_filter_pif) {
-            Intent intent = new Intent(context,filterpif.class);
-            super.startActivityForResult(intent,1);
-        }
-        if (id == R.id.menu_filter_pif_del) {
-            if(pageNumber==0) {
-                menuItem.setVisible(false);
-                menuItem2.setVisible(false);
-            }
-            if(pageNumber==1){
-                allPifAdapter.filter_del();
-                allPifAdapter.notifyDataSetChanged();
-                if(allPifAdapter.infilter()==true) {
-                    menuItem.setVisible(false);
-                    menuItem2.setVisible(true);
-                }
-                else{
-                    menuItem.setVisible(true);
-                    menuItem2.setVisible(false);
-                }
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
-
     public static void OnResult(int requestCode, int resultCode, Intent data) {
         Log.d("TEST", data.getStringExtra("TEST"));
         PifAllListAdater.filter("");
@@ -210,25 +153,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
     }
 
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-      /*  menuItem = menu.findItem(R.id.menu_filter_pif);
-        MenuItem menuItem2 = menu.findItem(R.id.menu_filter_pif_del);
-        if(pageNumber==0) {
-          /*  menuItem.setVisible(false);
-            menuItem2.setVisible(false);*/
-        /*}*/
-       /* if(pageNumber==1) {
-           /* if (allPifAdapter.infilter()) {
-                menuItem.setVisible(false);
-                menuItem2.setVisible(true);
-            } else {
-                menuItem.setVisible(true);
-                menuItem2.setVisible(false);
-            }*/
-       /*}
-    }*/
-    }
 
 ///Отображение полного списка портфеля
     private void portfolio_info(){

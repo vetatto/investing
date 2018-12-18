@@ -190,10 +190,10 @@ public class protfolioPifInfo extends AppCompatActivity {
                         @Override
                         public void run() {
                             chart = (LineChartView) findViewById(R.id.chart_line);
-                            Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+                            Line line = new Line(values).setColor(R.color.colorPlus).setCubic(true);
                             List<Line> lines = new ArrayList<Line>();
                             line.setHasPoints(false);
-                            line.setStrokeWidth(1);
+                            line.setStrokeWidth(2);
                             lines.add(line);
                             LineChartData data = new LineChartData();
                             data.setLines(lines);

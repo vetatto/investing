@@ -92,7 +92,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/my_sum_pif"
+                            android:id="@+id/my_sum_pifp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/colorPrimaryDark"
@@ -121,7 +121,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/procent"
+                            android:id="@+id/procent_p"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/colorPrimaryDark"

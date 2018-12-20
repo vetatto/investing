@@ -3,6 +3,7 @@ package ru.vetatto.investing.investing.Add;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.icu.text.StringPrepParseException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,7 +51,7 @@ public class Add extends AppCompatActivity {
     LinearLayout ll;
     AutoCompleteTextView nameTV;
     ProgressBar load;
-    EditText pay_price;
+    EditText pay_price, money_price,amount_pay;
 
     int pageNumber;
     Context context;
@@ -60,7 +63,7 @@ public class Add extends AppCompatActivity {
     PifAutocompleteAdapter adapterPif;
     ArrayList<UkAutocompleteData> ukList = new ArrayList<UkAutocompleteData>();
     ArrayList<PifAutocompleteData> PifList = new ArrayList<PifAutocompleteData>();
-
+    boolean sumPayInput = false;
     JSONArray pif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,64 @@ public class Add extends AppCompatActivity {
         nameTV.setOnItemClickListener(onItemClickListener);
         namePif = (Spinner) findViewById(R.id.spinner);
         namePif.setAdapter(adapterPif);
+        money_price=(EditText) findViewById(R.id.money_price);
+        amount_pay=(EditText) findViewById(R.id.amount_pay);
+
+     //Обработка ввода суммы инвестиций
+        money_price.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(money_price.isFocused()) {
+                    if ((pay_price.getText().toString().isEmpty() | money_price.getText().toString().isEmpty())) {
+                        amount_pay.setText("0.00");
+                    } else {
+                        float moneys_price;
+                        moneys_price = Float.valueOf(money_price.getText().toString());
+                        float price;
+                        price = Float.valueOf(pay_price.getText().toString());
+                        amount_pay.setText(String.valueOf(moneys_price / price));
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+        //Обработка ввода суммы паев
+        amount_pay.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (amount_pay.isFocused()) {
+                    if ((pay_price.getText().toString().isEmpty())) {
+                        money_price.setText("0.00");
+                    } else {
+                        float amounts_pay;
+                        amounts_pay = Float.valueOf(amount_pay.getText().toString());
+                        float price;
+                        price = Float.valueOf(pay_price.getText().toString());
+                        money_price.setText(String.valueOf(amounts_pay/price));
+                    }
+                }
+            }
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+
         namePif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,

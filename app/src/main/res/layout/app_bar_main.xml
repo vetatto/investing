@@ -82,9 +82,8 @@
                         android:id="@+id/textView31"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="sans-serif-light"
                         android:text="TextView"
-                        android:textColor="#000000"
                         android:textSize="30sp"
                         app:layout_constraintStart_toStartOf="@+id/textView30"
                         app:layout_constraintTop_toBottomOf="@+id/textView30" />
@@ -93,7 +92,7 @@
                         android:id="@+id/textView38"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="sans-serif-light"
                         android:text="TextView"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="@+id/textView31"
@@ -103,7 +102,7 @@
                         android:id="@+id/textView39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="sans-serif-light"
                         android:text="MVR"
                         app:layout_constraintStart_toStartOf="@+id/textView38"
                         app:layout_constraintTop_toBottomOf="@+id/textView38" />
@@ -112,7 +111,7 @@
                         android:id="@+id/textView40"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="sans-serif-light"
                         android:text="+2.3%"
                         app:layout_constraintStart_toEndOf="@+id/textView39"
                         app:layout_constraintTop_toTopOf="@+id/textView39" />

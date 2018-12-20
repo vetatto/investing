@@ -30,7 +30,7 @@
                 android:id="@+id/portfolio_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#EEEEEE"
+                android:background="#f7f7f7"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -41,13 +41,13 @@
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#EEEEEE"
+                    android:background="#f7f7f7"
                     android:fillViewport="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#E0E0E0"
+                        android:background="#f7f7f7"
                         android:elevation="0dp"
                         android:focusableInTouchMode="true"
                         android:orientation="vertical">
@@ -60,7 +60,7 @@
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="0dp"
-                            android:background="#E0E0E0"
+                            android:background="#f7f7f7"
                             android:elevation="0dp"
                             android:longClickable="false">
 

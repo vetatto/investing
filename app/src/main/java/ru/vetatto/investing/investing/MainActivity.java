@@ -34,6 +34,7 @@ import okhttp3.Response;
 import ru.vetatto.investing.investing.Add.Add;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.Login.LoginActivity;
+import ru.vetatto.investing.investing.SMS.SMSRead;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -164,6 +165,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
+        }
+        if( id == R.id.nav_gallery){
+            Intent intent = new Intent(context, SMSRead.class);
+            context.startActivity(intent);
         }
         else if(id == R.id.nav_logout){
             SharedPreferences.Editor editor = sp.edit();

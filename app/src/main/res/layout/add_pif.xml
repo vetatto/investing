@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec">
+    android:background="#f7f7f7"
+    tools:context=".Add.Add"
+    tools:showIn="@layout/activity_add"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
 
     <ProgressBar
-        android:id="@+id/load_add_pif"
+        android:id="@+id/load_add_pif2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:theme="@style/CircularProgress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,17 +25,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/mainAddLayout"
+        android:id="@+id/mainAddLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f7f7f7"
+        android:elevation="0dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:elevation="2dp"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="1dp"
+            android:elevation="0dp"
+            android:paddingBottom="8dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,8 +59,8 @@
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_marginEnd="0dp"
                     android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
                     app:srcCompat="@android:color/darker_gray" />
 
                 <TextView
@@ -69,10 +76,10 @@
                     android:id="@+id/autoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@android:color/transparent"
                     android:hint="@string/hint_uk"
                     android:paddingEnd="0dp"
@@ -86,10 +93,10 @@
                     android:id="@+id/hr_pif"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginEnd="0dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
                     android:visibility="invisible"
                     app:srcCompat="@android:color/darker_gray" />
 
@@ -108,10 +115,10 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:minHeight="0dp"
-                    android:paddingBottom="8dp"
-                    android:paddingEnd="8dp"
                     android:paddingStart="0dp"
                     android:paddingTop="16dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp"
                     android:theme="@style/SpinnerStyle" />
             </LinearLayout>
 
@@ -120,8 +127,10 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="1dp"
+            android:elevation="0dp"
+            android:paddingBottom="8dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,8 +151,8 @@
                     android:id="@+id/imageView4"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_marginEnd="0dp"
                     android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
                     android:contentDescription="TODO"
                     app:srcCompat="@android:color/darker_gray" />
 
@@ -171,15 +180,15 @@
                             android:id="@+id/pay_price"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
                             android:background="@android:color/transparent"
                             android:ems="10"
                             android:hint="@string/null_amount"
                             android:inputType="number|numberSigned|numberDecimal"
                             android:numeric="integer|signed|decimal"
-                            android:paddingEnd="8dp"
                             android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             android:textColorHint="@android:color/darker_gray"
                             android:textSize="18sp" />
 
@@ -219,15 +228,15 @@
                             android:id="@+id/date_pay"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
                             android:background="@android:color/transparent"
                             android:ems="10"
                             android:gravity="center_vertical"
                             android:hint="04.09.2018"
                             android:padding="8dp"
-                            android:paddingEnd="8dp"
                             android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             android:textColorHint="@android:color/darker_gray"
                             android:textSize="18sp" />
 
@@ -235,8 +244,8 @@
                             android:id="@+id/imageView6"
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
-                            android:layout_marginEnd="0dp"
                             android:layout_marginStart="0dp"
+                            android:layout_marginEnd="0dp"
                             android:contentDescription="TODO"
                             app:srcCompat="@android:color/darker_gray" />
 
@@ -269,15 +278,15 @@
                             android:id="@+id/money_price"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
                             android:background="@android:color/transparent"
                             android:ems="10"
                             android:hint="0.00"
                             android:inputType="textPersonName"
                             android:numeric="integer|signed|decimal"
-                            android:paddingEnd="8dp"
                             android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             android:textColorHint="@android:color/darker_gray" />
 
                         <ImageView
@@ -316,22 +325,22 @@
                             android:id="@+id/amount_pay"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
                             android:background="@android:color/transparent"
                             android:ems="10"
                             android:hint="0.00"
                             android:inputType="textPersonName"
-                            android:paddingEnd="8dp"
                             android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
                             android:textColorHint="@android:color/darker_gray" />
 
                         <ImageView
                             android:id="@+id/imageView16"
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
-                            android:layout_marginEnd="0dp"
                             android:layout_marginStart="0dp"
+                            android:layout_marginEnd="0dp"
                             android:contentDescription="TODO"
                             app:srcCompat="@android:color/darker_gray" />
 
@@ -345,4 +354,4 @@
     </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

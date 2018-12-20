@@ -60,6 +60,7 @@
         <activity android:name=".Add.Add"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_add"
+            android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".filterpif"

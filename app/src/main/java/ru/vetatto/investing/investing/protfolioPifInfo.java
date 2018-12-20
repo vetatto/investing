@@ -105,7 +105,7 @@ public class protfolioPifInfo extends AppCompatActivity {
         setContentView(R.layout.activity_protfolio_pif_info);
         mShimmerViewContainer =(ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmer(); // If auto-start is set to false
-        mShimmerViewContainer.
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();

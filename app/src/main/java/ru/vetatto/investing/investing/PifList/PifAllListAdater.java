@@ -73,18 +73,18 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
                     context.startActivity(intent);
                 }
             });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+          /*  holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                  /*  CardView catCard = v.findViewById(R.id.card_pif_list_item);
+                   CardView catCard = v.findViewById(R.id.card_pif_list_item);
                     CardView.LayoutParams layoutParams = (CardView.LayoutParams)
                             catCard.getLayoutParams();
                     layoutParams.setMarginStart(64);
-                    catCard.setLayoutParams(layoutParams);*/
+                    catCard.setLayoutParams(layoutParams);
                     Log.d("TEST_LONG", "LONG");
                     return true;
                 }
-            });
+            });*/
         }
     }
     @Override

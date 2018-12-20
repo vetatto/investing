@@ -1,17 +1,27 @@
 package ru.vetatto.investing.investing;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Shader;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieEntry;
@@ -21,12 +31,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.model.Axis;
@@ -76,16 +88,29 @@ public class protfolioPifInfo extends AppCompatActivity {
     List<PointValue> values = new ArrayList<PointValue>();
     List<AxisValue> axisValues = new ArrayList<AxisValue>();
     TextView my_sum_pif,procent_m;
-    
+    //SkeletonScreen skeletonScreen;
+    public static final String TYPE_VIEW = "VIEW";
+
+    private ShimmerFrameLayout mShimmerViewContainer;
+
+   /* public static void start(Context context, String type) {
+        Intent intent = new Intent(context, protfolioPifInfo.class);
+        intent.putExtra(PARAMS_TYPE, type);
+        context.startActivity(intent);*/
+   // }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_protfolio_pif_info);
+        mShimmerViewContainer =(ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer.startShimmer(); // If auto-start is set to false
+        mShimmerViewContainer.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeButtonEnabled(true);
+       actionbar.setDisplayHomeAsUpEnabled(true);
+       actionbar.setHomeButtonEnabled(true);
         final CollapsingToolbarLayout mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbar.setTitle(" ");
         toolbar.setTitle(" ");
@@ -93,7 +118,10 @@ public class protfolioPifInfo extends AppCompatActivity {
         my_sum_pif = (TextView) findViewById(R.id.my_sum_pif);
         procent_m = (TextView) findViewById(R.id.procent);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
+
+
+    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -103,13 +131,23 @@ public class protfolioPifInfo extends AppCompatActivity {
         dialog.setMessage("Загружаем данные...");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
-        dialog.show();
+       // dialog.show();
         String api_token = getIntent().getStringExtra("token");
         int id = getIntent().getIntExtra("idPif", 0);
         PifTitle = getIntent().getStringExtra("name");
-        //TextView infoTitle = (TextView) findViewById(R.id.textView22);
-        //infoTitle.setText("Информация "+PifTitle);
+        TextView infoTitle = (TextView) findViewById(R.id.title_pif);
+        infoTitle.setText(PifTitle);
         //toolbar.setTitle(PifTitle);
+        String mType = getIntent().getStringExtra("view");
+        final View rootView = findViewById(R.id.rootView);
+        /*if (TYPE_VIEW.equals(mType)) {
+            skeletonScreen = Skeleton.bind(rootView)
+                    .load(R.layout.pifinfo_scelet)
+                    .duration(1000)
+                    .color(R.color.shimmer_color)
+                    .angle(0)
+                    .show();
+        }*/
 
         example = new Get();//Делаем запрос к серверу
        //Log.d("TEST", "/get_portfolio_instrument/"+id);
@@ -189,6 +227,12 @@ public class protfolioPifInfo extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            mShimmerViewContainer.stopShimmer();
+                            mShimmerViewContainer.setVisibility(View.INVISIBLE);
+                            AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar2);
+                            appbar.setVisibility(View.VISIBLE);
+                            RelativeLayout content_pif_info = (RelativeLayout) findViewById(R.id.container_portfoli_pif_info);
+                            content_pif_info.setVisibility(View.VISIBLE);
                             chart = (LineChartView) findViewById(R.id.chart_line);
                             Line line = new Line(values).setColor(R.color.colorPlus).setCubic(true);
                             List<Line> lines = new ArrayList<Line>();
@@ -222,13 +266,13 @@ public class protfolioPifInfo extends AppCompatActivity {
                              my_sum_pif.setText(f.format(Math.round(day_investing)));
                              float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
                              procent_m.setText(String.format("%.2f",(proc_rasch)));
-                            dialog.dismiss();
+
                             //pifinfo_view.setVisibility(View.VISIBLE);
                         }
                     });
 
                 } else {
-                    dialog.dismiss();
+                   // dialog.dismiss();
                 }
             }
         });
@@ -236,6 +280,19 @@ public class protfolioPifInfo extends AppCompatActivity {
 
 
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmer();
+    }
+
+    @Override
+    protected void onPause() {
+        mShimmerViewContainer.startShimmer();
+        super.onPause();
     }
 
     @Override

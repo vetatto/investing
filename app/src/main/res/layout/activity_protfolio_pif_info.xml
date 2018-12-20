@@ -2,11 +2,32 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:fitsSystemWindows="true"
+    android:tag="content_pif"
     tools:context=".protfolioPifInfo">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <!-- Adding 7 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/data_placeholder_layout" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar2"
@@ -16,6 +37,7 @@
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="invisible"
         app:expanded="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -66,10 +88,13 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView45"
+                        android:id="@+id/title_pif"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:layout_marginStart="64dp"
+                        android:layout_marginTop="16dp"
+                        android:text="TextView"
+                        android:textSize="18sp" />
 
                     <TableLayout
                         android:layout_width="match_parent"
@@ -219,3 +244,5 @@
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </android.support.design.widget.CoordinatorLayout>
+
+

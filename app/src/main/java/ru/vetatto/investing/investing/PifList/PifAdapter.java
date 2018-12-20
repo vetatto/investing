@@ -85,7 +85,8 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                 intent.putExtra("idPif", phone.getPifId());
                 intent.putExtra("token", phone.getApiToken());
                 intent.putExtra("name", phone.getukTitle() + " - " + phone.getPifTitle());
-                context.startActivity(intent);
+                intent.putExtra("view","VIEW");
+                              context.startActivity(intent);
             }
         });
     }

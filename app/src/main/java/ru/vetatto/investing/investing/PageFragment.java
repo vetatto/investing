@@ -157,6 +157,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void portfolio_info(){
         context=this.getContext();
         recyclerView = view.findViewById(R.id.RV1);
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         portfolio_main = view.findViewById(R.id.portfolio_main);
         load_portfolio = view.findViewById(R.id.load_portfolio);
@@ -171,6 +172,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         phones.clear();
         adapter = new PifAdapter(context, phones);
         recyclerView.setAdapter(adapter);
+
+
         //money_sum = getActivity().findViewById(R.id.sum_money);
        // plus = getActivity().findViewById(R.id.plus);
         hide();

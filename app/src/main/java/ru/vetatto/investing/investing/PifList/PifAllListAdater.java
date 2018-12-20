@@ -38,86 +38,55 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
         return new ViewHolder(view);
     }
 
-    @Override
+
     public void onBindViewHolder(PifAllListAdater.ViewHolder holder, int position) {
         float procent_pif, procent_izm;
 
         final PifAllListData phone = allPif.get(position);
-        Log.d("TEST","Type:"+divider_check);
+        Log.d("TEST", "Type:" + divider_check);
 
         NumberFormat f = NumberFormat.getInstance();
-        if (phone.getTypeInstrument() == 1){
-            if(divider_check==phone.getTypeInstrument()) {
-               // holder.divider.setVisibility(View.GONE);
-               // holder.spider.setVisibility(View.GONE);
-            }
-            else{
-               // holder.divider.setVisibility(View.VISIBLE);
-              //  holder.spider.setVisibility(View.VISIBLE);
-                divider_check=phone.getTypeInstrument();
+        if (phone.getTypeInstrument() == 1) {
+            if (divider_check == phone.getTypeInstrument()) {
+                // holder.divider.setVisibility(View.GONE);
+                // holder.spider.setVisibility(View.GONE);
+            } else {
+                // holder.divider.setVisibility(View.VISIBLE);
+                //  holder.spider.setVisibility(View.VISIBLE);
+                divider_check = phone.getTypeInstrument();
                 //holder.divider.setText("Паевые фонды");
 
             }
             holder.datePif.setText(phone.getDate());
-        holder.nameView.setText(phone.getPifTitle());
-       // holder.cat_name.setText(phone.getPifNameCat());
-        holder.ukTitle.setText(phone.getukTitle());
-        holder.pay_price.setText(phone.getPifPayPrice() + " \u20BD");
-            try {
-                float change_y = Float.valueOf(phone.getPifChangeY());
-                if (change_y >= 0) {
-                  //  holder.change_m.setTextColor(Color.parseColor("#FF99CC00"));
-                  //  holder.change_m.setText(String.valueOf("+" + String.format("%.2f", change_y) + "%/год"));
-                } else {
-                 //   holder.change_m.setTextColor(Color.parseColor("#ffff4444"));
-                  //  holder.change_m.setText(String.valueOf(String.format("%.2f", change_y) + "%/год"));
+            holder.nameView.setText(phone.getPifTitle());
+            holder.ukTitle.setText(phone.getukTitle());
+            holder.pay_price.setText(phone.getPifPayPrice() + " \u20BD");
+
+            final Context context = holder.itemView.getContext();
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, protfolioPifInfo.class);
+                    intent.putExtra("idPif", phone.getPifId());
+                    intent.putExtra("token", phone.getApiToken());
+                    intent.putExtra("name", phone.getukTitle() + " - " + phone.getPifTitle());
+                    context.startActivity(intent);
                 }
-            }
-            catch(NumberFormatException e) {
-                //holder.procent.setTextColor(Color.parseColor("#FF99CC00"));
-              //  holder.change_m.setText("нет данных");
-            }
-        final Context context = holder.itemView.getContext();
-            holder.itemView.setLongClickable(true);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, protfolioPifInfo.class);
-                intent.putExtra("idPif", phone.getPifId());
-                intent.putExtra("token", phone.getApiToken());
-                intent.putExtra("name", phone.getukTitle() + " - " + phone.getPifTitle());
-                context.startActivity(intent);
-            }
-        });
+            });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    CardView catCard = v.findViewById(R.id.card_pif_list_item);
+                  /*  CardView catCard = v.findViewById(R.id.card_pif_list_item);
                     CardView.LayoutParams layoutParams = (CardView.LayoutParams)
                             catCard.getLayoutParams();
                     layoutParams.setMarginStart(64);
-                    catCard.setLayoutParams(layoutParams);
-                    Log.d("TEST_LONG","LONG");
+                    catCard.setLayoutParams(layoutParams);*/
+                    Log.d("TEST_LONG", "LONG");
                     return true;
                 }
             });
-    }
-    else if(phone.getTypeInstrument() == 2){
-            if(divider_check==phone.getTypeInstrument()) {
-               // holder.divider.setVisibility(View.GONE);
-                //holder.spider.setVisibility(View.GONE);
-                divider_check=phone.getTypeInstrument();
-            }
-            else{
-               // holder.divider.setVisibility(View.VISIBLE);
-                //holder.spider.setVisibility(View.VISIBLE);
-                //holder.divider.setText("Денежные средства");
-                divider_check=phone.getTypeInstrument();
-
-            }
         }
     }
-
     @Override
     public int getItemCount() {
         return allPif.size();
@@ -150,27 +119,31 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-       //final ImageView spider;
-        final TextView nameView,/*change_m,*/ pay_price, ukTitle, companyView, all_procent, datePif, procent /*cat_name, sr_price, divider*/;
-        ViewHolder(View view) {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+        final TextView nameView,/*change_m,*/ pay_price, ukTitle, companyView, all_procent, datePif, procent;
+        public ViewHolder(View view) {
             super(view);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
 
-            //Typeface typeface = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Roboto-Light.ttf");
-          //  spider= (ImageView) view.findViewById(R.id.spider);
             pay_price  = (TextView) view.findViewById(R.id.pay_price);
             nameView = (TextView) view.findViewById(R.id.titlePortfolio);
-            //nameView.setTypeface(typeface);
             companyView = (TextView) view.findViewById(R.id.pay_price);
             ukTitle = (TextView) view.findViewById(R.id.textView6);
             all_procent = (TextView) view.findViewById(R.id.textView4);
             datePif = (TextView) view.findViewById(R.id.amount);
            procent= (TextView) view.findViewById(R.id.izm_day);
-            //cat_name= (TextView) view.findViewById(R.id.name_cat_pif);
-          //  change_m=(TextView) view.findViewById(R.id.change_m);
-           // sr_price=(TextView) view.findViewById(R.id.textView13);
-           // divider = (TextView) view.findViewById(R.id.divider);
-           // companyView.setTypeface(typeface)
         }
+
+        @Override
+        public void onClick(View view) {
+
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            Log.d("TEST_LONG","LONG");
+            return true;
+        }
+    }
     }

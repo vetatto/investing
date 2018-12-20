@@ -2,11 +2,13 @@ package ru.vetatto.investing.investing.PifList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -76,6 +78,7 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
               //  holder.change_m.setText("нет данных");
             }
         final Context context = holder.itemView.getContext();
+            holder.itemView.setLongClickable(true);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +89,18 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
                 context.startActivity(intent);
             }
         });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    CardView catCard = v.findViewById(R.id.card_pif_list_item);
+                    CardView.LayoutParams layoutParams = (CardView.LayoutParams)
+                            catCard.getLayoutParams();
+                    layoutParams.setMarginStart(64);
+                    catCard.setLayoutParams(layoutParams);
+                    Log.d("TEST_LONG","LONG");
+                    return true;
+                }
+            });
     }
     else if(phone.getTypeInstrument() == 2){
             if(divider_check==phone.getTypeInstrument()) {

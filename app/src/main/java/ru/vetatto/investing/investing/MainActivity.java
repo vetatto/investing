@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(context,Add.class);
                 context.startActivity(intent);
             }
@@ -167,8 +166,13 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
         }
         if( id == R.id.nav_gallery){
+
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("API_TOKEN", api_token);
+            editor.commit();
             Intent intent = new Intent(context, SMSRead.class);
             context.startActivity(intent);
+
         }
         else if(id == R.id.nav_logout){
             SharedPreferences.Editor editor = sp.edit();

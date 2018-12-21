@@ -58,7 +58,7 @@ public class SMSRead extends Activity {
                                     Log.d("TEST_SMS", matcher.group(1).toString());
                                     Log.d("TEST_SMS", matcher.group(2).toString());
                                     Log.d("TEST_SMS", matcher.group(3).toString());
-                                    phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")),"Обработано"));
+                                    phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")),"Обработано. Покупка "+matcher.group(2).toString()+" паев"));
                                 }
                             }
                             if(cur.getString(2).equals("SberbankAM")) {

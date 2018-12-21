@@ -46,7 +46,7 @@ import ru.vetatto.investing.investing.protfolioPifInfo;
             final SMSData phone = phones.get(position);
                 holder.fromSMS.setText(phone.getSMSFrom());
                 holder.titleSMS.setText(phone.getSMSTitle());
-
+                holder.infoOperationSMS.setText(phone.getSMSinfoOperation());
             }
 
 
@@ -57,13 +57,14 @@ import ru.vetatto.investing.investing.protfolioPifInfo;
 
         public class ViewHolder extends RecyclerView.ViewHolder{
             //  final ImageView spider;
-            TextView fromSMS,titleSMS;
+            TextView fromSMS,titleSMS,infoOperationSMS;
 
             ViewHolder(View view) {
                 super(view);
 
                 titleSMS = (TextView) view.findViewById(R.id.titleSMS);
                 fromSMS = (TextView) view.findViewById(R.id.fromSMS);
+                infoOperationSMS = (TextView) view.findViewById(R.id.info_operation);
 
             }
         }

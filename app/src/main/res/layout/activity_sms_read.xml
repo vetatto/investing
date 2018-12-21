@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_add_pay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:addStatesFromChildren="false"
+        android:background="@color/colorPlus"
+        android:fitsSystemWindows="false"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp"
+        app:expanded="false">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_add_pif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPlus"
+            android:elevation="0dp"
+            android:paddingTop="16dp"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sms_recycles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f7f7f7"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -130,12 +130,13 @@ public class SMSRead extends Activity {
                                                     break;
                                                 }
                                             }
+                                        }
                                             if (!operation_searched) {
                                                 phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")), "Операция не найдена"));
                                             }
                                         }
                                     }
-                                }
+
 
                                 if (cur.getString(2).equals("SberbankAM")) {
                                     Pattern pattern = Pattern.compile("в фонде\\s([А-я]*[\\s]{0,1}[А-я]*)\\sсовершена\\sоперация\\sпокупки\\s([0-9]+[\\.]+[0-9]*)\\sпаев\\sна\\sсумму\\s([0-9\\s]*[\\.]+[0-9]{2})");
@@ -145,7 +146,7 @@ public class SMSRead extends Activity {
                                           for (List<String> value : operation_get_arrya.values()) {
                                               if (value.get(3).equals("1029")) {
                                                   Log.d("TEST_SMS", "1029:" + value.get(3));
-                                                  Date date = new Date(cur.getLong(cur.getColumnIndexOrThrow("date")) - 24 * 3600 * 1000l);
+                                                  Date date = new Date(cur.getLong(cur.getColumnIndexOrThrow("date")));
                                                   SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd");
                                                   String java_date = jdf.format(date);
                                                   Log.d("TEST_SMS", java_date + ":" + value.get(0));
@@ -154,9 +155,8 @@ public class SMSRead extends Activity {
                                                       phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Обработано. Покупка " + matcher.group(2).toString() + " паев"));
                                                       operation_searched = true;
                                                       break;
-                                                  }
-                                                  else if(matcher.group(2).toString().equals(value.get(1))){
-                                                      phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Операция не обработана. Найдена похожая покупка " + matcher.group(2).toString() + " от "+value.get(0)));
+                                                  } else if (matcher.group(2).toString().equals(value.get(1))) {
+                                                      phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Операция не обработана. Найдена похожая покупка " + matcher.group(2).toString() + " от " + value.get(0)));
                                                       operation_searched = true;
                                                       break;
                                                   }

@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
     implementation 'com.github.lecho:hellocharts-library:1.5.8'
     implementation 'com.facebook.shimmer:shimmer:0.3.0'
+    implementation 'io.github.tonnyl:whatsnew:0.1.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

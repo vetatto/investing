@@ -28,6 +28,8 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import java.io.IOException;
 
+import io.github.tonnyl.whatsnew.WhatsNew;
+import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
         context = this;
+
+        WhatsNew.newInstance(
+                new WhatsNewItem("0.0.1", "Обработка СМС УК Арсагера, УК Сбербанк-АМ")
+        ).presentAutomatically(MainActivity.this);
       /*  MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3909765981983100/6253573812");*/

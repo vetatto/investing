@@ -34,14 +34,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.PointValue;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.HTTP.Get;
-import ru.vetatto.investing.investing.PifList.PifAdapter;
-import ru.vetatto.investing.investing.PifList.PifData;
+
 import ru.vetatto.investing.investing.R;
 
 public class SMSRead extends Activity {

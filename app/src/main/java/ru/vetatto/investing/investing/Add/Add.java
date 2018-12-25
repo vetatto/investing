@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,6 +109,16 @@ public class Add extends AppCompatActivity {
         money_price=(EditText) findViewById(R.id.money_price);
         amount_pay=(EditText) findViewById(R.id.amount_pay);
 
+      ////Обработка сохранения операции с паями
+        Button button_save = findViewById(R.id.button2);
+
+    ////{"message":"add",
+        //"date":"2018-12-25",
+        //"id_instrument":244,
+        //"amount":"86.16232",
+        //"price":"58.03",
+        //"sum_invest":"1000"
+        //}////
         final RadioGroup radioGroup = findViewById(R.id.radio_add);
            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -130,41 +141,6 @@ public class Add extends AppCompatActivity {
             }
 
         });
-/*
-     //Обработка ввода суммы инвестиций
-        money_price.addTextChangedListener(new TextWatcher(){
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(money_price.isFocused()) {
-
-                    if(money_price.getText().toString().isEmpty()){
-                        amounts_pay=0;
-                    }
-                    else{
-                        amounts_pay = Float.valueOf(amount_pay.getText().toString());
-                    }
-
-                    if ((pay_price.getText().toString().isEmpty() | money_price.getText().toString().isEmpty())) {
-                        amount_pay.setText("0.00");
-                    } else {
-                        float moneys_price;
-                        moneys_price = Float.valueOf(money_price.getText().toString());
-                        float price;
-                        price = Float.valueOf(pay_price.getText().toString());
-                        amount_pay.setText(String.valueOf(moneys_price / price));
-                    }
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });*/
 
         //Обработка ввода суммы паев
         amount_pay.addTextChangedListener(new TextWatcher(){
@@ -354,4 +330,6 @@ public class Add extends AppCompatActivity {
         ll.setVisibility(View.VISIBLE);
         load.setVisibility(View.INVISIBLE);
     }
+
+
 }

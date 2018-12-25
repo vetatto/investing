@@ -219,6 +219,7 @@
                                 android:numeric="integer|signed|decimal"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
+                                android:text="0"
                                 android:textColorHint="@android:color/darker_gray"
                                 android:textSize="18sp" />
 
@@ -313,11 +314,11 @@
                                 android:layout_marginEnd="8dp"
                                 android:background="@android:color/transparent"
                                 android:ems="10"
-                                android:hint="0.00"
                                 android:inputType="numberDecimal"
                                 android:numeric="integer|signed|decimal"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
+                                android:text="0"
                                 android:textColorHint="@android:color/darker_gray" />
 
                             <ImageView
@@ -364,6 +365,7 @@
                                 android:inputType="numberDecimal"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
+                                android:text="0"
                                 android:textColorHint="@android:color/darker_gray" />
 
                             <ImageView

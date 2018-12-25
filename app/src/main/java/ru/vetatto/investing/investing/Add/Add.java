@@ -247,6 +247,8 @@ public class Add extends AppCompatActivity {
                 date_pay.setText(adapterPif.getItem(pos).getEndDate().toString());
                 TextView textView18 = findViewById(R.id.textView18);
                 radioGroup.setVisibility(View.VISIBLE);
+                RadioButton radio_button_sum = findViewById(R.id.radio_summ);
+                radio_button_sum.setChecked(true);
                 textView18.setVisibility(View.VISIBLE);
                 CardView investinfo = findViewById(R.id.invest_info);
                 investinfo.setVisibility(View.VISIBLE);

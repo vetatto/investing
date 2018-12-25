@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +67,9 @@ public class Add extends AppCompatActivity {
     ArrayList<UkAutocompleteData> ukList = new ArrayList<UkAutocompleteData>();
     ArrayList<PifAutocompleteData> PifList = new ArrayList<PifAutocompleteData>();
     boolean sumPayInput = false;
+    float amounts_pay,price_pay;
     JSONArray pif;
+    boolean first_pay,first_money;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,11 +108,42 @@ public class Add extends AppCompatActivity {
         money_price=(EditText) findViewById(R.id.money_price);
         amount_pay=(EditText) findViewById(R.id.amount_pay);
 
+        final RadioGroup radioGroup = findViewById(R.id.radio_add);
+           radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d("chk", "id" + checkedId);
+
+                if (checkedId == R.id.radio_pay) {
+                    money_price.setEnabled(false);
+                    amount_pay.setEnabled(true);
+                    amount_pay.requestFocus();
+                    //some code
+                } else if (checkedId == R.id.radio_summ) {
+                    money_price.setEnabled(true);
+                    amount_pay.setEnabled(false);
+                    money_price.requestFocus();
+                    //some code
+                }
+
+            }
+
+        });
+/*
      //Обработка ввода суммы инвестиций
         money_price.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable s) {
                 if(money_price.isFocused()) {
+
+                    if(money_price.getText().toString().isEmpty()){
+                        amounts_pay=0;
+                    }
+                    else{
+                        amounts_pay = Float.valueOf(amount_pay.getText().toString());
+                    }
+
                     if ((pay_price.getText().toString().isEmpty() | money_price.getText().toString().isEmpty())) {
                         amount_pay.setText("0.00");
                     } else {
@@ -128,21 +164,59 @@ public class Add extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-        });
+        });*/
 
         //Обработка ввода суммы паев
         amount_pay.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable s) {
                 if (amount_pay.isFocused()) {
-                    if ((pay_price.getText().toString().isEmpty())) {
-                        money_price.setText("0.00");
-                    } else {
+                    //Если кол-во паев меньше 0 то пишем 0
+                    if(amount_pay.getText().toString().isEmpty()){
+                        amounts_pay=0;
+                    }
+                    else{
+                        amounts_pay = Float.valueOf(amount_pay.getText().toString());
+                    }
+                    //Если стоимость пая указана, но сумма инвестирования не указана
+                    if ((!pay_price.getText().toString().isEmpty()) && (money_price.getText().toString().isEmpty())) {
+                        first_pay=true; // Первым указали стоимость пая
+                        float price;
+                        if (amounts_pay < 0 && amount_pay.getText().toString().isEmpty()) {
+                          money_price.setText("0.00");
+                        }
+                        else{
+                            price = Float.valueOf(money_price.getText().toString());
+                            money_price.setText(String.valueOf(price*amounts_pay));
+                        }
+                    }
+                    //Если указана сумма инвестирования, но не указана стоимость пая
+                    else if (!money_price.getText().toString().isEmpty() && (pay_price.getText().toString().isEmpty())) {
+                        float price;
                         float amounts_pay;
                         amounts_pay = Float.valueOf(amount_pay.getText().toString());
-                        float price;
-                        price = Float.valueOf(pay_price.getText().toString());
-                        money_price.setText(String.valueOf(amounts_pay/price));
+                        if (amounts_pay < 0 && amount_pay.getText().toString().isEmpty()) {
+                            pay_price.setText("0.00");
+                        }
+                        else{
+                            price = Float.valueOf(money_price.getText().toString());
+                            pay_price.setText(String.valueOf(price / amounts_pay));
+                        }
+                    }
+
+                    //Если указана и стоимость пая и сумма инвестирования
+                    else if(!money_price.getText().toString().isEmpty() && !pay_price.getText().toString().isEmpty()){
+                       //Если первым указали стоимость пая
+                        if(first_pay){
+                            float price;
+                            price = Float.valueOf(pay_price.getText().toString());
+                            money_price.setText(String.valueOf(price*amounts_pay));
+                        }
+                        else{
+                            float price;
+                            price = Float.valueOf(money_price.getText().toString());
+                            pay_price.setText(String.valueOf(price/amounts_pay));
+                        }
                     }
                 }
             }
@@ -171,6 +245,11 @@ public class Add extends AppCompatActivity {
                 hr_pif.setVisibility(View.VISIBLE);
                 pay_price.setText(adapterPif.getItem(pos).getPay().toString());
                 date_pay.setText(adapterPif.getItem(pos).getEndDate().toString());
+                TextView textView18 = findViewById(R.id.textView18);
+                radioGroup.setVisibility(View.VISIBLE);
+                textView18.setVisibility(View.VISIBLE);
+                CardView investinfo = findViewById(R.id.invest_info);
+                investinfo.setVisibility(View.VISIBLE);
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {

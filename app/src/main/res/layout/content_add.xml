@@ -109,16 +109,19 @@
                         android:paddingEnd="8dp"
                         android:paddingBottom="8dp"
                         android:theme="@style/SpinnerStyle" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/invest_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="1dp"
                 android:elevation="0dp"
                 android:paddingBottom="8dp"
+                android:visibility="visible"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -135,6 +138,44 @@
                         android:text="@string/investing_info"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="0dp"
+                        app:srcCompat="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Указать"
+                        android:visibility="visible" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_add"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible">
+
+                        <RadioButton
+                            android:id="@+id/radio_summ"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="Сумму инвестирования" />
+
+                        <RadioButton
+                            android:id="@+id/radio_pay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Количество паев" />
+                    </RadioGroup>
 
                     <ImageView
                         android:id="@+id/imageView4"
@@ -341,6 +382,135 @@
 
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:id="@+id/comission_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:elevation="0dp"
+                android:paddingBottom="8dp"
+                android:visibility="visible"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/label_title_comission_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Информация о комиссиях"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Указать"
+                        android:visibility="visible" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_add_comission"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible">
+
+                        <RadioButton
+                            android:id="@+id/radio_procent_comission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="% от суммы" />
+
+                        <RadioButton
+                            android:id="@+id/radio_sum_comission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Сумма" />
+                    </RadioGroup>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/label_title_procent_comission"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:text="% комиссии"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/edit_procent_comission"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="@android:color/transparent"
+                                android:ems="10"
+                                android:hint="0.00"
+                                android:inputType="numberDecimal"
+                                android:numeric="integer|signed|decimal"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:textColorHint="@android:color/darker_gray" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/label_title_sum_comission"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/amount_pay"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/edit_sum_comission"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="@android:color/transparent"
+                                android:ems="10"
+                                android:hint="0.00"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:textColorHint="@android:color/darker_gray" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
             <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
@@ -352,6 +522,7 @@
                 android:layout_marginBottom="96dp"
                 android:layout_toEndOf="@+id/load_add_pif"
                 android:background="@color/colorPlus"
+                android:editable="false"
                 android:text="Сохранить"
                 android:textColor="#FFFFFF" />
 

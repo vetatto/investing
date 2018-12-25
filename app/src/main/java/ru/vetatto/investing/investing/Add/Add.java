@@ -111,7 +111,7 @@ public class Add extends AppCompatActivity {
 
       ////Обработка сохранения операции с паями
         Button button_save = findViewById(R.id.button2);
-
+//URL:/add_pif_operation
     ////{"message":"add",
         //"date":"2018-12-25",
         //"id_instrument":244,

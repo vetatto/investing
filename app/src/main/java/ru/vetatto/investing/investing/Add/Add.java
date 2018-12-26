@@ -2,6 +2,7 @@ package ru.vetatto.investing.investing.Add;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.StringPrepParseException;
 import android.preference.PreferenceManager;
@@ -42,6 +43,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.FirstFragment;
 import ru.vetatto.investing.investing.HTTP.Get;
+import ru.vetatto.investing.investing.HTTP.Put;
+import ru.vetatto.investing.investing.MainActivity;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteAdapter;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteData;
 import ru.vetatto.investing.investing.R;
@@ -55,9 +58,9 @@ public class Add extends AppCompatActivity {
     LinearLayout ll;
     AutoCompleteTextView nameTV;
     ProgressBar load;
-    EditText pay_price, money_price,amount_pay;
+    EditText pay_price, money_price,amount_pay,edit_procent_comission,edit_sum_comission;
 
-    int pageNumber;
+    int pageNumber, pif_id;
     Context context;
     float sum_money;
     float sum_invest;
@@ -70,6 +73,7 @@ public class Add extends AppCompatActivity {
     boolean sumPayInput = false;
     float amounts_pay,price_pay;
     JSONArray pif;
+    JSONObject date_pif = new JSONObject();
     boolean first_pay,first_money;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +112,72 @@ public class Add extends AppCompatActivity {
         namePif.setAdapter(adapterPif);
         money_price=(EditText) findViewById(R.id.money_price);
         amount_pay=(EditText) findViewById(R.id.amount_pay);
-
+        edit_procent_comission=(EditText) findViewById(R.id.edit_procent_comission);
+        edit_sum_comission=(EditText) findViewById(R.id.edit_sum_comission);
       ////Обработка сохранения операции с паями
         Button button_save = findViewById(R.id.button2);
+        // создаем обработчик нажатия
+        View.OnClickListener oclBtnOk = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Put example = new Put();
+                try {
+                    String pprice=pay_price.getText().toString();
+                    String pamount=amount_pay.getText().toString();
+                    String sinvest=money_price.getText().toString();
+                    String cprocent=edit_procent_comission.getText().toString();
+                    String csum = edit_sum_comission.getText().toString();
+                    String doperation=date_pay.getText().toString();
+                    date_pif.put("message", "add");
+                    date_pif.put("idPif", pif_id);
+                    date_pif.put("payPrice", pprice);
+                    date_pif.put("payAmount", pamount);
+                    date_pif.put("sumInvest", sinvest);
+                    date_pif.put("date", doperation);
+                    date_pif.put("comission_procent", cprocent);
+                    date_pif.put("comission_sum", csum);
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                example.put("/add_pay_pif", api_token, date_pif, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (response.isSuccessful()) {
+                            String responseStr = response.body().string();
+                            Log.d("TESTE", responseStr);
+                            try {
+                                JSONObject dataJsonObj = new JSONObject(responseStr);
+                                JSONObject data = dataJsonObj.getJSONObject("data");
+                                String api_token = data.getString("api_token");
+                                Log.d("TESTE", "API_TOKEN: " + api_token);
+
+
+                                if (!api_token.isEmpty()) {
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    context.startActivity(intent);
+                                    finish();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        } else {
+                            Log.d("TESTE", response.toString());
+                        }
+                    }
+                });
+
+            }
+        };
+        // присвоим обработчик кнопке OK (btnOk)
+        button_save.setOnClickListener(oclBtnOk);
+
 //URL:/add_pif_operation
     ////{"message":"add",
         //"date":"2018-12-25",
@@ -228,6 +295,7 @@ public class Add extends AppCompatActivity {
                 textView18.setVisibility(View.VISIBLE);
                 CardView investinfo = findViewById(R.id.invest_info);
                 investinfo.setVisibility(View.VISIBLE);
+                pif_id=adapterPif.getItem(pos).getId();
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {

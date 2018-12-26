@@ -16,13 +16,13 @@ public class Put {
 
     public Call put(String url, String token, JSONObject json, Callback callback) {
         String jsonString = json.toString();
-        RequestBody body = RequestBody.create(MediaType.get("JSON"),jsonString);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonString);
         Request request = new Request.Builder()
                 .header("Accept", "application/json")
                 .addHeader("Content-Type","application/json")
                 .addHeader("Authorization", "Bearer "+token)
                 .url("http://hobbyhome44.ru:8080/api"+url)
-                .post(body)
+                .put(body)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);

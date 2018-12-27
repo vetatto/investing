@@ -26,12 +26,14 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieEntry;
 
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,13 +43,22 @@ import java.util.List;
 
 
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.ViewportChangeListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.LineChartView;
+import lecho.lib.hellocharts.view.PreviewColumnChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -89,9 +100,18 @@ public class protfolioPifInfo extends AppCompatActivity {
     List<AxisValue> axisValues = new ArrayList<AxisValue>();
     TextView my_sum_pif,procent_m;
     //SkeletonScreen skeletonScreen;
+    int day_per = 0, day_end=0, month=0, year=0;
+    String  day_per_s, day_end_s, pay_per_s,pay_end_s;
+    ArrayList average_marge = new ArrayList();
+    float average;
     public static final String TYPE_VIEW = "VIEW";
-
     private ShimmerFrameLayout mShimmerViewContainer;
+    private ColumnChartView Columnchart;
+    private PreviewColumnChartView previewChart;
+    private ColumnChartData Columndata;
+    private ColumnChartData previewData;
+    List<Column> columns = new ArrayList<Column>();
+    List<SubcolumnValue> Columnvalues;
 
    /* public static void start(Context context, String type) {
         Intent intent = new Intent(context, protfolioPifInfo.class);
@@ -114,14 +134,16 @@ public class protfolioPifInfo extends AppCompatActivity {
         final CollapsingToolbarLayout mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbar.setTitle(" ");
         toolbar.setTitle(" ");
+        Columnchart = (ColumnChartView) findViewById(R.id.Columnchart);
+        previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
+
+
+
+
         f=NumberFormat.getInstance();
         my_sum_pif = (TextView) findViewById(R.id.my_sum_pif);
         procent_m = (TextView) findViewById(R.id.procent);
-
-
-
-
-    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -171,23 +193,91 @@ public class protfolioPifInfo extends AppCompatActivity {
                         JSONObject dataJsonObj = new JSONObject(responseStr);
                         day_investing= Integer.valueOf(dataJsonObj.getString("day_investing"));
                         JSONArray friends = dataJsonObj.getJSONArray("data");
+                        int z=1;
                         for (int i = 0; i < friends.length(); i++) {
-                                JSONObject dataJsonObj2 = friends.getJSONObject(i);
-                                String date = dataJsonObj2.getString("date");
-                                String pay = dataJsonObj2.getString("pay");
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-                                Date dates = sdf.parse(date);
-                                entries.add(new Entry(dates.getTime(), Float.valueOf(pay)));
+                            Columnvalues = new ArrayList<SubcolumnValue>();
+                            JSONObject dataJsonObj2 = friends.getJSONObject(i);
+                            String date = dataJsonObj2.getString("date");
+                            String pay = dataJsonObj2.getString("pay");
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+                            Date dates = sdf.parse(date);
+                            entries.add(new Entry(dates.getTime(), Float.valueOf(pay)));
                             values.add(new PointValue(dates.getTime(), Float.valueOf(pay)));
                             AxisValue axisValue = new AxisValue(dates.getTime());
                             axisValue.setLabel(date);
                             axisValues.add(axisValue);
-                          /*  values.add(new PointValue(1, 4));
-                            values.add(new PointValue(2, 3));
-                            values.add(new PointValue(3, 4));*/
-
                             labels.add(date);
+                            String[] subStr = date.split("-");
+
+                            if (i == 0) {
+                                day_per = Integer.valueOf(subStr[2]);
+                                day_per_s=date;
+                                day_end = Integer.valueOf(subStr[2]);
+                                month = Integer.valueOf(subStr[1]);
+                                year = Integer.valueOf(subStr[0]);
+                                pay_per_s=pay;
+                                pay_end_s=pay;
+
+                             //   Log.d("TEST_DATE", "Первый день месяца " + date);
                             }
+                            ///В районе одного года
+                            if (year == Integer.valueOf(subStr[0])) {
+                                //в районе одного месяца
+                                if (month == Integer.valueOf(subStr[1])) {
+                                    if (day_end <= Integer.valueOf(subStr[2])) {
+                                        day_end = Integer.valueOf(subStr[2]);
+                                        day_end_s=date;;
+                                        pay_end_s=pay;
+                                    }
+                                }
+                                //месяц сменился
+                                if (month < Integer.valueOf(subStr[1])) {
+                                    //Log.d("TEST_DATE","Первый день "+day_per_s+" стоимость "+pay_per_s);
+                                   // Log.d("TEST_DATE","Последний день "+day_end_s+" стоимость "+pay_end_s);
+                                    float procent = (Float.valueOf(pay_end_s)-Float.valueOf(pay_per_s))/(Float.valueOf(pay_per_s)/100);
+                                    Log.d("TEST_DATE",  z+".доход за "+day_end_s+" "+String.valueOf(procent));
+                                    Columnvalues.add(new SubcolumnValue(procent, ChartUtils.pickColor()));
+                                    columns.add(new Column(Columnvalues));
+                                    z=z+1;
+                                    average_marge.add(procent);
+                                    day_per_s=date;
+                                    day_end_s=date;
+                                    pay_per_s=pay;
+                                    pay_end_s=pay;
+                                    day_per = Integer.valueOf(subStr[2]);
+                                    day_end = Integer.valueOf(subStr[2]);
+                                    month = Integer.valueOf(subStr[1]);
+
+
+                                }
+                            }
+                            //Год сменился
+                          if(year < Integer.valueOf(subStr[0])){
+                              //Log.d("TEST_DATE","Первый день "+day_per_s+" стоимость"+pay_per_s);
+                              //Log.d("TEST_DATE","Последний день "+day_end_s+" стоимость"+pay_end_s);
+                              float procent = (Float.valueOf(pay_end_s)-Float.valueOf(pay_per_s))/(Float.valueOf(pay_per_s)/100);
+                              Log.d("TEST_DATE", z+".доход за "+day_end_s+" "+String.valueOf(procent));
+                              Columnvalues.add(new SubcolumnValue(procent, ChartUtils.pickColor()));
+                              columns.add(new Column(Columnvalues));
+                              z=z+1;
+                              average_marge.add(procent);
+                              day_per = Integer.valueOf(subStr[2]);
+                              day_per_s=date;
+                              pay_per_s=pay;
+                              pay_end_s=pay;
+                              day_end = Integer.valueOf(subStr[2]);
+                              month = Integer.valueOf(subStr[1]);
+                              year = Integer.valueOf(subStr[0]);
+                          }
+                        }
+
+                        for (int i = 0; i < average_marge.size(); i++) {
+                            average = average + Float.valueOf(average_marge.get(i).toString());
+                        }
+                        Log.d("TEST_DATE", "Сумма доходностей "+average);
+                        Log.d("TEST_DATE", "Периодов "+average_marge.size());
+                        Log.d("TEST_DATE", "Средняя месячная доходность фонда за весь период "+average/average_marge.size());
+
                         //// ДАнные пифа
                         JSONObject pifinfo = dataJsonObj.getJSONObject("operation");
                        // for (int i = 0; i < pifinfo.length(); i++) {
@@ -210,10 +300,10 @@ public class protfolioPifInfo extends AppCompatActivity {
                                 JSONObject dataJsonObj3 = pifinfo2.getJSONObject(d);
                                 float pif_price = Float.valueOf(dataJsonObj3.getString("pif_price"));
                                 float pif_amount =  Float.valueOf(dataJsonObj3.getString("amount"));*/
-                                entriesPie.add(new PieEntry(pif_price*pif_amount, "Инвестиции")); //revenue1
-                                if((end_price*pif_amount-pif_price*pif_amount)>0){
-                                    entriesPie.add(new PieEntry((end_price*pif_amount-pif_price*pif_amount), "Доход")); //revenue1
-                                }
+                                //entriesPie.add(new PieEntry(pif_price*pif_amount, "Инвестиции")); //revenue1
+                                //if((end_price*pif_amount-pif_price*pif_amount)>0){
+                                //    entriesPie.add(new PieEntry((end_price*pif_amount-pif_price*pif_amount), "Доход")); //revenue1
+                               // }
                                 Log.d("TEST",String.valueOf(pifinfo));
                            // }
 
@@ -267,7 +357,18 @@ public class protfolioPifInfo extends AppCompatActivity {
                              float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
                              procent_m.setText(String.format("%.2f",(proc_rasch)));
 
-                            //pifinfo_view.setVisibility(View.VISIBLE);
+                            generateDefaultData();
+
+                            Columnchart.setColumnChartData(Columndata);
+                            // Disable zoom/scroll for previewed chart, visible chart ranges depends on preview chart viewport so
+                            // zoom/scroll is unnecessary.
+                            Columnchart.setZoomEnabled(false);
+                            Columnchart.setScrollEnabled(false);
+
+                            previewChart.setColumnChartData(previewData);
+                            previewChart.setViewportChangeListener(new ViewportListener());
+
+                            previewX(false);
                         }
                     });
 
@@ -281,8 +382,64 @@ public class protfolioPifInfo extends AppCompatActivity {
 
 
     }
+    private void generateDefaultData() {
+        int numSubcolumns = 1;
+        int numColumns = 50;
 
+        Columndata = new ColumnChartData(columns);
+        Columndata.setAxisXBottom(new Axis());
+        Columndata.setAxisYLeft(new Axis().setHasLines(true));
 
+        // prepare preview data, is better to use separate deep copy for preview chart.
+        // set color to grey to make preview area more visible.
+        previewData = new ColumnChartData(Columndata);
+        for (Column column : previewData.getColumns()) {
+            for (SubcolumnValue value : column.getValues()) {
+                value.setColor(ChartUtils.DEFAULT_DARKEN_COLOR);
+            }
+        }
+
+    }
+
+    private void previewY() {
+        Viewport tempViewport = new Viewport(Columnchart.getMaximumViewport());
+        float dy = tempViewport.height() / 4;
+        tempViewport.inset(0, dy);
+        previewChart.setCurrentViewportWithAnimation(tempViewport);
+        previewChart.setZoomType(ZoomType.VERTICAL);
+    }
+
+    private void previewX(boolean animate) {
+        Viewport tempViewport = new Viewport(Columnchart.getMaximumViewport());
+        float dx = tempViewport.width() / 4;
+        tempViewport.inset(dx, 0);
+        if (animate) {
+            previewChart.setCurrentViewportWithAnimation(tempViewport);
+        } else {
+            previewChart.setCurrentViewport(tempViewport);
+        }
+        previewChart.setZoomType(ZoomType.HORIZONTAL);
+    }
+
+    private void previewXY() {
+        // Better to not modify viewport of any chart directly so create a copy.
+        Viewport tempViewport = new Viewport(Columnchart.getMaximumViewport());
+        // Make temp viewport smaller.
+        float dx = tempViewport.width() / 4;
+        float dy = tempViewport.height() / 4;
+        tempViewport.inset(dx, dy);
+        previewChart.setCurrentViewportWithAnimation(tempViewport);
+    }
+    private class ViewportListener implements ViewportChangeListener {
+
+        @Override
+        public void onViewportChanged(Viewport newViewport) {
+            // don't use animation, it is unnecessary when using preview chart because usually viewport changes
+            // happens to often.
+            Columnchart.setCurrentViewport(newViewport);
+        }
+
+    }
     @Override
     public void onResume() {
         super.onResume();

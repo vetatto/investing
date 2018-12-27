@@ -38,6 +38,8 @@ dependencies {
     implementation 'com.github.lecho:hellocharts-library:1.5.8'
     implementation 'com.facebook.shimmer:shimmer:0.3.0'
     implementation 'io.github.tonnyl:whatsnew:0.1.1'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

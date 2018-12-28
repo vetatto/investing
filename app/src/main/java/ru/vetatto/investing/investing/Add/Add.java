@@ -49,6 +49,8 @@ import ru.vetatto.investing.investing.PifList.PifAutocompleteAdapter;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteData;
 import ru.vetatto.investing.investing.R;
 
+import static android.os.SystemClock.sleep;
+
 public class Add extends AppCompatActivity {
 
     View view;
@@ -134,7 +136,7 @@ public class Add extends AppCompatActivity {
                     date_pif.put("payAmount", pamount);
                     date_pif.put("sumInvest", sinvest);
                     date_pif.put("date", doperation);
-                    date_pif.put("comission_procent", cprocent);
+                    date_pif.put("comissionProcent", cprocent);
                     date_pif.put("comission_sum", csum);
 
                 } catch (JSONException e) {
@@ -153,14 +155,21 @@ public class Add extends AppCompatActivity {
                             Log.d("TESTE", responseStr);
                             try {
                                 JSONObject dataJsonObj = new JSONObject(responseStr);
-                                JSONObject data = dataJsonObj.getJSONObject("data");
-                                String api_token = data.getString("api_token");
+                                String message =dataJsonObj.getString("message");
                                 Log.d("TESTE", "API_TOKEN: " + api_token);
+                                if(message.equals("OK")){
+                                    runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+
+                                            Toast.makeText(context,
+                                                    "Операция успешно добавлена", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
 
-                                if (!api_token.isEmpty()) {
-                                    Intent intent = new Intent(context, MainActivity.class);
-                                    context.startActivity(intent);
+
                                     finish();
                                 }
                             } catch (JSONException e) {

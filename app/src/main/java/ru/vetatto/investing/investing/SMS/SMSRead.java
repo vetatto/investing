@@ -60,7 +60,7 @@ public class SMSRead extends Activity {
         String api_token = prefs.getString("API_TOKEN", null);
         ukFromSMS.add("Arsagera");
         ukFromSMS.add("SberbankAM");
-
+        ukFromSMS.add("Sberbank AM");
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
         if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
             Uri uriSMSURI = Uri.parse("content://sms/inbox");
@@ -113,56 +113,71 @@ public class SMSRead extends Activity {
                                 if (cur.getString(2).equals("Arsagera")) {
                                     Pattern pattern = Pattern.compile("Vydany pai fonda\\s([A-z]*-[A-z]*)\\sv\\skolichestve\\s([0-9]+[\\.]+[0-9]*)\\W\\sraschetnaya\\sstoimost\\spaya\\s([0-9]+[\\.]+[0-9]*)");
                                     Matcher matcher = pattern.matcher(cur.getString(cur.getColumnIndexOrThrow("body")));
-                                    while (matcher.find()) {
-                                        boolean operation_searched=false;
-                                        // Log.d("TEST_SMS", matcher.group(1).toString());
-                                        // Log.d("TEST_SMS", matcher.group(2).toString());
-                                        //  Log.d("TEST_SMS", matcher.group(3).toString());
-                                        Log.d("TEST_SMS", "Value: " + operation_get_arrya.toString());
-                                        for (List<String> value : operation_get_arrya.values()) {
-                                            if (value.get(3).equals("123")) {
-                                                if (value.get(1).equals(matcher.group(2).toString()) & value.get(2).equals(matcher.group(3).toString())) {
-                                                    phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")), "Обработано. Покупка " + matcher.group(2).toString() + " паев"));
-                                                    operation_searched = true;
-                                                    break;
+                                    int count_matcher=0;
+                                        while (matcher.find()) {
+                                            count_matcher++;
+                                            boolean operation_searched = false;
+                                            // Log.d("TEST_SMS", matcher.group(1).toString());
+                                            // Log.d("TEST_SMS", matcher.group(2).toString());
+                                            //  Log.d("TEST_SMS", matcher.group(3).toString());
+                                            //Log.d("TEST_SMS", "Value: " + operation_get_arrya.toString());
+                                            for (List<String> value : operation_get_arrya.values()) {
+                                                if (value.get(3).equals("123")) {
+                                                    if (value.get(1).equals(matcher.group(2).toString()) & value.get(2).equals(matcher.group(3).toString())) {
+                                                        phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")), "Обработано. Покупка " + matcher.group(2).toString() + " паев"));
+                                                        operation_searched = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
-                                        }
                                             if (!operation_searched) {
                                                 phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")), "Операция не найдена"));
                                             }
                                         }
+                             if(count_matcher==0) {
+                                 phones.add(new SMSData("УК Арсагера", cur.getString(cur.getColumnIndexOrThrow("body")), "Формат не распознан"));
+                             }
+                                    }
+
+                                Date date2 = new Date(cur.getLong(cur.getColumnIndexOrThrow("date")));
+                                SimpleDateFormat jdf2 = new SimpleDateFormat("yyyy-MM-dd");
+                                String java_date2 = jdf2.format(date2);
+                                Log.d("TEST_SMS", java_date2 +" от "+cur.getString(2));
+
+                                if (cur.getString(2).equals("SberbankAM") || cur.getString(2).equals("Sberbank AM")) {
+                                    int count_matcher=0;
+                                    Pattern pattern = Pattern.compile("в фонде\\s([А-я]*[\\s]{0,1}[А-я]*)\\sсовершена\\sоперация\\sпокупки\\s([0-9]+[\\.]+[0-9]*)\\sпаев\\sна\\sсумму\\s([0-9\\s]*[\\.]+[0-9]{2})");
+                                    Matcher matcher = pattern.matcher(cur.getString(cur.getColumnIndexOrThrow("body")));
+                                        while (matcher.find()) {
+                                            count_matcher++;
+                                            boolean operation_searched = false;
+                                            for (List<String> value : operation_get_arrya.values()) {
+                                                if (value.get(3).equals("1029")) {
+                                                    //Log.d("TEST_SMS", "1029:" + value.get(3));
+                                                    Date date = new Date(cur.getLong(cur.getColumnIndexOrThrow("date")));
+                                                    SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd");
+                                                    String java_date = jdf.format(date);
+                                                    //Log.d("TEST_SMS", java_date + ":" + value.get(0));
+                                                    //Log.d("TEST_SMS", matcher.group(2).toString() + ":" + value.get(1));
+                                                    if (value.get(0).equals(java_date) & matcher.group(2).toString().equals(value.get(1))) {
+                                                        phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Обработано. Покупка " + matcher.group(2).toString() + " паев"));
+                                                        operation_searched = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+
+                                            if(!operation_searched){
+                                                phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Операцию необходимо добавить"));
+                                            }
+                                        }
+
+                                    if(count_matcher<1) {
+                                        phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Формат не распознан"));
                                     }
 
 
-                                if (cur.getString(2).equals("SberbankAM")) {
-                                    Pattern pattern = Pattern.compile("в фонде\\s([А-я]*[\\s]{0,1}[А-я]*)\\sсовершена\\sоперация\\sпокупки\\s([0-9]+[\\.]+[0-9]*)\\sпаев\\sна\\sсумму\\s([0-9\\s]*[\\.]+[0-9]{2})");
-                                    Matcher matcher = pattern.matcher(cur.getString(cur.getColumnIndexOrThrow("body")));
-                                    while (matcher.find()) {
-                                        boolean operation_searched=false;
-                                          for (List<String> value : operation_get_arrya.values()) {
-                                              if (value.get(3).equals("1029")) {
-                                                  Log.d("TEST_SMS", "1029:" + value.get(3));
-                                                  Date date = new Date(cur.getLong(cur.getColumnIndexOrThrow("date")));
-                                                  SimpleDateFormat jdf = new SimpleDateFormat("yyyy-MM-dd");
-                                                  String java_date = jdf.format(date);
-                                                  Log.d("TEST_SMS", java_date + ":" + value.get(0));
-                                                  Log.d("TEST_SMS", matcher.group(2).toString() + ":" + value.get(1));
-                                                  if (value.get(0).equals(java_date) & matcher.group(2).toString().equals(value.get(1))) {
-                                                      phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Обработано. Покупка " + matcher.group(2).toString() + " паев"));
-                                                      operation_searched = true;
-                                                      break;
-                                                  } else if (matcher.group(2).toString().equals(value.get(1))) {
-                                                      phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Операция не обработана. Найдена похожая покупка " + matcher.group(2).toString() + " от " + value.get(0)));
-                                                      operation_searched = true;
-                                                      break;
-                                                  }
-                                              }
-                                          }
-                                            if (!operation_searched) {
-                                                phones.add(new SMSData("УК Сбербанк АМ", cur.getString(cur.getColumnIndexOrThrow("body")), "Операция не найдена"));
-                                            }
-                                        }
                                     }
                                 }
                             }

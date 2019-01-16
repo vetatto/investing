@@ -43,7 +43,6 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="sans-serif-light"
                     android:text="Доходность фонда"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

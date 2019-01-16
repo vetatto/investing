@@ -148,45 +148,6 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <lecho.lib.hellocharts.view.ColumnChartView
-                    android:id="@+id/Columnchart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></lecho.lib.hellocharts.view.ColumnChartView>
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@android:color/darker_gray"
-                    tools:layout_editor_absoluteX="5dp"
-                    tools:layout_editor_absoluteY="5dp" />
-
-                <lecho.lib.hellocharts.view.PreviewColumnChartView
-                    android:id="@+id/chart_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    app:layout_constraintTop_toTopOf="@+id/view"
-                    tools:layout_editor_absoluteX="5dp"></lecho.lib.hellocharts.view.PreviewColumnChartView>
-
-
-            </LinearLayout>
-
-
-
 
         </LinearLayout>
 

@@ -18,10 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieEntry;
@@ -98,6 +100,7 @@ public class protfolioPifInfo extends AppCompatActivity {
     private boolean hasGradientToTransparent = false;
     List<PointValue> values = new ArrayList<PointValue>();
     List<AxisValue> axisValues = new ArrayList<AxisValue>();
+    List<AxisValue> axisValuesC = new ArrayList<AxisValue>();
     TextView my_sum_pif,procent_m;
     //SkeletonScreen skeletonScreen;
     int day_per = 0, day_end=0, month=0, year=0;
@@ -134,8 +137,8 @@ public class protfolioPifInfo extends AppCompatActivity {
         final CollapsingToolbarLayout mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbar.setTitle(" ");
         toolbar.setTitle(" ");
-        Columnchart = (ColumnChartView) findViewById(R.id.Columnchart);
-        previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
+        //Columnchart = (ColumnChartView) findViewById(R.id.Columnchart);
+      //  previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
 
 
 
@@ -202,11 +205,14 @@ public class protfolioPifInfo extends AppCompatActivity {
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
                             Date dates = sdf.parse(date);
                             entries.add(new Entry(dates.getTime(), Float.valueOf(pay)));
-                            values.add(new PointValue(dates.getTime(), Float.valueOf(pay)));
+                            PointValue point = new PointValue(dates.getTime(), Float.valueOf(pay));
+                            point.setLabel(date+" "+Float.valueOf(pay)+"руб.");
+                            values.add(point);
                             AxisValue axisValue = new AxisValue(dates.getTime());
                             axisValue.setLabel(date);
                             axisValues.add(axisValue);
-                            labels.add(date);
+/*
+                           // labels.add(date);
                             String[] subStr = date.split("-");
 
                             if (i == 0) {
@@ -217,6 +223,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                                 year = Integer.valueOf(subStr[0]);
                                 pay_per_s=pay;
                                 pay_end_s=pay;
+
 
                              //   Log.d("TEST_DATE", "Первый день месяца " + date);
                             }
@@ -237,7 +244,6 @@ public class protfolioPifInfo extends AppCompatActivity {
                                     float procent = (Float.valueOf(pay_end_s)-Float.valueOf(pay_per_s))/(Float.valueOf(pay_per_s)/100);
                                     Log.d("TEST_DATE",  z+".доход за "+day_end_s+" "+String.valueOf(procent));
                                     Columnvalues.add(new SubcolumnValue(procent, ChartUtils.pickColor()));
-                                    columns.add(new Column(Columnvalues));
                                     z=z+1;
                                     average_marge.add(procent);
                                     day_per_s=date;
@@ -268,7 +274,7 @@ public class protfolioPifInfo extends AppCompatActivity {
                               day_end = Integer.valueOf(subStr[2]);
                               month = Integer.valueOf(subStr[1]);
                               year = Integer.valueOf(subStr[0]);
-                          }
+                          }*/
                         }
 
                         for (int i = 0; i < average_marge.size(); i++) {
@@ -328,6 +334,10 @@ public class protfolioPifInfo extends AppCompatActivity {
                             List<Line> lines = new ArrayList<Line>();
                             line.setHasPoints(false);
                             line.setStrokeWidth(2);
+                            line.setHasPoints(true);
+                            line.setPointRadius(2);
+                            line.setHasLabels(true);
+                            line.setHasLabelsOnlyForSelected(true);
                             lines.add(line);
                             LineChartData data = new LineChartData();
                             data.setLines(lines);
@@ -342,11 +352,12 @@ public class protfolioPifInfo extends AppCompatActivity {
                             data.setAxisYLeft(axisY);
                             data.setAxisXBottom(axisX);
                             LineChartView chart = (LineChartView) findViewById(R.id.chart_line);
-
+                            chart.setValueSelectionEnabled(true);
                             chart.setContainerScrollEnabled(true, ContainerScrollType.VERTICAL);
                             data.setBaseValue(Float.NEGATIVE_INFINITY);
                             chart.setLineChartData(data);
-                            chart.setViewportCalculationEnabled(false);
+                            chart.setViewportCalculationEnabled(true);
+
                             TextView change_m_text =  (TextView) findViewById(R.id.textView24);
                             change_m_text.setText(String.format("%.2f",change_m)+" %");
                             TextView change_3m_text =  (TextView) findViewById(R.id.textView26);
@@ -357,18 +368,18 @@ public class protfolioPifInfo extends AppCompatActivity {
                              float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
                              procent_m.setText(String.format("%.2f",(proc_rasch)));
 
-                            generateDefaultData();
+
+                            /*generateDefaultData();
 
                             Columnchart.setColumnChartData(Columndata);
                             // Disable zoom/scroll for previewed chart, visible chart ranges depends on preview chart viewport so
                             // zoom/scroll is unnecessary.
                             Columnchart.setZoomEnabled(false);
                             Columnchart.setScrollEnabled(false);
-
                             previewChart.setColumnChartData(previewData);
                             previewChart.setViewportChangeListener(new ViewportListener());
 
-                            previewX(false);
+                            previewX(false);*/
                         }
                     });
 
@@ -386,12 +397,10 @@ public class protfolioPifInfo extends AppCompatActivity {
         int numSubcolumns = 1;
         int numColumns = 50;
 
-        Columndata = new ColumnChartData(columns);
-        Columndata.setAxisXBottom(new Axis());
-        Columndata.setAxisYLeft(new Axis().setHasLines(true));
 
-        // prepare preview data, is better to use separate deep copy for preview chart.
-        // set color to grey to make preview area more visible.
+        Columndata = new ColumnChartData(columns);
+
+        Columndata.setAxisXBottom(new Axis());
         previewData = new ColumnChartData(Columndata);
         for (Column column : previewData.getColumns()) {
             for (SubcolumnValue value : column.getValues()) {

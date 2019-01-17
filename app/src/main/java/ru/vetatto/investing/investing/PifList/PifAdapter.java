@@ -18,7 +18,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import ru.vetatto.investing.investing.R;
-import ru.vetatto.investing.investing.protfolioPifInfo;
+import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
 
 import static java.lang.Math.round;
 

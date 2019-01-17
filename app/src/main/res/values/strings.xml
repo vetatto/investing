@@ -129,4 +129,7 @@
     <string name="null_amount" />
     <string name="you_capital">Ваш капитал</string>
     <string name="investing">Инвестированно</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

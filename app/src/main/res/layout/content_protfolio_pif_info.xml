@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:visibility="invisible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".protfolioPifInfo"
+    tools:context=".PifInfo.protfolioPifInfo"
     tools:showIn="@layout/activity_protfolio_pif_info">
 
     <android.support.v4.widget.NestedScrollView
@@ -146,6 +146,13 @@
                     android:layout_margin="8dp"></lecho.lib.hellocharts.view.LineChartView>
 
             </android.support.constraint.ConstraintLayout>
+
+            <fragment
+                android:id="@+id/fragment2"
+                android:name="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"/>
 
 
         </LinearLayout>

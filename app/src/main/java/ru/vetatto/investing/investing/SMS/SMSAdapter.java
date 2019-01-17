@@ -20,7 +20,7 @@ import java.util.List;
 import ru.vetatto.investing.investing.PifList.PifAdapter;
 import ru.vetatto.investing.investing.PifList.PifData;
 import ru.vetatto.investing.investing.R;
-import ru.vetatto.investing.investing.protfolioPifInfo;
+import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
 
     public class SMSAdapter extends RecyclerView.Adapter<SMSAdapter.ViewHolder>   {
         private LayoutInflater inflater;

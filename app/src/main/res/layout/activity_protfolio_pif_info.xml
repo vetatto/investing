@@ -8,7 +8,7 @@
     android:background="@android:color/transparent"
     android:fitsSystemWindows="true"
     android:tag="content_pif"
-    tools:context=".protfolioPifInfo">
+    tools:context=".PifInfo.protfolioPifInfo">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"

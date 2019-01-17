@@ -1,41 +1,30 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.PifInfo;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Shader;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieEntry;
 
-import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,8 +54,9 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.HTTP.Get;
+import ru.vetatto.investing.investing.R;
 
-public class protfolioPifInfo extends AppCompatActivity {
+public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperationFragment.OnFragmentInteractionListener {
     List<Entry> entries;
     ArrayList<PieEntry> entriesPie = new ArrayList<PieEntry>();
     ArrayList<String> labels;
@@ -196,6 +186,8 @@ public class protfolioPifInfo extends AppCompatActivity {
                         JSONObject dataJsonObj = new JSONObject(responseStr);
                         day_investing= Integer.valueOf(dataJsonObj.getString("day_investing"));
                         JSONArray friends = dataJsonObj.getJSONArray("data");
+                        JSONArray operations = dataJsonObj.getJSONArray("operations");
+
                         int z=1;
                         for (int i = 0; i < friends.length(); i++) {
                             Columnvalues = new ArrayList<SubcolumnValue>();
@@ -439,6 +431,12 @@ public class protfolioPifInfo extends AppCompatActivity {
         tempViewport.inset(dx, dy);
         previewChart.setCurrentViewportWithAnimation(tempViewport);
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     private class ViewportListener implements ViewportChangeListener {
 
         @Override

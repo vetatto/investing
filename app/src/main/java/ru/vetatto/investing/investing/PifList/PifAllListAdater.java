@@ -2,13 +2,11 @@ package ru.vetatto.investing.investing.PifList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.vetatto.investing.investing.R;
-import ru.vetatto.investing.investing.protfolioPifInfo;
+import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
 
 public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.ViewHolder>   {
     private static boolean infilter=false;

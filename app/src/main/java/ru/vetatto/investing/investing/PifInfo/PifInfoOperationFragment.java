@@ -80,7 +80,7 @@ public class PifInfoOperationFragment extends Fragment {
             JSONObject dataJsonObj;
             dataJsonObj = new JSONObject(phones2);
             dataJsonArray= dataJsonObj.getJSONArray("operations");
-            Log.d("TEST_FRAGMENT","LENGHT:"+String.valueOf(dataJsonArray.length()));
+            Log.d("TEST_FRAGMENT",dataJsonArray.toString());
             for (int i = 0; i < dataJsonArray.length(); i++) {
                 phones.add(new PifOperationData("", "test", 234, 123, "33", 123, 123,"Test", "123",123, 1, "text", 123));
             }

@@ -149,10 +149,9 @@
 
             <fragment
                 android:id="@+id/fragment2"
-                android:name="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"
+                class="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                class="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"/>
+                android:layout_height="300dp" />
 
 
         </LinearLayout>

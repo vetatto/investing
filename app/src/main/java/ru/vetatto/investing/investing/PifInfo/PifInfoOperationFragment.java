@@ -3,16 +3,25 @@ package ru.vetatto.investing.investing.PifInfo;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import ru.vetatto.investing.investing.PifList.PifAdapter;
+import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
+import ru.vetatto.investing.investing.PifList.PifData;
 import ru.vetatto.investing.investing.R;
 
 
@@ -29,62 +38,75 @@ public class PifInfoOperationFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    JSONArray mStr;
-
+    String word;
+    View view;
+    String phones2;
+    PifOperationAdapter adapter;
     private OnFragmentInteractionListener mListener;
 
-
+    ArrayList<PifOperationData> phones = new ArrayList();
     public PifInfoOperationFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PifInfoOperationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PifInfoOperationFragment newInstance(String param1, String param2) {
+    public static PifInfoOperationFragment newInstance(String param1) {
         PifInfoOperationFragment fragment = new PifInfoOperationFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString("array", param1);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public void setJson(JSONArray str){
-        mStr = str;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("TEST_FRAGMENT", "onCreate");
+        if (getArguments() != null) {
+            phones2 = getArguments().getString("array");
+            mParam2 = getArguments().getString(ARG_PARAM2);
+            Log.d("TEST_FRAGMENT",phones2);
+        try {
+            JSONArray dataJsonArray;
+            JSONObject dataJsonObj;
+            dataJsonObj = new JSONObject(phones2);
+            dataJsonArray= dataJsonObj.getJSONArray("operations");
+            Log.d("TEST_FRAGMENT","LENGHT:"+String.valueOf(dataJsonArray.length()));
+            for (int i = 0; i < dataJsonArray.length(); i++) {
+                phones.add(new PifOperationData("", "test", 234, 123, "33", 123, 123,"Test", "123",123, 1, "text", 123));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("TEST_FRAGMENT",e.getMessage());
+        }
+        }
+        else{
+            Log.d("TEST_FRAGMENT","NULL");
+        }
+
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_pif_info_operation,
+      view = inflater.inflate(R.layout.fragment_pif_info_operation,
                 container, false);
-        Context context = this.getContext();
-        RecyclerView recyclerView = view.findViewById(R.id.RVOperation);
-
-        Log.d("TEST_FRAGMENT",mStr.toString());
-
-        return inflater.inflate(R.layout.fragment_pif_info_operation, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RVOperation);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter = new PifOperationAdapter(this.getContext(),phones);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        TextView text = view.findViewById(R.id.textView20);
+        text.setText("test");
+        Log.d("TEST_FRAGMENT", "onCreateView");
+      //  Log.d("TEST_FRAGMENT", "PHONES:"+phones.toString());
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,6 +119,7 @@ public class PifInfoOperationFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("TEST_FRAGMENT", "onAttach");
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -124,5 +147,11 @@ public class PifInfoOperationFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void sayMeow(ArrayList<PifOperationData> phones2) {
+
+        Log.d("TEST_FRAGMENT", "function");
+        //adapter.notifyDataSetChanged();
     }
 }

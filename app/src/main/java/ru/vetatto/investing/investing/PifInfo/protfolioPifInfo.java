@@ -1,13 +1,16 @@
 package ru.vetatto.investing.investing.PifInfo;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -54,10 +57,13 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.HTTP.Get;
+import ru.vetatto.investing.investing.PifList.PifAdapter;
+import ru.vetatto.investing.investing.PifList.PifData;
 import ru.vetatto.investing.investing.R;
 
 public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperationFragment.OnFragmentInteractionListener {
     List<Entry> entries;
+    Context context;
     ArrayList<PieEntry> entriesPie = new ArrayList<PieEntry>();
     ArrayList<String> labels;
     String PifTitle;
@@ -71,23 +77,7 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
     ConstraintLayout pifinfo_view;
     private LineChartView chart;
     private LineChartData data;
-    private int numberOfLines = 1;
-    private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
-
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
-
-    private boolean hasAxes = true;
-    private boolean hasAxesNames = true;
-    private boolean hasLines = true;
-    private boolean hasPoints = true;
-    private ValueShape shape = ValueShape.CIRCLE;
-    private boolean isFilled = false;
-    private boolean hasLabels = false;
-    private boolean isCubic = false;
-    private boolean hasLabelForSelected = false;
-    private boolean pointsHaveDifferentColor;
-    private boolean hasGradientToTransparent = false;
+    public JSONArray JsonArrayOperation;
     List<PointValue> values = new ArrayList<PointValue>();
     List<AxisValue> axisValues = new ArrayList<AxisValue>();
     List<AxisValue> axisValuesC = new ArrayList<AxisValue>();
@@ -105,7 +95,9 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
     private ColumnChartData previewData;
     List<Column> columns = new ArrayList<Column>();
     List<SubcolumnValue> Columnvalues;
-
+    public ArrayList<PifOperationData> phones = new ArrayList();
+    JSONObject dataJsonObj;
+    String responseStr;
    /* public static void start(Context context, String type) {
         Intent intent = new Intent(context, protfolioPifInfo.class);
         intent.putExtra(PARAMS_TYPE, type);
@@ -118,7 +110,7 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
         setContentView(R.layout.activity_protfolio_pif_info);
         mShimmerViewContainer =(ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer.startShimmer(); // If auto-start is set to false
-
+        context =this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -129,8 +121,6 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
         toolbar.setTitle(" ");
         //Columnchart = (ColumnChartView) findViewById(R.id.Columnchart);
       //  previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
-
-
 
 
         f=NumberFormat.getInstance();
@@ -176,18 +166,16 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
             public void onResponse(okhttp3.Call call, Response response) throws IOException {
                 call_link=call;
                 if (response.isSuccessful()) {
-                    String responseStr = response.body().string();
+                    responseStr = response.body().string();
                     Log.d("TEST_PIF",responseStr);
                     entries = new ArrayList<Entry>();
                     labels = new ArrayList<String>();
                     try {
 
                         ///Данные графика
-                        JSONObject dataJsonObj = new JSONObject(responseStr);
+                        dataJsonObj = new JSONObject(responseStr);
                         day_investing= Integer.valueOf(dataJsonObj.getString("day_investing"));
                         JSONArray friends = dataJsonObj.getJSONArray("data");
-                        JSONArray operations = dataJsonObj.getJSONArray("operations");
-
                         int z=1;
                         for (int i = 0; i < friends.length(); i++) {
                             Columnvalues = new ArrayList<SubcolumnValue>();
@@ -203,6 +191,8 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
                             AxisValue axisValue = new AxisValue(dates.getTime());
                             axisValue.setLabel(date);
                             axisValues.add(axisValue);
+                            phones.add(new PifOperationData("", "test", 234, 123, "33", 123, 123,"Test", "123",123, 1, "text", 123));
+
 /*
                            // labels.add(date);
                             String[] subStr = date.split("-");
@@ -275,6 +265,12 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
                         Log.d("TEST_DATE", "Сумма доходностей "+average);
                         Log.d("TEST_DATE", "Периодов "+average_marge.size());
                         Log.d("TEST_DATE", "Средняя месячная доходность фонда за весь период "+average/average_marge.size());
+
+                        for (int i = 0; i < friends.length(); i++) {
+
+
+                        }
+
 
                         //// ДАнные пифа
                         JSONObject pifinfo = dataJsonObj.getJSONObject("operation");
@@ -359,8 +355,15 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
                              my_sum_pif.setText(f.format(Math.round(day_investing)));
                              float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
                              procent_m.setText(String.format("%.2f",(proc_rasch)));
+                           /* PifInfoOperationFragment catFragment = (PifInfoOperationFragment)
+                                    getSupportFragmentManager().findFragmentById(R.id.fragment2);*/
 
+                            PifInfoOperationFragment catFragment = PifInfoOperationFragment.newInstance(responseStr);
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.fragment2, catFragment);
+                            ft.commit();
 
+                            ;
                             /*generateDefaultData();
 
                             Columnchart.setColumnChartData(Columndata);
@@ -471,7 +474,6 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
             call_link.cancel();
         }
     }
-
 }
 
 

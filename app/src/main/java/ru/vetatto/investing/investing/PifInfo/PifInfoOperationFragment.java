@@ -82,11 +82,13 @@ public class PifInfoOperationFragment extends Fragment {
             dataJsonArray= dataJsonObj.getJSONArray("operations");
             Log.d("TEST_FRAGMENT",dataJsonArray.toString());
             for (int i = 0; i < dataJsonArray.length(); i++) {
-                phones.add(new PifOperationData("", "test", 234, 123, "33", 123, 123,"Test", "123",123, 1, "text", 123));
+                JSONObject dataJsonObj3 =  dataJsonArray.getJSONObject(i);
+                int type_operation = dataJsonObj3.getInt("type_operation");
+                phones.add(new PifOperationData( "test", "", 123, type_operation,"123", 123, 123,"Test", "123",123, 1, "text", 123));
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d("TEST_FRAGMENT",e.getMessage());
+            Log.d("TEST_FRAGMENT","ERROR:"+e.getMessage());
         }
         }
         else{

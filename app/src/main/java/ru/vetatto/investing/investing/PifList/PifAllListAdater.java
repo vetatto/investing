@@ -125,7 +125,7 @@ public class PifAllListAdater extends RecyclerView.Adapter<PifAllListAdater.View
             view.setOnLongClickListener(this);
 
             pay_price  = (TextView) view.findViewById(R.id.pay_price);
-            nameView = (TextView) view.findViewById(R.id.titlePortfolio);
+            nameView = (TextView) view.findViewById(R.id.typeOperation);
             companyView = (TextView) view.findViewById(R.id.pay_price);
             ukTitle = (TextView) view.findViewById(R.id.textView6);
             all_procent = (TextView) view.findViewById(R.id.textView4);

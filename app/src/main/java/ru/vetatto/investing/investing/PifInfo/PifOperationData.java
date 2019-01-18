@@ -8,7 +8,7 @@ import java.util.Locale;
 public class PifOperationData {
     String title;
     float sr_price;
-    float sum_amount;
+    float type_operation;
     float date_price;
     String sum_price;
     String ukTitle;
@@ -20,11 +20,11 @@ public class PifOperationData {
     int type_instrument;
     float sum_money;
 
-    public PifOperationData(String apiToken, String title, float date_price, float sum_amount, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
+    public PifOperationData(String apiToken, String title, float date_price, float type_operation, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
         this.title = title;
         this.sr_price = sr_price;
         this.date_price = date_price;
-        this.sum_amount = sum_amount;
+        this.type_operation = type_operation;
         this.sum_price = sum_price;
         this.pifId = pifId;
         this.ukTitle = ukTitle;
@@ -46,23 +46,11 @@ public class PifOperationData {
     public float getPifSrPrice(){
         return sr_price;
     }
-    public float getPifSumAmount(){ return sum_amount; }
+    public float getPifOperationType(){ return type_operation; }
     public float getPifDatePrice(){ return date_price; }
     public int getTypeInstrument(){ return type_instrument; }
     public int getPifId(){ return pifId; }
     public float getProcent() {return procent;}
     public float getSum_money() {return sum_money;}
-    public String getDate(){
-        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        SimpleDateFormat newDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-
-        Date dates = null;
-        try {
-            dates = oldDateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String result = newDateFormat.format(dates);
-        return result;}
     public String getukTitle(){ return ukTitle; }
 }

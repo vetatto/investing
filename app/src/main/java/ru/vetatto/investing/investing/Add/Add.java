@@ -1,13 +1,8 @@
 package ru.vetatto.investing.investing.Add;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.text.StringPrepParseException;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,15 +36,11 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import ru.vetatto.investing.investing.FirstFragment;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.HTTP.Put;
-import ru.vetatto.investing.investing.MainActivity;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteAdapter;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteData;
 import ru.vetatto.investing.investing.R;
-
-import static android.os.SystemClock.sleep;
 
 public class Add extends AppCompatActivity {
 

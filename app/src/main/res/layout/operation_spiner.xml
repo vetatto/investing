@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_pif_list_item"
+        android:id="@+id/card_operation_list_item"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
@@ -40,7 +40,8 @@
                     android:baselineAligned="false"
                     android:orientation="horizontal"
                     app:layout_constraintTop_toBottomOf="@+id/typeOperation"
-                    tools:layout_editor_absoluteX="8dp">
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:ignore="MissingConstraints">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -48,44 +49,24 @@
                         android:layout_weight="0.5">
 
                         <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-light"
-                            android:text="+0,65%"
-                            android:textSize="14sp"
-                            app:layout_constraintStart_toStartOf="@+id/izm_day"
-                            app:layout_constraintTop_toBottomOf="@+id/izm_day" />
-
-                        <TextView
                             android:id="@+id/amount_pay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:fontFamily="sans-serif-light"
                             android:text="За день"
-                            app:layout_constraintStart_toStartOf="@+id/pay_price"
-                            app:layout_constraintTop_toBottomOf="@+id/pay_price" />
+                            app:layout_constraintStart_toStartOf="@+id/pay_sum"
+                            app:layout_constraintTop_toBottomOf="@+id/pay_sum" />
 
                         <TextView
-                            android:id="@+id/textView37"
+                            android:id="@+id/pay_sum"
                             android:layout_width="wrap_content"
                             android:layout_height="19dp"
                             android:fontFamily="sans-serif-light"
                             android:text="Всего"
                             app:layout_constraintStart_toStartOf="@+id/amount_pay"
-                            app:layout_constraintTop_toBottomOf="@+id/amount_pay" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/izm_day"
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-light"
-                            android:text="TextView"
-                            android:textSize="14sp"
-                            app:layout_constraintStart_toEndOf="@+id/amount_pay"
-                            app:layout_constraintTop_toBottomOf="@+id/pay_price" />
                     </android.support.constraint.ConstraintLayout>
 
                     <android.support.constraint.ConstraintLayout
@@ -97,11 +78,11 @@
                             android:id="@+id/pay_price"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
-                            android:layout_marginTop="8dp"
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-thin"
                             android:text="6145"
                             android:textSize="24sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,7 +118,7 @@
                 <TextView
                     android:id="@+id/typeOperation"
                     android:layout_width="250dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
@@ -154,20 +135,4 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:adSize="BANNER"
-        app:adUnitId="@string/banner_portfolio"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/load_portfolio"></com.google.android.gms.ads.AdView>
 </LinearLayout>

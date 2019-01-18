@@ -147,7 +147,7 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <fragment
+            <FrameLayout
                 android:id="@+id/fragment2"
                 class="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"
                 android:layout_width="match_parent"

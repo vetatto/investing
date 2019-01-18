@@ -118,7 +118,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         ViewHolder(View view) {
             super(view);
            // spider= (ImageView) view.findViewById(R.id.spider);
-            nameView = (TextView) view.findViewById(R.id.titlePortfolio);
+            nameView = (TextView) view.findViewById(R.id.typeOperation);
             companyView = (TextView) view.findViewById(R.id.pay_price);
             ukTitle = (TextView) view.findViewById(R.id.textView6);
             all_procent = (TextView) view.findViewById(R.id.textView4);

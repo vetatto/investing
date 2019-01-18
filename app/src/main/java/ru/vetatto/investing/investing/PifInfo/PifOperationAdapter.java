@@ -48,6 +48,7 @@ public class PifOperationAdapter extends RecyclerView.Adapter<PifOperationAdapte
         else{
             holder.nameView.setText("Продажа");
         }
+        holder.amountPay.setText(String.valueOf(phone.getPifOperationAmountPay()+" шт."));
 
     }
 
@@ -59,9 +60,11 @@ public class PifOperationAdapter extends RecyclerView.Adapter<PifOperationAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
         //  final ImageView spider;
         final TextView nameView;
+        final TextView amountPay;
         ViewHolder(View view) {
             super(view);
             nameView = (TextView) view.findViewById(R.id.typeOperation);
+            amountPay=(TextView) view.findViewById(R.id.amount_pay);
         }
     }
 }

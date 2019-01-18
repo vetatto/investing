@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PifOperationData {
-    String title;
+    float amount_pay;
     float sr_price;
     float type_operation;
     float date_price;
@@ -20,8 +20,8 @@ public class PifOperationData {
     int type_instrument;
     float sum_money;
 
-    public PifOperationData(String apiToken, String title, float date_price, float type_operation, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
-        this.title = title;
+    public PifOperationData(float amount_pay, String title, float date_price, float type_operation, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
+        this.amount_pay = amount_pay;
         this.sr_price = sr_price;
         this.date_price = date_price;
         this.type_operation = type_operation;
@@ -36,21 +36,6 @@ public class PifOperationData {
         this.sum_money=sum_money;
     }
 
-    public String getApiToken(){return apiToken;}
-    public String getPifTitle(){
-        return title;
-    }
-    public String getPifNameCat(){
-        return nameCat;
-    }
-    public float getPifSrPrice(){
-        return sr_price;
-    }
     public float getPifOperationType(){ return type_operation; }
-    public float getPifDatePrice(){ return date_price; }
-    public int getTypeInstrument(){ return type_instrument; }
-    public int getPifId(){ return pifId; }
-    public float getProcent() {return procent;}
-    public float getSum_money() {return sum_money;}
-    public String getukTitle(){ return ukTitle; }
+    public float getPifOperationAmountPay(){ return amount_pay; }
 }

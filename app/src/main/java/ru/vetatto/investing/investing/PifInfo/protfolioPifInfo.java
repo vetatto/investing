@@ -191,7 +191,7 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
                             AxisValue axisValue = new AxisValue(dates.getTime());
                             axisValue.setLabel(date);
                             axisValues.add(axisValue);
-                            phones.add(new PifOperationData("", "test", 234, 123, "33", 123, 123,"Test", "123",123, 1, "text", 123));
+                            //phones.add(new PifOperationData("", "test", 234, 123, "33", 123, 123,"Test", "123",123, 1, "text", 123));
 
 /*
                            // labels.add(date);

@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 
@@ -121,6 +122,24 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
         toolbar.setTitle(" ");
         //Columnchart = (ColumnChartView) findViewById(R.id.Columnchart);
       //  previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
+
+
+        TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
+
+        tabHost.setup();
+
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("tag1");
+
+        tabSpec.setContent(R.id.tab1);
+        tabSpec.setIndicator("Информация");
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag2");
+        tabSpec.setContent(R.id.tab2);
+        tabSpec.setIndicator("Операции");
+        tabHost.addTab(tabSpec);
+
+        tabHost.setCurrentTab(0);
 
 
         f=NumberFormat.getInstance();

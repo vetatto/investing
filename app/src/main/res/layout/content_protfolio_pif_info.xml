@@ -11,151 +11,197 @@
     tools:context=".PifInfo.protfolioPifInfo"
     tools:showIn="@layout/activity_protfolio_pif_info">
 
-    <android.support.v4.widget.NestedScrollView
+    <TabHost
+        android:id="@+id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="0dp"
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingRight="0dp"
-        android:paddingBottom="0dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f7f7f7"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
+            <TabWidget
+                android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#FFFFFF"
-                android:elevation="0dp"
-                android:padding="0dp">
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Доходность фонда"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="за месяц"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
-                <TextView
-                    android:id="@+id/textView24"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="--"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView23"
-                    app:layout_constraintStart_toStartOf="@+id/textView23"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-                <TextView
-                    android:id="@+id/textView25"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="за 3 месяца"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView10"
-                    app:layout_constraintStart_toEndOf="@+id/textView23"
-                    app:layout_constraintTop_toTopOf="@+id/textView23" />
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="--"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView25"
-                    app:layout_constraintStart_toStartOf="@+id/textView25"
-                    app:layout_constraintTop_toTopOf="@+id/textView24" />
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="--"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView10"
-                    app:layout_constraintTop_toTopOf="@+id/textView26" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="за 1 год"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView25" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#FFFFFF"
-                android:elevation="0dp"
-                android:padding="5dp">
-
-                <lecho.lib.hellocharts.view.LineChartView
-                    android:id="@+id/chart_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"></lecho.lib.hellocharts.view.LineChartView>
-
-            </android.support.constraint.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:background="@color/colorPrimary" />
 
             <FrameLayout
-                android:id="@+id/fragment2"
-                class="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"
+                android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.v4.widget.NestedScrollView
+                        android:id="@+id/Info"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="0dp"
+                        android:paddingBottom="0dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#f7f7f7"
+                            android:orientation="vertical">
+
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:background="#FFFFFF"
+                                android:elevation="0dp"
+                                android:padding="0dp">
+
+                                <TextView
+                                    android:id="@+id/textView8"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="Доходность фонда"
+                                    android:textSize="18sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/textView23"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="за месяц"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+                                <TextView
+                                    android:id="@+id/textView24"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="--"
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="24sp"
+                                    app:layout_constraintEnd_toEndOf="@+id/textView23"
+                                    app:layout_constraintStart_toStartOf="@+id/textView23"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+                                <TextView
+                                    android:id="@+id/textView25"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="за 3 месяца"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/textView10"
+                                    app:layout_constraintStart_toEndOf="@+id/textView23"
+                                    app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+                                <TextView
+                                    android:id="@+id/textView26"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="--"
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="24sp"
+                                    app:layout_constraintEnd_toEndOf="@+id/textView25"
+                                    app:layout_constraintStart_toStartOf="@+id/textView25"
+                                    app:layout_constraintTop_toTopOf="@+id/textView24" />
+
+                                <TextView
+                                    android:id="@+id/textView9"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="--"
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="24sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="@+id/textView10"
+                                    app:layout_constraintTop_toTopOf="@+id/textView26" />
+
+                                <TextView
+                                    android:id="@+id/textView10"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="за 1 год"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="@+id/textView25" />
+
+                            </android.support.constraint.ConstraintLayout>
+
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:background="#FFFFFF"
+                                android:elevation="0dp"
+                                android:padding="5dp">
+
+                                <lecho.lib.hellocharts.view.LineChartView
+                                    android:id="@+id/chart_line"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="300dp"
+                                    android:layout_margin="8dp"></lecho.lib.hellocharts.view.LineChartView>
+
+                            </android.support.constraint.ConstraintLayout>
 
 
+                        </LinearLayout>
+
+                    </android.support.v4.widget.NestedScrollView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/fragment2"
+                        class="ru.vetatto.investing.investing.PifInfo.PifInfoOperationFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+            </FrameLayout>
         </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    </TabHost>
 
 </RelativeLayout>

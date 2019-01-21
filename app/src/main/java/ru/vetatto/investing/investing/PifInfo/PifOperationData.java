@@ -11,6 +11,7 @@ public class PifOperationData {
     float type_operation;
     float date_price;
     String sum_price;
+    String date_operation;
     String ukTitle;
     int pifId;
     String date;
@@ -20,8 +21,10 @@ public class PifOperationData {
     int type_instrument;
     float sum_money;
 
-    public PifOperationData(float amount_pay, String title, float date_price, float type_operation, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
+    public PifOperationData(float amount_pay, String date_operation, float date_price, float type_operation, String sum_price, int pifId, float sr_price, String ukTitle, String date, float procent, int type_instrument, String nameCat, float sum_money) {
         this.amount_pay = amount_pay;
+        this.date_operation=date_operation;
+
         this.sr_price = sr_price;
         this.date_price = date_price;
         this.type_operation = type_operation;
@@ -38,4 +41,5 @@ public class PifOperationData {
 
     public float getPifOperationType(){ return type_operation; }
     public float getPifOperationAmountPay(){ return amount_pay; }
+    public String getPifOperationDate(){return date_operation;}
 }

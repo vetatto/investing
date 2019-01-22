@@ -26,7 +26,7 @@ public class PifStructureAdapter extends RecyclerView.Adapter<PifStructureAdapte
     @Override
     public PifStructureAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = inflater.inflate(R.layout.operation_spiner, parent, false);
+        View view = inflater.inflate(R.layout.structure_spiner, parent, false);
 
         return new PifStructureAdapter.ViewHolder(view);
     }
@@ -38,8 +38,8 @@ public class PifStructureAdapter extends RecyclerView.Adapter<PifStructureAdapte
         NumberFormat f = NumberFormat.getInstance();
         Log.d("ADS","position "+position+" size "+phones.size());
 
-        holder.amountPay.setText(phone.getPifStructureEmittet());
-        holder.dateOperation.setText(phone.getPifStructureProcent());
+        holder.emittet.setText(phone.getPifStructureEmittet());
+        holder.emittetProcent.setText(phone.getPifStructureProcent() + "%");
     }
 
     @Override
@@ -49,13 +49,12 @@ public class PifStructureAdapter extends RecyclerView.Adapter<PifStructureAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         //  final ImageView spider;
-        final TextView nameView;
-        final TextView amountPay, dateOperation;
+        final TextView emittet,emittetProcent;
         ViewHolder(View view) {
             super(view);
-            nameView = (TextView) view.findViewById(R.id.typeOperation);
-            amountPay=(TextView) view.findViewById(R.id.amount_pay);
-            dateOperation= (TextView) view.findViewById(R.id.date_operation);
+            emittet = (TextView) view.findViewById(R.id.emittet);
+            emittetProcent=(TextView) view.findViewById(R.id.emittetProcent);
+
         }
     }
 }

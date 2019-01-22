@@ -62,7 +62,12 @@ import ru.vetatto.investing.investing.PifList.PifAdapter;
 import ru.vetatto.investing.investing.PifList.PifData;
 import ru.vetatto.investing.investing.R;
 
-public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperationFragment.OnFragmentInteractionListener {
+public class protfolioPifInfo
+        extends
+        AppCompatActivity
+        implements
+        PifInfoOperationFragment.OnFragmentInteractionListener,
+        PifInfoStructureFragment.OnFragmentInteractionListener {
     List<Entry> entries;
     Context context;
     ArrayList<PieEntry> entriesPie = new ArrayList<PieEntry>();
@@ -380,8 +385,9 @@ public class protfolioPifInfo extends AppCompatActivity implements PifInfoOperat
                             PifInfoOperationFragment catFragment = PifInfoOperationFragment.newInstance(responseStr);
                             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                             ft.replace(R.id.fragment2, catFragment);
+                            PifInfoStructureFragment structureFragment = PifInfoStructureFragment.newInstance(responseStr);
+                            ft.replace(R.id.fragment3, structureFragment);
                             ft.commit();
-
                             ;
                             /*generateDefaultData();
 

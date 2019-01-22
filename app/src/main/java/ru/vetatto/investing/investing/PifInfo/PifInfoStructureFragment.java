@@ -3,7 +3,6 @@ package ru.vetatto.investing.investing.PifInfo;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,21 +18,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import ru.vetatto.investing.investing.PifList.PifAdapter;
-import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
-import ru.vetatto.investing.investing.PifList.PifData;
 import ru.vetatto.investing.investing.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PifInfoOperationFragment.OnFragmentInteractionListener} interface
+ * {@link PifInfoStructureFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PifInfoOperationFragment#newInstance} factory method to
+ * Use the {@link PifInfoStructureFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PifInfoOperationFragment extends Fragment {
+public class PifInfoStructureFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,16 +40,16 @@ public class PifInfoOperationFragment extends Fragment {
     String word;
     View view;
     String phones2;
-    PifOperationAdapter adapter, adapter_structure;
+    PifStructureAdapter adapter_structure;
     private OnFragmentInteractionListener mListener;
 
-    ArrayList<PifOperationData> phones = new ArrayList();
-    public PifInfoOperationFragment() {
+    ArrayList<PifStructureData> structure = new ArrayList();
+    public PifInfoStructureFragment() {
         // Required empty public constructor
     }
 
-    public static PifInfoOperationFragment newInstance(String param1) {
-        PifInfoOperationFragment fragment = new PifInfoOperationFragment();
+    public static PifInfoStructureFragment newInstance(String param1) {
+        PifInfoStructureFragment fragment = new PifInfoStructureFragment();
         Bundle args = new Bundle();
         args.putString("array", param1);
         fragment.setArguments(args);
@@ -79,17 +75,17 @@ public class PifInfoOperationFragment extends Fragment {
             JSONArray dataJsonArray;
             JSONObject dataJsonObj;
             dataJsonObj = new JSONObject(phones2);
-            dataJsonArray= dataJsonObj.getJSONArray("operations");
+
+
+            dataJsonArray= dataJsonObj.getJSONArray("structure");
             Log.d("TEST_FRAGMENT",dataJsonArray.toString());
             for (int i = 0; i < dataJsonArray.length(); i++) {
                 JSONObject dataJsonObj3 =  dataJsonArray.getJSONObject(i);
-                int type_operation = dataJsonObj3.getInt("type_operation");
-                String sum_operation = dataJsonObj3.getString("amount");
-                String date_operation = dataJsonObj3.getString("data");
-                phones.add(new PifOperationData( Float.valueOf(sum_operation), date_operation, 123, type_operation,"123", 123, 123,"Test", "123",123, 1, "text", 123));
+                int type_operation =0;
+                String emittet = dataJsonObj3.getString("emittet");
+                String procent = dataJsonObj3.getString("procent");
+                structure.add(new PifStructureData(emittet, procent));
             }
-
-
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("TEST_FRAGMENT","ERROR:"+e.getMessage());
@@ -101,15 +97,14 @@ public class PifInfoOperationFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-      view = inflater.inflate(R.layout.fragment_pif_info_operation,
+      view = inflater.inflate(R.layout.fragment_pif_info_structure,
                 container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RVOperation);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RVStructure);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new PifOperationAdapter(this.getContext(),phones);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        TextView text = view.findViewById(R.id.textView20);
-        text.setText("test");
+
+        adapter_structure= new PifStructureAdapter(this.getContext(),structure);
+        recyclerView.setAdapter(adapter_structure);
+        adapter_structure.notifyDataSetChanged();
         Log.d("TEST_FRAGMENT", "onCreateView");
       //  Log.d("TEST_FRAGMENT", "PHONES:"+phones.toString());
         return view;

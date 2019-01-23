@@ -68,10 +68,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-            android:name=".filterpif"
-            android:label="@string/title_activity_filterpif"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Login.Registration"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowNoTitle="true">

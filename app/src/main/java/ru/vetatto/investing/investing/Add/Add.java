@@ -356,7 +356,7 @@ public class Add extends AppCompatActivity {
                         editor.putString("API_TOKEN", null);
                         editor.commit();
                        // FragmentTransaction tran = getFragmentManager().beginTransaction();
-                      //  tran.replace(R.id.container, new FirstFragment()).commit();
+                      //  tran.replace(R.id.container, new LoginGragment()).commit();
                     }
                 }
             }

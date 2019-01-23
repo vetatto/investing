@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import ru.vetatto.investing.investing.FirstFragment;
+import ru.vetatto.investing.investing.LoginGragment;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteAdapter;
 import ru.vetatto.investing.investing.PifList.PifAutocompleteData;
@@ -179,7 +179,7 @@ public class AddPageFragment extends Fragment {
                         editor.putString("API_TOKEN", null);
                         editor.commit();
                         FragmentTransaction tran = getFragmentManager().beginTransaction();
-                        tran.replace(R.id.container, new FirstFragment()).commit();
+                        tran.replace(R.id.container, new LoginGragment()).commit();
                     }
                 }
             }

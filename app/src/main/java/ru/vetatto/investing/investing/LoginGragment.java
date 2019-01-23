@@ -21,7 +21,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.HTTP.Post;
 
-public class FirstFragment extends Fragment {
+public class LoginGragment extends Fragment {
     SharedPreferences prefs;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +70,7 @@ public class FirstFragment extends Fragment {
                                     act.runOnUiThread(new Runnable() {
                                         public void run() {
                                             FragmentTransaction tran = getFragmentManager().beginTransaction();
-                                            tran.replace(R.id.container, new SecondFragment()).commit();
+                                            tran.replace(R.id.container, new MainFragment()).commit();
                                         }
                                     });
 
@@ -90,8 +90,8 @@ public class FirstFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
 
-    public static FirstFragment newInstance() {
-        FirstFragment fragment = new FirstFragment();
+    public static LoginGragment newInstance() {
+        LoginGragment fragment = new LoginGragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

@@ -1,11 +1,8 @@
 package ru.vetatto.investing.investing;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -21,7 +18,6 @@ import android.view.MenuItem;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.InterstitialAd;
@@ -82,7 +78,7 @@ public class MainActivity extends AppCompatActivity
                 if(api_token.isEmpty()){
             /*android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container, new FirstFragment()).commit();*/
+            fragmentTransaction.replace(R.id.container, new LoginGragment()).commit();*/
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                     finish();
@@ -93,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
+            fragmentTransaction.replace(R.id.container, new MainFragment()).commit();
         }
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            fragmentTransaction.replace(R.id.container, new SecondFragment()).commit();
+            fragmentTransaction.replace(R.id.container, new MainFragment()).commit();
         }
         if( id == R.id.nav_gallery){
 

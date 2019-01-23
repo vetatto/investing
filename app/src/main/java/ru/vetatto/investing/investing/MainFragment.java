@@ -10,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ru.vetatto.investing.investing.PifList.PifAdapter;
 import ru.vetatto.investing.investing.PifList.PifData;
 
-public class SecondFragment extends Fragment {
+public class MainFragment extends Fragment {
     View view;
     Context context;
     ArrayList<PifData> phones = new ArrayList();
@@ -63,8 +62,8 @@ public class SecondFragment extends Fragment {
     };
 
 
-    public static SecondFragment newInstance() {
-        SecondFragment fragment = new SecondFragment();
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

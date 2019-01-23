@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-3909765981983100~5463344129"/>
         <service
             android:name=".TestFirebaseMessagingService"
             android:exported="false">

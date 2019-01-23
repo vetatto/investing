@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         context = this;
 
         WhatsNew.newInstance(
-                new WhatsNewItem("0.0.1", "Обработка СМС УК Арсагера, УК Сбербанк-АМ")
+                new WhatsNewItem("0.0.1", "Добавлена информация об основных активах фондов")
         ).presentAutomatically(MainActivity.this);
       /*  MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
         mInterstitialAd = new InterstitialAd(this);
@@ -207,12 +207,12 @@ public class MainActivity extends AppCompatActivity
         send_gcm.Get("/update_GCM/"+token_gcm, api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("TESTE", e.getMessage());
+                // Request failed
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("TESTE", response.toString());
+                // Handle whatever comes back from the server
             }
         });
     }

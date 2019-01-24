@@ -8,7 +8,9 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="0dp"
+        app:cardElevation="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -19,10 +21,13 @@
             android:padding="5dp">
 
             <lecho.lib.hellocharts.view.LineChartView
-                android:id="@+id/chart_line"
+                android:id="@+id/chart_all_pif"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_margin="8dp"></lecho.lib.hellocharts.view.LineChartView>
+                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="5dp"></lecho.lib.hellocharts.view.LineChartView>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

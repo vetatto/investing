@@ -168,12 +168,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 ///Отображение графика
     private void portfolio_graphic(){
-        legendAdapter.setOnBluetoothDeviceClickedListener(new GraphicLegendAdapter.OnBluetoothDeviceClickedListener() {
-            @Override
-            public void onBluetoothDeviceClicked(String deviceAddress) {
-                Log.d("TEST_SWITCH",deviceAddress);
-            }
-        });
+
         Log.d("TEST_GRAPH", "Данные графика");
         context=this.getContext();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
@@ -287,6 +282,14 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         }
                     }
                 });
+
+        legendAdapter.setOnBluetoothDeviceClickedListener(new GraphicLegendAdapter.OnBluetoothDeviceClickedListener() {
+            @Override
+            public void onBluetoothDeviceClicked(String deviceAddress) {
+                Log.d("TEST_SWITCH",deviceAddress);
+            }
+        });
+
     }
 
 

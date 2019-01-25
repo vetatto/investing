@@ -200,11 +200,12 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                         Date dates = sdf.parse(date);
                                         float pay_procent;
                                         if(pay_old==0) {
-                                           pay_procent = pay_old;
-                                            pay_old=Float.valueOf(pay);
+                                           pay_procent = pay_old;//Float.valueOf(pay);//pay_old;
+                                           pay_old=Float.valueOf(pay);
                                         }
                                         else{
-                                         pay_procent = (Float.valueOf(pay)/pay_old-1)*100;
+                                         pay_procent = (Float.valueOf(pay)/pay_old-1)*100;//Float.valueOf(pay);//
+                                         //pay_old=Float.valueOf(pay);
                                         }
                                         PointValue point = new PointValue(dates.getTime(), pay_procent);
                                         point.setLabel(date+" "+pay_procent+" %");
@@ -219,7 +220,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                     line.setHasPoints(false);
                                     line.setStrokeWidth(1);
                                     line.setHasPoints(true);
-                                    line.setPointRadius(2);
+                                    line.setPointRadius(1);
                                     line.setHasLabels(true);
                                     line.setHasLabelsOnlyForSelected(true);
                                     lines2.add(line);

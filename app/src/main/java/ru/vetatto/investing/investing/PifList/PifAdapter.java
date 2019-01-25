@@ -120,7 +120,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
            // spider= (ImageView) view.findViewById(R.id.spider);
             nameView = (TextView) view.findViewById(R.id.typeOperation);
             companyView = (TextView) view.findViewById(R.id.pay_price);
-            ukTitle = (TextView) view.findViewById(R.id.textView6);
+            ukTitle = (TextView) view.findViewById(R.id.legendTitle);
             all_procent = (TextView) view.findViewById(R.id.textView4);
             datePif = (TextView) view.findViewById(R.id.amount);
             procent= (TextView) view.findViewById(R.id.izm_day);

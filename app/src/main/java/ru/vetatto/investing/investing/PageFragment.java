@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -59,8 +60,12 @@ import lecho.lib.hellocharts.view.LineChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendAdapter;
+import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendData;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.Login.LoginActivity;
+import ru.vetatto.investing.investing.PifInfo.PifOperationAdapter;
+import ru.vetatto.investing.investing.PifInfo.PifOperationData;
 import ru.vetatto.investing.investing.PifList.PifAdapter;
 import ru.vetatto.investing.investing.PifList.PifAllListAdater;
 import ru.vetatto.investing.investing.PifList.PifAllListData;
@@ -94,6 +99,10 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     List<AxisValue> axisValues = new ArrayList<AxisValue>();
     List<Line> lines = new ArrayList<Line>();
     private LineChartData data_char;
+    ArrayList<GraphicLegendData> legendData = new ArrayList();
+    GraphicLegendAdapter legendAdapter;
+    String legendTitle;
+
     static PageFragment newInstance(int page) {
         PageFragment pageFragment = new PageFragment();
         Bundle arguments = new Bundle();
@@ -159,9 +168,10 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 ///Отображение графика
     private void portfolio_graphic(){
+
+
         Log.d("TEST_GRAPH", "Данные графика");
         context=this.getContext();
-
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
         Get example = new Get();//Делаем запрос к серверу
@@ -179,12 +189,14 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                             entries = new ArrayList<Entry>();
                             labels = new ArrayList<String>();
+
                             try {
 
                                 JSONObject dataJsonObj = new JSONObject(responseStr);
                                 JSONArray graph_data = dataJsonObj.getJSONArray("graph");
                                 List<Line> lines2 = new ArrayList<Line>();
                                 Log.d("TEST_GRAPH",String.valueOf(graph_data.length()));
+
                                 for (int i = 0; i < graph_data.length(); i++) {
                                     ArrayList<PointValue> pointValues = new ArrayList<>();
                                     //JSONObject graph_pif_data = graph_data.getJSONObject(i);
@@ -196,6 +208,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                         JSONObject graph_pif_date_list = graph_pif_date_array.getJSONObject(b);
                                         String date = graph_pif_date_list.getString("date");
                                         String pay = graph_pif_date_list.getString("pay");
+                                        legendTitle = graph_pif_date_list.getString("title");
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
                                         Date dates = sdf.parse(date);
                                         float pay_procent;
@@ -225,6 +238,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                     line.setHasLabelsOnlyForSelected(true);
                                     lines2.add(line);
                                     Log.d("TEST_GRAPH","Добавили линию "+i);
+                                    legendData.add(new GraphicLegendData(legendTitle,color));
                                 }
 
                                 data_char = new LineChartData();
@@ -247,15 +261,19 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                         Axis axisX = new Axis(axisValues);
                                         Axis axisY = new Axis().setHasLines(true);
                                         axisX.setName("Axis X");
-                                        axisY.setName("Axis Y");
+                                        axisY.setName("%");
                                         axisX.setMaxLabelChars(4);
                                         axisX.setHasLines(true);
                                         axisX.setMaxLabelChars(10);
-                                        data_char.setAxisYLeft(axisY);
+                                        data_char.setAxisYRight(axisY);
                                         data_char.setAxisXBottom(axisX);
-
                                         chart.setLineChartData(data_char);
                                         chart.setViewportCalculationEnabled(true);
+                                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RVLegend);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                                        legendAdapter = new GraphicLegendAdapter(context,legendData);
+                                        recyclerView.setAdapter(legendAdapter);
+                                        legendAdapter.notifyDataSetChanged();
                                     }
                                 });
                         }

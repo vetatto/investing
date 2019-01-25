@@ -255,7 +255,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                     public void run() {
                                         Log.d("TEST_GRAPH","Lines:"+lines.toString());
 
-                                        LineChartView chart = (LineChartView) view.findViewById(R.id.chart_all_pif);
+                                        final LineChartView chart = (LineChartView) view.findViewById(R.id.chart_all_pif);
                                       //  data_char.setBaseValue(Float.NEGATIVE_INFINITY);
                                         Axis axisX = new Axis(axisValues);
                                         Axis axisY = new Axis().setHasLines(true);
@@ -274,6 +274,17 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                         recyclerView.setAdapter(legendAdapter);
                                         legendAdapter.notifyDataSetChanged();
 
+                                       /////Проверить функцию
+                                        legendAdapter.setOnBluetoothDeviceClickedListener(new GraphicLegendAdapter.OnBluetoothDeviceClickedListener() {
+                                            @Override
+                                            public void onBluetoothDeviceClicked(String deviceAddress) {
+                                                Log.d("TEST_SWITCH",deviceAddress);
+                                                LineChartData newData = new LineChartData(data_char.getLines());
+                                                newData.getLines().remove(1);
+                                                chart.setLineChartData(newData);
+                                            }
+                                        });
+
                                     }
                                 });
                         }
@@ -283,12 +294,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     }
                 });
 
-        legendAdapter.setOnBluetoothDeviceClickedListener(new GraphicLegendAdapter.OnBluetoothDeviceClickedListener() {
-            @Override
-            public void onBluetoothDeviceClicked(String deviceAddress) {
-                Log.d("TEST_SWITCH",deviceAddress);
-            }
-        });
+
 
     }
 

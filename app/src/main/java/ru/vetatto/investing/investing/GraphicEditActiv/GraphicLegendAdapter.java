@@ -49,7 +49,15 @@ public class GraphicLegendAdapter extends RecyclerView.Adapter<GraphicLegendAdap
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            Log.d("TEST_SWITCH",compoundButton.getText().toString());
+        mBluetoothClickListener.onBluetoothDeviceClicked(compoundButton.getText().toString());
+    }
+    public interface OnBluetoothDeviceClickedListener {
+        void onBluetoothDeviceClicked(String deviceAddress);
+    }
+    private OnBluetoothDeviceClickedListener mBluetoothClickListener;
+
+    public void setOnBluetoothDeviceClickedListener(OnBluetoothDeviceClickedListener l) {
+        mBluetoothClickListener = l;
     }
 
 

@@ -19,6 +19,8 @@ import ru.vetatto.investing.investing.R;
 public class GraphicLegendAdapter extends RecyclerView.Adapter<GraphicLegendAdapter.ViewHolder> implements CompoundButton.OnCheckedChangeListener  {
     private LayoutInflater inflater;
     private List<GraphicLegendData> legendData;
+    List<String> hideLegend = new ArrayList<String>();
+    List<String> showLegend = new ArrayList<String>();
     public GraphicLegendAdapter(Context context, ArrayList<GraphicLegendData> legendData) {
         this.legendData = legendData;
         this.inflater = LayoutInflater.from(context);
@@ -49,10 +51,23 @@ public class GraphicLegendAdapter extends RecyclerView.Adapter<GraphicLegendAdap
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        mBluetoothClickListener.onBluetoothDeviceClicked(compoundButton.getText().toString());
+
+        if(compoundButton.isChecked()) {
+            showLegend.add(compoundButton.getText().toString());
+            if(hideLegend.contains(compoundButton.getText().toString())) {
+                hideLegend.remove(hideLegend.indexOf(compoundButton.getText().toString()));
+            }
+        }
+        else{
+            hideLegend.add(compoundButton.getText().toString());
+            if(showLegend.contains(compoundButton.getText().toString())) {
+                showLegend.remove(showLegend.indexOf(compoundButton.getText().toString()));
+            }
+        }
+        mBluetoothClickListener.onBluetoothDeviceClicked(hideLegend, showLegend);
     }
     public interface OnBluetoothDeviceClickedListener {
-        void onBluetoothDeviceClicked(String deviceAddress);
+        void onBluetoothDeviceClicked(List<String> hideLegend,List<String> showLegends);
     }
     private OnBluetoothDeviceClickedListener mBluetoothClickListener;
 

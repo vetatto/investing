@@ -102,7 +102,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     ArrayList<GraphicLegendData> legendData = new ArrayList();
     GraphicLegendAdapter legendAdapter;
     String legendTitle;
-
+    List<String> hideLegend = new ArrayList<String>();
+    List<String> showLegend = new ArrayList<String>();
+    String responseStr;
     static PageFragment newInstance(int page) {
         PageFragment pageFragment = new PageFragment();
         Bundle arguments = new Bundle();
@@ -184,88 +186,14 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     @Override
                     public void onResponse(okhttp3.Call call, Response response) throws IOException {
                         if (response.isSuccessful()) {
-                            String responseStr = response.body().string();
-
-                            entries = new ArrayList<Entry>();
-                            labels = new ArrayList<String>();
-
-                            try {
-
-                                JSONObject dataJsonObj = new JSONObject(responseStr);
-                                JSONArray graph_data = dataJsonObj.getJSONArray("graph");
-                                List<Line> lines2 = new ArrayList<Line>();
-                                Log.d("TEST_GRAPH",String.valueOf(graph_data.length()));
-
-                                for (int i = 0; i < graph_data.length(); i++) {
-                                    ArrayList<PointValue> pointValues = new ArrayList<>();
-                                    //JSONObject graph_pif_data = graph_data.getJSONObject(i);
-                                   // Log.d("TEST_GRAPH", graph_pif_data.toString());
-                                    JSONArray graph_pif_date_array =  graph_data.getJSONArray(i);
-                                    Log.d("TEST_GRAPH",String.valueOf(graph_pif_date_array.length()));
-                                    float pay_old =0;
-                                    for (int b = 0; b < graph_pif_date_array.length(); b++) {
-                                        JSONObject graph_pif_date_list = graph_pif_date_array.getJSONObject(b);
-                                        String date = graph_pif_date_list.getString("date");
-                                        String pay = graph_pif_date_list.getString("pay");
-                                        legendTitle = graph_pif_date_list.getString("title");
-                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-                                        Date dates = sdf.parse(date);
-                                        float pay_procent;
-                                        if(pay_old==0) {
-                                           pay_procent = pay_old;//Float.valueOf(pay);//pay_old;
-                                           pay_old=Float.valueOf(pay);
-                                        }
-                                        else{
-                                         pay_procent = (Float.valueOf(pay)/pay_old-1)*100;//Float.valueOf(pay);//
-                                         //pay_old=Float.valueOf(pay);
-                                        }
-                                        PointValue point = new PointValue(dates.getTime(), pay_procent);
-                                        point.setLabel(date+" "+pay_procent+" %");
-                                        pointValues.add(point);
-                                        //Log.d("TEST_GRAPH", date+"-"+pay);
-                                    }
-
-                                    Line line = new Line(pointValues);
-                                    Random rnd = new Random();
-                                    int color = Color.argb(255, rnd.nextInt(i+1), rnd.nextInt(256-i), rnd.nextInt(256-i));
-                                    line.setColor(color);
-                                    line.setHasPoints(false);
-                                    line.setStrokeWidth(1);
-                                    line.setHasPoints(true);
-                                    line.setPointRadius(1);
-                                    line.setHasLabels(true);
-                                    line.setHasLabelsOnlyForSelected(true);
-                                    lines2.add(line);
-                                    Log.d("TEST_GRAPH","Добавили линию "+i);
-                                    legendData.add(new GraphicLegendData(legendTitle,color));
-                                }
-
-                                data_char = new LineChartData();
-                                data_char.setLines(lines2);
-                            }catch (JSONException e) {
-                                Log.d("TEST_GRAPH","ERROR_JSON:"+e.getMessage());
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-
-
+                           responseStr = response.body().string();
+                            generate_data(responseStr);
                             final Activity act = getActivity();
                             if (act != null)
                                 act.runOnUiThread(new Runnable() {
                                     public void run() {
                                         Log.d("TEST_GRAPH","Lines:"+lines.toString());
-
                                         final LineChartView chart = (LineChartView) view.findViewById(R.id.chart_all_pif);
-                                      //  data_char.setBaseValue(Float.NEGATIVE_INFINITY);
-                                        Axis axisX = new Axis(axisValues);
-                                        Axis axisY = new Axis().setHasLines(true);
-                                        axisX.setName("Axis X");
-                                        axisY.setName("%");
-                                        axisX.setMaxLabelChars(4);
-                                        axisX.setHasLines(true);
-                                        axisX.setMaxLabelChars(10);
-                                        data_char.setAxisYRight(axisY);
-                                        data_char.setAxisXBottom(axisX);
                                         chart.setLineChartData(data_char);
                                         chart.setViewportCalculationEnabled(true);
                                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RVLegend);
@@ -277,11 +205,15 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                        /////Проверить функцию
                                         legendAdapter.setOnBluetoothDeviceClickedListener(new GraphicLegendAdapter.OnBluetoothDeviceClickedListener() {
                                             @Override
-                                            public void onBluetoothDeviceClicked(String deviceAddress) {
-                                                Log.d("TEST_SWITCH",deviceAddress);
-                                                LineChartData newData = new LineChartData(data_char.getLines());
-                                                newData.getLines().remove(1);
-                                                chart.setLineChartData(newData);
+                                            public void onBluetoothDeviceClicked(List<String> hideLegends, List<String> showLegends) {
+                                                //Log.d("TEST_SWITCH",deviceAddress);
+                                              //  LineChartData newData = new LineChartData(data_char.getLines());
+                                              //  newData.getLines().remove(1);
+                                                hideLegend=hideLegends;
+                                                showLegend=showLegends;
+                                                generate_data(responseStr);
+                                                chart.setLineChartData(data_char);
+                                                chart.setViewportCalculationEnabled(true);
                                             }
                                         });
 
@@ -298,7 +230,99 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     }
 
+ private void generate_data(String responseStr){
+     entries = new ArrayList<Entry>();
+     labels = new ArrayList<String>();
 
+     try {
+         JSONObject dataJsonObj = new JSONObject(responseStr);
+         JSONArray graph_data = dataJsonObj.getJSONArray("graph");
+         List<Line> lines2 = new ArrayList<Line>();
+         Log.d("TEST_GRAPH",String.valueOf(graph_data.length()));
+
+         for (int i = 0; i < graph_data.length(); i++) {
+             ArrayList<PointValue> pointValues = new ArrayList<>();
+             //JSONObject graph_pif_data = graph_data.getJSONObject(i);
+             // Log.d("TEST_GRAPH", graph_pif_data.toString());
+             JSONArray graph_pif_date_array =  graph_data.getJSONArray(i);
+             Log.d("TEST_GRAPH",String.valueOf(graph_pif_date_array.length()));
+             float pay_old =0;
+             for (int b = 0; b < graph_pif_date_array.length(); b++) {
+                 JSONObject graph_pif_date_list = graph_pif_date_array.getJSONObject(b);
+                 String date = graph_pif_date_list.getString("date");
+                 String pay = graph_pif_date_list.getString("pay");
+                 legendTitle = graph_pif_date_list.getString("title");
+
+                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+                 Date dates = sdf.parse(date);
+                 float pay_procent;
+                 if(pay_old==0) {
+                     pay_procent = pay_old;//Float.valueOf(pay);//pay_old;
+                     pay_old=Float.valueOf(pay);
+                 }
+                 else{
+                     pay_procent = (Float.valueOf(pay)/pay_old-1)*100;//Float.valueOf(pay);//
+                     //pay_old=Float.valueOf(pay);
+                 }
+                 PointValue point = new PointValue(dates.getTime(), pay_procent);
+                 point.setLabel(date+" "+pay_procent+" %");
+                 pointValues.add(point);
+                 //Log.d("TEST_GRAPH", date+"-"+pay);
+             }
+             if(hideLegend.contains(legendTitle)){
+
+             }
+             else {
+                 Line line = new Line(pointValues);
+                 Random rnd = new Random();
+                 int color = Color.argb(255, rnd.nextInt(i + 1), rnd.nextInt(256 - i), rnd.nextInt(256 - i));
+                 line.setColor(color);
+                 line.setHasPoints(false);
+                 line.setStrokeWidth(1);
+                 line.setHasPoints(true);
+                 line.setPointRadius(1);
+                 line.setHasLabels(true);
+                 line.setHasLabelsOnlyForSelected(true);
+                 lines2.add(line);
+                 Log.d("TEST_GRAPH", "Добавили линию " + i);
+                 legendData.add(new GraphicLegendData(legendTitle, color));
+             }
+             if(showLegend.contains(legendTitle)){
+                 Line line = new Line(pointValues);
+                 Random rnd = new Random();
+                 int color = Color.argb(255, rnd.nextInt(i + 1), rnd.nextInt(256 - i), rnd.nextInt(256 - i));
+                 line.setColor(color);
+                 line.setHasPoints(false);
+                 line.setStrokeWidth(1);
+                 line.setHasPoints(true);
+                 line.setPointRadius(1);
+                 line.setHasLabels(true);
+                 line.setHasLabelsOnlyForSelected(true);
+                 lines2.add(line);
+                 Log.d("TEST_GRAPH", "Добавили линию " + i);
+                 legendData.add(new GraphicLegendData(legendTitle, color));
+             }
+         }
+
+         data_char = new LineChartData();
+         data_char.setLines(lines2);
+     }catch (JSONException e) {
+         Log.d("TEST_GRAPH","ERROR_JSON:"+e.getMessage());
+     } catch (ParseException e) {
+         e.printStackTrace();
+     }
+
+     Axis axisX = new Axis(axisValues);
+     Axis axisY = new Axis().setHasLines(true);
+     axisX.setName("Axis X");
+     axisY.setName("%");
+     axisX.setMaxLabelChars(4);
+     axisX.setHasLines(true);
+     axisX.setMaxLabelChars(10);
+     data_char.setAxisYRight(axisY);
+     data_char.setAxisXBottom(axisX);
+
+ }
 ///Отображение полного списка портфеля
     private void portfolio_info(){
         context=this.getContext();

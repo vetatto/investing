@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -60,14 +63,30 @@ public class LoginActivity extends AppCompatActivity {
         final String GCM_id = prefs.getString("GCM_TOKEN","");
         example = new Post();
         String response = null;
-        TextView btn_registration = (TextView) findViewById(R.id.textView16);
+       /* TextView btn_registration = (TextView) findViewById(R.id.textView16);
         btn_registration.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Intent intent = new Intent(context, Registration.class);
                 context.startActivity(intent);
                 //finish();
             }
-        });
+        });*/
+
+        TabHost tabHost = (TabHost) findViewById(R.id.logintab);
+
+        tabHost.setup();
+
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("tag1");
+
+        tabSpec.setContent(R.id.tab1);
+        tabSpec.setIndicator("Авторизация");
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag2");
+        tabSpec.setContent(R.id.tab2);
+        tabSpec.setIndicator("Регистрация");
+        tabHost.addTab(tabSpec);
+        tabHost.setCurrentTab(0);
         Button btn_autorization = (Button) findViewById(R.id.button);
         btn_autorization.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
 
     private void auth(final String email, final String password){
        Post autorize_post = new Post();

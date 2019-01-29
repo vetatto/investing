@@ -42,7 +42,7 @@
                         android:paddingStart="6dp"
                         android:paddingEnd="6dp"
                         android:text="ИЗМЕНЕНИЕ СТОИМОСТИ АКТИВОВ"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="#000000"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

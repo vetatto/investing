@@ -60,7 +60,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         holder.nameView.setText(phone.getPifTitle());
         procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);
        //holder.sum_money.setText(String.valueOf(phone.getSum_money()));
-        holder.companyView.setText(f.format(100.00*phone.getPifSumAmount()*phone.getPifDatePrice()/100) + " \u20BD");
+        holder.companyView.setText(f.format(Math.round(100.00*phone.getPifSumAmount()*phone.getPifDatePrice())/100.00) + " \u20BD");
         holder.ukTitle.setText(phone.getukTitle());
         if (procent_pif >= 0) {
             holder.all_procent.setTextColor(Color.parseColor("#FF99CC00"));

@@ -17,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:indeterminateTint="#FFFFFF"
+        android:indeterminateTint="@color/colorPlus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +77,16 @@
             android:elevation="0dp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/loginError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:paddingTop="8dp"
+                android:text="TextView"
+                android:textColor="@color/colorMinus" />
+
             <EditText
                 android:id="@+id/login_email"
 
@@ -121,6 +131,7 @@
                 android:padding="10dp"
                 android:text="@string/authorization"
                 android:textColor="@color/colorToolbar" />
+
         </LinearLayout>
 
     </LinearLayout>

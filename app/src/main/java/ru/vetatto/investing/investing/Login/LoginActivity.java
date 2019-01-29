@@ -52,8 +52,10 @@ public class LoginActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login2);
         activity=this;
+        TextView loginError = findViewById(R.id.loginError);
+        loginError.setVisibility(View.INVISIBLE);
         load = (ProgressBar) findViewById(R.id.load_autorize);
-        ll = (LinearLayout) findViewById(R.id.autorize_main);
+        ll = (LinearLayout) findViewById(R.id.tab1);
         final EditText text_email = (EditText) findViewById(R.id.login_email);
         final EditText text_password = (EditText) findViewById(R.id.login_password);
         text_email.setVisibility(View.VISIBLE);
@@ -81,8 +83,8 @@ public class LoginActivity extends AppCompatActivity {
                 hide();
                 text_email.setVisibility(View.INVISIBLE);
                 text_password.setVisibility(View.INVISIBLE);
-               EditText text_email = (EditText) findViewById(R.id.login_email);
-               EditText text_password = (EditText) findViewById(R.id.login_password);
+               final EditText text_email = (EditText) findViewById(R.id.login_email);
+               final EditText text_password = (EditText) findViewById(R.id.login_password);
                final String input_email = text_email.getText().toString();
                 final String input_password=text_password.getText().toString();
                if(!input_email.isEmpty() || !input_password.isEmpty()) {
@@ -92,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
+                        public void onResponse(Call call, final Response response) throws IOException {
                             if (response.isSuccessful()) {
                                 String responseStr = response.body().string();
                                 Log.d("TESTE", responseStr);
@@ -117,7 +119,20 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                             } else {
-                                Log.d("TESTE",response.toString());
+                                final Activity act = activity; //only neccessary if you use fragments
+                                if (act != null)
+                                    act.runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            show();
+
+                                            TextView loginError = findViewById(R.id.loginError);
+                                            loginError.setVisibility(View.VISIBLE);
+                                            text_email.setVisibility(View.VISIBLE);
+                                            text_password.setVisibility(View.VISIBLE);
+                                            loginError.setText("Ошибка авторизации");
+                                        }
+                                    });
+
                             }
                         }
                     });
@@ -128,8 +143,14 @@ public class LoginActivity extends AppCompatActivity {
                         act.runOnUiThread(new Runnable() {
                             public void run() {
                                 show();
+                                TextView loginError = findViewById(R.id.loginError);
+                                loginError.setVisibility(View.VISIBLE);
+                                text_email.setVisibility(View.VISIBLE);
+                                text_password.setVisibility(View.VISIBLE);
+                                loginError.setText("Логин/пароль не может быть пустым");
                             }
                         });
+
                     Log.d("TESTE", "Логин и пароль пустые");
                 }
             }
@@ -235,6 +256,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void show() {
+
         ll.setVisibility(View.VISIBLE);
         load.setVisibility(View.INVISIBLE);
     }

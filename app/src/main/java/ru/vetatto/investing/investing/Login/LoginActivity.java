@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.HTTP.Post;
 import ru.vetatto.investing.investing.MainActivity;
+import ru.vetatto.investing.investing.MainFragment;
 import ru.vetatto.investing.investing.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -63,30 +65,15 @@ public class LoginActivity extends AppCompatActivity {
         final String GCM_id = prefs.getString("GCM_TOKEN","");
         example = new Post();
         String response = null;
-       /* TextView btn_registration = (TextView) findViewById(R.id.textView16);
+        TextView btn_registration = (TextView) findViewById(R.id.textView16);
         btn_registration.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Intent intent = new Intent(context, Registration.class);
                 context.startActivity(intent);
                 //finish();
             }
-        });*/
+        });
 
-        TabHost tabHost = (TabHost) findViewById(R.id.logintab);
-
-        tabHost.setup();
-
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("tag1");
-
-        tabSpec.setContent(R.id.tab1);
-        tabSpec.setIndicator("Авторизация");
-        tabHost.addTab(tabSpec);
-
-        tabSpec = tabHost.newTabSpec("tag2");
-        tabSpec.setContent(R.id.tab2);
-        tabSpec.setIndicator("Регистрация");
-        tabHost.addTab(tabSpec);
-        tabHost.setCurrentTab(0);
         Button btn_autorization = (Button) findViewById(R.id.button);
         btn_autorization.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                EditText text_email = (EditText) findViewById(R.id.login_email);
                EditText text_password = (EditText) findViewById(R.id.login_password);
                final String input_email = text_email.getText().toString();
-               final String input_password=text_password.getText().toString();
-                if(!input_email.isEmpty() || !input_password.isEmpty()) {
+                final String input_password=text_password.getText().toString();
+               if(!input_email.isEmpty() || !input_password.isEmpty()) {
                     example.post("", text_email.getText().toString(), text_password.getText().toString(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -150,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        if(email.equals(" ") || password.equals(" ")){
+      if(email.equals(" ") || password.equals(" ")){
             text_email.setVisibility(View.VISIBLE);
             text_password.setVisibility(View.VISIBLE);
             Log.d("TESTE", "E-mail не указан");

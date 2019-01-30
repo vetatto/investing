@@ -26,7 +26,7 @@ import static java.lang.Math.round;
 public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     private LayoutInflater inflater;
     private List<PifData> phones;
-    int divider_check = 0;
+    int divider_check = 1;
     public PifAdapter(Context context, List<PifData> phones) {
         this.phones = phones;
         this.inflater = LayoutInflater.from(context);
@@ -79,14 +79,6 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
            holder.procent.setText(String.valueOf(String.format("%.2f", procent_izm) + "%"));
         }
 
-            if(Float.valueOf(phone.getPifSumAmount())==0){
-                holder.cardView.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                holder.procent.setVisibility(View.INVISIBLE);
-                holder.all_procent.setVisibility(View.INVISIBLE);
-                holder.companyView.setVisibility(View.INVISIBLE);
-                holder.datePif.setVisibility(View.INVISIBLE);
-            }
-
         final Context context = holder.itemView.getContext();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,99 +93,52 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         });
     }
     else{
-            if(divider_check==phone.getTypeInstrument()) {
+            if(divider_check==0) {
               holder.divider.setVisibility(View.GONE);
-                divider_check=phone.getTypeInstrument();
-                holder.datePif.setText(phone.getDate());
-                holder.nameView.setText(phone.getPifTitle());
-                procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);
-                //holder.sum_money.setText(String.valueOf(phone.getSum_money()));
-                holder.companyView.setText(f.format(Math.round(100.00*phone.getPifSumAmount()*phone.getPifDatePrice())/100.00) + " \u20BD");
-                holder.ukTitle.setText(phone.getukTitle());
-                if (procent_pif >= 0) {
-                    holder.all_procent.setTextColor(Color.parseColor("#FF99CC00"));
-                    holder.all_procent.setText(String.valueOf("+" + String.format("%.2f", procent_pif) + "%"));
-                } else {
-                    holder.all_procent.setTextColor(Color.parseColor("#ffff4444"));
-                    holder.all_procent.setText(String.valueOf(String.format("%.2f", procent_pif) + "%"));
-                }
-                procent_izm = phone.getProcent();
-                if (procent_izm >= 0) {
-                    holder.procent.setTextColor(Color.parseColor("#FF99CC00"));
-                    holder.procent.setText(String.valueOf("+" + String.format("%.2f", procent_izm) + "%"));
-                } else {
-                    holder.procent.setTextColor(Color.parseColor("#ffff4444"));
-                    holder.procent.setText(String.valueOf(String.format("%.2f", procent_izm) + "%"));
-                }
-
-                if(Float.valueOf(phone.getPifSumAmount())==0){
-                    holder.cardView.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                    holder.procent.setVisibility(View.INVISIBLE);
-                    holder.all_procent.setVisibility(View.INVISIBLE);
-                    holder.companyView.setVisibility(View.INVISIBLE);
-                    holder.datePif.setVisibility(View.INVISIBLE);
-                }
-
-                final Context context = holder.itemView.getContext();
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, protfolioPifInfo.class);
-                        intent.putExtra("idPif", phone.getPifId());
-                        intent.putExtra("token", phone.getApiToken());
-                        intent.putExtra("name", phone.getukTitle() + " - " + phone.getPifTitle());
-                        intent.putExtra("view","VIEW");
-                        context.startActivity(intent);
-                    }
-                });
+              divider_check=phone.getTypeInstrument();
             }
             else{
                 holder.divider.setVisibility(View.VISIBLE);
                 divider_check=phone.getTypeInstrument();
-                holder.datePif.setText(phone.getDate());
-                holder.nameView.setText(phone.getPifTitle());
-                procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);
-                //holder.sum_money.setText(String.valueOf(phone.getSum_money()));
-                holder.companyView.setText(f.format(Math.round(100.00*phone.getPifSumAmount()*phone.getPifDatePrice())/100.00) + " \u20BD");
-                holder.ukTitle.setText(phone.getukTitle());
-                if (procent_pif >= 0) {
-                    holder.all_procent.setTextColor(Color.parseColor("#FF99CC00"));
-                    holder.all_procent.setText(String.valueOf("+" + String.format("%.2f", procent_pif) + "%"));
-                } else {
-                    holder.all_procent.setTextColor(Color.parseColor("#ffff4444"));
-                    holder.all_procent.setText(String.valueOf(String.format("%.2f", procent_pif) + "%"));
-                }
-                procent_izm = phone.getProcent();
-                if (procent_izm >= 0) {
-                    holder.procent.setTextColor(Color.parseColor("#FF99CC00"));
-                    holder.procent.setText(String.valueOf("+" + String.format("%.2f", procent_izm) + "%"));
-                } else {
-                    holder.procent.setTextColor(Color.parseColor("#ffff4444"));
-                    holder.procent.setText(String.valueOf(String.format("%.2f", procent_izm) + "%"));
-                }
-
-                if(Float.valueOf(phone.getPifSumAmount())==0){
-                    holder.cardView.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                    holder.procent.setVisibility(View.INVISIBLE);
-                    holder.all_procent.setVisibility(View.INVISIBLE);
-                    holder.companyView.setVisibility(View.INVISIBLE);
-                    holder.datePif.setVisibility(View.INVISIBLE);
-                }
-
-                final Context context = holder.itemView.getContext();
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, protfolioPifInfo.class);
-                        intent.putExtra("idPif", phone.getPifId());
-                        intent.putExtra("token", phone.getApiToken());
-                        intent.putExtra("name", phone.getukTitle() + " - " + phone.getPifTitle());
-                        intent.putExtra("view","VIEW");
-                        context.startActivity(intent);
-                    }
-                });
-
             }
+
+            holder.datePif.setText(phone.getDate());
+            holder.nameView.setText(phone.getPifTitle());
+            procent_pif = (phone.getPifSumAmount() * phone.getPifDatePrice() - phone.getPifSrPrice() * phone.getPifSumAmount()) / (phone.getPifSrPrice() * phone.getPifSumAmount() / 100);
+            //holder.sum_money.setText(String.valueOf(phone.getSum_money()));
+            holder.companyView.setText(f.format(Math.round(100.00*phone.getPifSumAmount()*phone.getPifDatePrice())/100.00) + " \u20BD");
+            holder.ukTitle.setText(phone.getukTitle());
+            if (procent_pif >= 0) {
+                holder.all_procent.setTextColor(Color.parseColor("#FF99CC00"));
+                holder.all_procent.setText(String.valueOf("+" + String.format("%.2f", procent_pif) + "%"));
+            } else {
+                holder.all_procent.setTextColor(Color.parseColor("#ffff4444"));
+                holder.all_procent.setText(String.valueOf(String.format("%.2f", procent_pif) + "%"));
+            }
+            procent_izm = phone.getProcent();
+            if (procent_izm >= 0) {
+                holder.procent.setTextColor(Color.parseColor("#FF99CC00"));
+                holder.procent.setText(String.valueOf("+" + String.format("%.2f", procent_izm) + "%"));
+            } else {
+                holder.procent.setTextColor(Color.parseColor("#ffff4444"));
+                holder.procent.setText(String.valueOf(String.format("%.2f", procent_izm) + "%"));
+            }
+
+            final Context context = holder.itemView.getContext();
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, protfolioPifInfo.class);
+                    intent.putExtra("idPif", phone.getPifId());
+                    intent.putExtra("token", phone.getApiToken());
+                    intent.putExtra("name", phone.getukTitle() + " - " + phone.getPifTitle());
+                    intent.putExtra("view","VIEW");
+                    context.startActivity(intent);
+                }
+            });
+
+
+
         }
     }
 

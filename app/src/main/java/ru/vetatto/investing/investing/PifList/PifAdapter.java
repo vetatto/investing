@@ -3,6 +3,7 @@ package ru.vetatto.investing.investing.PifList;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,6 +78,14 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
             holder.procent.setTextColor(Color.parseColor("#ffff4444"));
            holder.procent.setText(String.valueOf(String.format("%.2f", procent_izm) + "%"));
         }
+            if(Float.valueOf(phone.getPifSumAmount())==0){
+                holder.cardView.setBackgroundColor(Color.parseColor("#EEEEEE"));
+                holder.procent.setVisibility(View.INVISIBLE);
+                holder.all_procent.setVisibility(View.INVISIBLE);
+                holder.companyView.setVisibility(View.INVISIBLE);
+                holder.datePif.setVisibility(View.INVISIBLE);
+            }
+
         final Context context = holder.itemView.getContext();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,11 +122,12 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
      //  final ImageView spider;
+     final CardView cardView;
         final TextView nameView, ukTitle, companyView, all_procent, datePif, procent/*,sum_money, /*sr_price, divider*/;
         AdView adView;
         ViewHolder(View view) {
             super(view);
-           // spider= (ImageView) view.findViewById(R.id.spider);
+            cardView = (CardView) view.findViewById(R.id.card_pif_list_item);
             nameView = (TextView) view.findViewById(R.id.typeOperation);
             companyView = (TextView) view.findViewById(R.id.pay_price);
             ukTitle = (TextView) view.findViewById(R.id.legendTitle);

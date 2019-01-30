@@ -116,7 +116,9 @@
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textColor="#000000"
-                android:textColorHint="#000000" />
+                android:textColorHint="#000000"
+                android:autofillHints=""
+                android:importantForAutofill="no" />
 
             <Button
                 android:id="@+id/button"
@@ -131,6 +133,13 @@
                 android:padding="10dp"
                 android:text="@string/authorization"
                 android:textColor="@color/colorToolbar" />
+
+            <TextView
+                android:id="@+id/Registration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Регистрация" />
 
         </LinearLayout>
 

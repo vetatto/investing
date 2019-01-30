@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="TextView"
+                        android:text="загрузка..."
                         android:textSize="30sp"
                         app:layout_constraintStart_toStartOf="@+id/textView30"
                         app:layout_constraintTop_toBottomOf="@+id/textView30" />
@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="TextView"
+                        android:text="загрузка..."
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="@+id/textView31"
                         app:layout_constraintTop_toBottomOf="@+id/textView31" />
@@ -104,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
                         android:text="MVR"
+                        android:visibility="invisible"
                         app:layout_constraintStart_toStartOf="@+id/textView38"
                         app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
@@ -113,6 +114,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
                         android:text="+2.3%"
+                        android:visibility="invisible"
                         app:layout_constraintStart_toEndOf="@+id/textView39"
                         app:layout_constraintTop_toTopOf="@+id/textView39" />
 

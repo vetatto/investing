@@ -86,7 +86,8 @@ public class PifInfoOperationFragment extends Fragment {
                 int type_operation = dataJsonObj3.getInt("type_operation");
                 String sum_operation = dataJsonObj3.getString("amount");
                 String date_operation = dataJsonObj3.getString("data");
-                phones.add(new PifOperationData( Float.valueOf(sum_operation), date_operation, 123, type_operation,"123", 123, 123,"Test", "123",123, 1, "text", 123));
+                String date_price = dataJsonObj3.getString("price");
+                phones.add(new PifOperationData( Float.valueOf(sum_operation), date_operation, date_price, type_operation));
             }
 
 

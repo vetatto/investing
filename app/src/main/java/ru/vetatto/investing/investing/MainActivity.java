@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         context = this;
 
         WhatsNew.newInstance(
-                new WhatsNewItem("0.0.1", "Добавлена информация об основных активах фондов")
+                new WhatsNewItem("0.0.2", "Исправлен ряд ошибок")
         ).presentAutomatically(MainActivity.this);
       /*  MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
         mInterstitialAd = new InterstitialAd(this);

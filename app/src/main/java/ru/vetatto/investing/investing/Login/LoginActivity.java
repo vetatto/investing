@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         final String GCM_id = prefs.getString("GCM_TOKEN","");
         example = new Post();
         String response = null;
-        TextView btn_registration = (TextView) findViewById(R.id.textView16);
+        TextView btn_registration = (TextView) findViewById(R.id.Registration);
         btn_registration.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Intent intent = new Intent(context, Registration.class);

@@ -2,7 +2,9 @@ package ru.vetatto.investing.investing.Add;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,7 +78,8 @@ public class Add extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeButtonEnabled(true);
+        actionbar.setHomeButtonEnabled(true);;
+        getWindow().setStatusBarColor(R.color.colorPrimaryDark);
        // ViewPager pager = (ViewPager) findViewById(R.id.addViewPager);
        // AddFragmentPagerAdapter pagerAdapter = new AddFragmentPagerAdapter(getSupportFragmentManager());
        // pager.setAdapter(pagerAdapter);

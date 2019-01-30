@@ -381,7 +381,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
+                    Log.d("JSON_E",responseStr);
                     try {
+
                         JSONObject dataJsonObj = new JSONObject(responseStr);
                         JSONArray friends = dataJsonObj.getJSONArray("pif");
                         for (int i = 0; i < friends.length(); i++) {
@@ -402,24 +404,29 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price),ukTitle, date,Float.valueOf(procent), 1, nameCat, sum_money));
                             }
                         }
-                        JSONArray pif_archive = dataJsonObj.getJSONArray("pif_archive");
-                        for (int i = 0; i < pif_archive.length(); i++) {
-                            JSONArray pif_archive2 = pif_archive.getJSONArray(i);
-                            for (int d = 0; d < pif_archive2.length(); d++) {
-                                JSONObject data_pif_archive2 = pif_archive2.getJSONObject(d);
-                                String title = data_pif_archive2.getString("Title");
-                                String sr_price = data_pif_archive2.getString("sr_price");
-                                String date_price = data_pif_archive2.getString("date_price");
-                                String amount = data_pif_archive2.getString("sum_amount");
-                                String ukTitle = data_pif_archive2.getString("ukTitle");
-                                String date = data_pif_archive2.getString("date");
-                                int id =data_pif_archive2.getInt("id");
-                                String procent = data_pif_archive2.getString("sum_izm");
-                                String nameCat = data_pif_archive2.getString("name_cat");
-                                phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price),ukTitle, date,Float.valueOf(procent), 0, nameCat, sum_money));
-                            }
-                        }
 
+                        try {
+                            JSONArray pif_archive = dataJsonObj.getJSONArray("pif_archive");
+                            Log.d("JSON_E",pif_archive.toString());
+                            for (int i = 0; i < pif_archive.length(); i++) {
+                                JSONArray pif_archive2 = pif_archive.getJSONArray(i);
+                                for (int d = 0; d < pif_archive2.length(); d++) {
+                                    JSONObject data_pif_archive2 = pif_archive2.getJSONObject(d);
+                                    String title = data_pif_archive2.getString("Title");
+                                    String sr_price = data_pif_archive2.getString("sr_price");
+                                    String date_price = data_pif_archive2.getString("date_price");
+                                    String amount = data_pif_archive2.getString("sum_amount");
+                                    String ukTitle = data_pif_archive2.getString("ukTitle");
+                                    String date = data_pif_archive2.getString("date");
+                                    int id = data_pif_archive2.getInt("id");
+                                    String procent = data_pif_archive2.getString("sum_izm");
+                                    String nameCat = data_pif_archive2.getString("name_cat");
+                                    phones.add(new PifData(api_token, title, Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price), ukTitle, date, Float.valueOf(procent), 0, "",0));
+                                }
+                            }
+                        }catch (JSONException e){
+                            Log.d("JSON_E",e.getMessage());
+                        }
 
 
                         JSONArray dat =dataJsonObj.getJSONArray("dat");

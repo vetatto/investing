@@ -48,12 +48,14 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="64dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Войдите в приложение"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,11 +63,13 @@
                 android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="инвестиции в будущее"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
         </android.support.constraint.ConstraintLayout>
@@ -81,55 +85,69 @@
                 android:id="@+id/loginError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:paddingTop="8dp"
-                android:text="TextView"
-                android:textColor="@color/colorMinus" />
-
-            <EditText
-                android:id="@+id/login_email"
-
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:alpha="0.8"
-                android:drawableLeft="@drawable/ic_account"
-                android:ems="10"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:textColor="#000000"
-                android:textColorHint="#000000" />
-
-            <EditText
-                android:id="@+id/login_password"
-
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:drawableLeft="@drawable/ic_key_variant"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:textColor="#000000"
-                android:textColorHint="#000000"
-                android:autofillHints=""
-                android:importantForAutofill="no" />
-
-            <Button
-                android:id="@+id/button"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:elevation="2dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="32dp"
+                android:text="TextView"
+                android:textColor="@color/colorMinus" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/username_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp">
+
+                <EditText
+                    android:id="@+id/login_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="E-mail"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/passwors_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp">
+            <EditText
+                android:id="@+id/login_password"
+
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:alpha="0.8"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="#000000"
+                android:textColorHint="#000000" />
+            </android.support.design.widget.TextInputLayout>
+            <Button
+                android:id="@+id/button"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edit_text_login"
+                android:elevation="0dp"
                 android:padding="10dp"
                 android:text="@string/authorization"
                 android:textColor="@color/colorToolbar" />
@@ -139,7 +157,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Регистрация" />
+                android:layout_marginTop="32dp"
+                android:text="Регистрация"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

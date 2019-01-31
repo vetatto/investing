@@ -24,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.libizo.CustomEditText;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

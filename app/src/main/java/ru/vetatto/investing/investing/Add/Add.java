@@ -1,5 +1,7 @@
 package ru.vetatto.investing.investing.Add;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,6 +73,14 @@ public class Add extends AppCompatActivity {
     JSONArray pif;
     JSONObject date_pif = new JSONObject();
     boolean first_pay,first_money;
+    int DIALOG_DATE = 1;
+    int myYear = 2019;
+    int myMonth = 02;
+    int myDay = 01;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +101,7 @@ public class Add extends AppCompatActivity {
             Button button_save = findViewById(R.id.button2);
             button_save.setEnabled(false);
             button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
+        showDialog(DIALOG_DATE);
             add_pif();
     }
 
@@ -97,9 +109,9 @@ public class Add extends AppCompatActivity {
     //Проверка ввода всех данных и активации кнопки
     private void button_save_activate(){
         if(pif_id>0 && pay_price.getText().toString()!="" &&
-                (money_price.getText().toString()!="" ||  amount_pay.getText().toString()!="") &&
-                (edit_procent_comission.getText().toString()!="" || edit_sum_comission.getText().toString()!="") &&
-                date_pay.getText().toString()!=""){
+                (money_price.getText().length()>0 ||  amount_pay.getText().length()>0) &&
+                (edit_procent_comission.getText().length()>0 || edit_sum_comission.getText().length()>0) &&
+                date_pay.getText().length()>0){
             Button button_save = findViewById(R.id.button2);
             button_save.setEnabled(true);
             button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -280,10 +292,28 @@ public class Add extends AppCompatActivity {
                 button_save_activate();
             }
         });
+        amount_pay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                button_save_activate();
+            }
+
+        });
 
 
 
-        //Обработка ввода суммы паев
+
+      /*  //Обработка ввода суммы паев
         amount_pay.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable s) {
@@ -346,7 +376,7 @@ public class Add extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-        });
+        });*/
 
 
 
@@ -473,5 +503,22 @@ public class Add extends AppCompatActivity {
         load.setVisibility(View.INVISIBLE);
     }
 
+    DatePickerDialog.OnDateSetListener myCallBack = new DatePickerDialog.OnDateSetListener() {
 
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myYear = year;
+            myMonth = monthOfYear;
+            myDay = dayOfMonth;
+            date_pay.setText(myDay + "." + myMonth + "." + myYear);
+        }
+    };
+
+
+    protected Dialog onCreateDialog(int id) {
+
+        DatePickerDialog tpd = new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
+        return tpd;
+
+    }
 }

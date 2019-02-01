@@ -78,8 +78,8 @@ public class Add extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeButtonEnabled(true);;
-        getWindow().setStatusBarColor(R.color.colorPrimaryDark);
+        actionbar.setHomeButtonEnabled(true);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
        // ViewPager pager = (ViewPager) findViewById(R.id.addViewPager);
        // AddFragmentPagerAdapter pagerAdapter = new AddFragmentPagerAdapter(getSupportFragmentManager());
        // pager.setAdapter(pagerAdapter);
@@ -87,10 +87,29 @@ public class Add extends AppCompatActivity {
             //view = inflater.inflate(R.layout.add_pif, null);
             load = (ProgressBar) findViewById(R.id.load_add_pif);
             ll = (LinearLayout) findViewById(R.id.mainAddLayout);
+            Button button_save = findViewById(R.id.button2);
+            button_save.setEnabled(false);
+            button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
             add_pif();
     }
 
 
+    //Проверка ввода всех данных и активации кнопки
+    private void button_save_activate(){
+        if(pif_id>0 && pay_price.getText().toString()!="" &&
+                (money_price.getText().toString()!="" ||  amount_pay.getText().toString()!="") &&
+                (edit_procent_comission.getText().toString()!="" || edit_sum_comission.getText().toString()!="") &&
+                date_pay.getText().toString()!=""){
+            Button button_save = findViewById(R.id.button2);
+            button_save.setEnabled(true);
+            button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+        else{
+            Button button_save = findViewById(R.id.button2);
+            button_save.setEnabled(false);
+            button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
+        }
+    }
 
     private void add_pif() {
         context = this;
@@ -133,6 +152,10 @@ public class Add extends AppCompatActivity {
                     date_pif.put("comissionProcent", cprocent);
                     date_pif.put("comission_sum", csum);
 
+                    Button button_save = findViewById(R.id.button2);
+                    button_save.setEnabled(false);
+                    button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
+
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -140,39 +163,56 @@ public class Add extends AppCompatActivity {
                 example.put("/add_pay_pif", api_token, date_pif, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        Button button_save = findViewById(R.id.button2);
+                        button_save.setEnabled(true);
+                        button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         if (response.isSuccessful()) {
-                            String responseStr = response.body().string();
-                            Log.d("TESTE", responseStr);
+                           String responseStr = response.body().string();
+                            //Log.d("TESTE", responseStr);
                             try {
                                 JSONObject dataJsonObj = new JSONObject(responseStr);
                                 String message =dataJsonObj.getString("message");
-                                Log.d("TESTE", "API_TOKEN: " + api_token);
+                              //  Log.d("TESTE", "API_TOKEN: " + api_token);
                                 if(message.equals("OK")){
                                     runOnUiThread(new Runnable() {
 
                                         @Override
                                         public void run() {
-
                                             Toast.makeText(context,
                                                     "Операция успешно добавлена", Toast.LENGTH_SHORT).show();
                                         }
                                     });
-
-
-
                                     finish();
+                                }
+                                else{
+                                    runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(context,
+                                                    "Ошибка", Toast.LENGTH_SHORT).show();
+                                            Button button_save = findViewById(R.id.button2);
+                                            button_save.setEnabled(true);
+                                            button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                        }
+                                    });
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         } else {
-                            Log.d("TESTE", response.toString());
+                            Button button_save = findViewById(R.id.button2);
+                            button_save.setEnabled(true);
+                            button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+
+                            Log.d("TESTE", call.request().toString());
                         }
+
                     }
                 });
 
@@ -180,15 +220,6 @@ public class Add extends AppCompatActivity {
         };
         // присвоим обработчик кнопке OK (btnOk)
         button_save.setOnClickListener(oclBtnOk);
-
-//URL:/add_pif_operation
-    ////{"message":"add",
-        //"date":"2018-12-25",
-        //"id_instrument":244,
-        //"amount":"86.16232",
-        //"price":"58.03",
-        //"sum_invest":"1000"
-        //}////
         final RadioGroup radioGroup = findViewById(R.id.radio_add);
            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -211,6 +242,46 @@ public class Add extends AppCompatActivity {
             }
 
         });
+
+           ///Обрабатываем ввод суммы инвестирования
+        money_price.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                button_save_activate();
+            }
+        });
+
+
+        date_pay.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                button_save_activate();
+            }
+        });
+
+
 
         //Обработка ввода суммы паев
         amount_pay.addTextChangedListener(new TextWatcher(){
@@ -278,14 +349,13 @@ public class Add extends AppCompatActivity {
         });
 
 
+
+
         namePif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-               Toast.makeText(context,
-                        "Clicked item from auto completion list "
-                                + adapterPif.getItem(pos).getName().toString()+" "+adapterPif.getItem(pos).getEndDate().toString()
-                        , Toast.LENGTH_SHORT).show();
+
                 nameTV.clearFocus();
                 namePif.setMinimumHeight(40);
                 hr_pif.setVisibility(View.VISIBLE);
@@ -299,6 +369,7 @@ public class Add extends AppCompatActivity {
                 CardView investinfo = findViewById(R.id.invest_info);
                 investinfo.setVisibility(View.VISIBLE);
                 pif_id=adapterPif.getItem(pos).getId();
+                button_save_activate();
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -350,8 +421,8 @@ public class Add extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Log.d("TESTE", response.body().string());
-                    String responseStr = response.body().string();
+                    Log.d("TESTE", call.request().body().toString());
+
                     String resp = response.message().toString();
                     if (resp.equals("Unauthorized")) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

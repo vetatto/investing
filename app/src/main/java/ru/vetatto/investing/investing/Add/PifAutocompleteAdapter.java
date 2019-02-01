@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing.PifList;
+package ru.vetatto.investing.investing.Add;
 
 import android.content.Context;
 import android.view.LayoutInflater;

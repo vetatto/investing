@@ -1,3 +1,8 @@
+/////********************************************
+////ru.vetato.investing.investing.Add.Add.java
+////класс обработки покупки паев фондов
+////*********************************************
+
 package ru.vetatto.investing.investing.Add;
 
 import android.app.DatePickerDialog;
@@ -6,7 +11,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,14 +41,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.HTTP.Put;
-import ru.vetatto.investing.investing.PifList.PifAutocompleteAdapter;
-import ru.vetatto.investing.investing.PifList.PifAutocompleteData;
 import ru.vetatto.investing.investing.R;
 
 public class Add extends AppCompatActivity {
@@ -75,7 +78,7 @@ public class Add extends AppCompatActivity {
     boolean first_pay,first_money;
     int DIALOG_DATE = 1;
     int myYear = 2019;
-    int myMonth = 02;
+    String myMonth;
     int myDay = 01;
 
 
@@ -101,12 +104,12 @@ public class Add extends AppCompatActivity {
             Button button_save = findViewById(R.id.button2);
             button_save.setEnabled(false);
             button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
-        showDialog(DIALOG_DATE);
+
             add_pif();
     }
-
-
-    //Проверка ввода всех данных и активации кнопки
+    /////***********************************************
+    ///// Проверка ввода всех данных и активации кнопки
+    /////***********************************************
     private void button_save_activate(){
         if(pif_id>0 && pay_price.getText().toString()!="" &&
                 (money_price.getText().length()>0 ||  amount_pay.getText().length()>0) &&
@@ -122,7 +125,7 @@ public class Add extends AppCompatActivity {
             button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
         }
     }
-
+    /////*********************************************
     private void add_pif() {
         context = this;
         sum_invest = 0;
@@ -141,7 +144,31 @@ public class Add extends AppCompatActivity {
         amount_pay=(EditText) findViewById(R.id.amount_pay);
         edit_procent_comission=(EditText) findViewById(R.id.edit_procent_comission);
         edit_sum_comission=(EditText) findViewById(R.id.edit_sum_comission);
-      ////Обработка сохранения операции с паями
+
+        ////*************************************************
+        //// Обработка нажатия на дату
+        ////************************************************
+        ////Если дата еще не выбиралась
+        date_pay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b==true) {
+                    showDialog(DIALOG_DATE);
+                }
+            }
+        });
+        /////Если фокус на поле с датой
+        date_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    showDialog(DIALOG_DATE);
+            }
+        });
+        /////*************************************************
+
+        /////***************************************
+        ///// Обработчик нажатия кнопки сохранить
+       /////****************************************
         Button button_save = findViewById(R.id.button2);
         // создаем обработчик нажатия
         View.OnClickListener oclBtnOk = new View.OnClickListener() {
@@ -163,7 +190,6 @@ public class Add extends AppCompatActivity {
                     date_pif.put("date", doperation);
                     date_pif.put("comissionProcent", cprocent);
                     date_pif.put("comission_sum", csum);
-
                     Button button_save = findViewById(R.id.button2);
                     button_save.setEnabled(false);
                     button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
@@ -230,63 +256,52 @@ public class Add extends AppCompatActivity {
 
             }
         };
-        // присвоим обработчик кнопке OK (btnOk)
         button_save.setOnClickListener(oclBtnOk);
+        ////***************************************
+
+        ////***************************************
+        // Обработка RadioButton
+        ///****************************************
         final RadioGroup radioGroup = findViewById(R.id.radio_add);
            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Log.d("chk", "id" + checkedId);
-
                 if (checkedId == R.id.radio_pay) {
                     money_price.setEnabled(false);
                     amount_pay.setEnabled(true);
                     amount_pay.requestFocus();
-                    //some code
                 } else if (checkedId == R.id.radio_summ) {
                     money_price.setEnabled(true);
                     amount_pay.setEnabled(false);
                     money_price.requestFocus();
-                    //some code
                 }
-
             }
-
         });
+           ///*************************************
 
-           ///Обрабатываем ввод суммы инвестирования
+         ///***************************************
+           ///Активируем или нет кнопку по событиям
+        ///****************************************
         money_price.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 button_save_activate();
             }
         });
-
-
         date_pay.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 button_save_activate();
@@ -297,95 +312,21 @@ public class Add extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 button_save_activate();
             }
 
         });
-
-
-
-
-      /*  //Обработка ввода суммы паев
-        amount_pay.addTextChangedListener(new TextWatcher(){
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (amount_pay.isFocused()) {
-                    //Если кол-во паев меньше 0 то пишем 0
-                    if(amount_pay.getText().toString().isEmpty()){
-                        amounts_pay=0;
-                    }
-                    else{
-                        amounts_pay = Float.valueOf(amount_pay.getText().toString());
-                    }
-                    //Если стоимость пая указана, но сумма инвестирования не указана
-                    if ((!pay_price.getText().toString().isEmpty()) && (money_price.getText().toString().isEmpty())) {
-                        first_pay=true; // Первым указали стоимость пая
-                        float price;
-                        if (amounts_pay < 0 && amount_pay.getText().toString().isEmpty()) {
-                          money_price.setText("0.00");
-                        }
-                        else{
-                            price = Float.valueOf(money_price.getText().toString());
-                            money_price.setText(String.valueOf(price*amounts_pay));
-                        }
-                    }
-                    //Если указана сумма инвестирования, но не указана стоимость пая
-                    else if (!money_price.getText().toString().isEmpty() && (pay_price.getText().toString().isEmpty())) {
-                        float price;
-                        float amounts_pay;
-                        amounts_pay = Float.valueOf(amount_pay.getText().toString());
-                        if (amounts_pay < 0 && amount_pay.getText().toString().isEmpty()) {
-                            pay_price.setText("0.00");
-                        }
-                        else{
-                            price = Float.valueOf(money_price.getText().toString());
-                            pay_price.setText(String.valueOf(price / amounts_pay));
-                        }
-                    }
-
-                    //Если указана и стоимость пая и сумма инвестирования
-                    else if(!money_price.getText().toString().isEmpty() && !pay_price.getText().toString().isEmpty()){
-                       //Если первым указали стоимость пая
-                        if(first_pay){
-                            float price;
-                            price = Float.valueOf(pay_price.getText().toString());
-                            money_price.setText(String.valueOf(price*amounts_pay));
-                        }
-                        else{
-                            float price;
-                            price = Float.valueOf(money_price.getText().toString());
-                            pay_price.setText(String.valueOf(price/amounts_pay));
-                        }
-                    }
-                }
-            }
-
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });*/
-
-
-
+        ////***************************************
 
         namePif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int pos, long id) {
-
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 nameTV.clearFocus();
                 namePif.setMinimumHeight(40);
                 hr_pif.setVisibility(View.VISIBLE);
@@ -405,6 +346,8 @@ public class Add extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+
+        ///***********ПРОРАБОТАТЬ ПЕРЕАВТОРИЗАЦИЮ********/////////
         Get example = new Get();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         api_token = sp.getString("API_TOKEN", " ");
@@ -416,7 +359,6 @@ public class Add extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 Log.d("TESTE", e.getMessage());
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -503,22 +445,48 @@ public class Add extends AppCompatActivity {
         load.setVisibility(View.INVISIBLE);
     }
 
-    DatePickerDialog.OnDateSetListener myCallBack = new DatePickerDialog.OnDateSetListener() {
 
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
+    ///////******************************
+    //////Диалог выбора даты  !!!!!!!!!ПЕРЕДЕЛАТЬ НА DIALOG FRAGMENT
+    //////*******************************
+    DatePickerDialog.OnDateSetListener DatePickerCallBack = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
             myYear = year;
-            myMonth = monthOfYear;
+            int myMonth2 = monthOfYear;
             myDay = dayOfMonth;
+            switch(myMonth2) {
+                case 0:myMonth="01";
+                    break;
+                case 1:myMonth="02";
+                    break;
+                case 2:myMonth="03";
+                    break;
+                case 3:myMonth="04";
+                    break;
+                case 4:myMonth="05";
+                    break;
+                case 5:myMonth="06";
+                    break;
+                case 6:myMonth="07";
+                    break;
+                case 7:myMonth="08";
+                    break;
+                case 8:myMonth="09";
+                    break;
+                case 9:myMonth="10";
+                    break;
+                case 10:myMonth="11";
+                    break;
+                case 11:myMonth="12";
+                    break;
+            }
             date_pay.setText(myDay + "." + myMonth + "." + myYear);
         }
     };
-
-
     protected Dialog onCreateDialog(int id) {
-
-        DatePickerDialog tpd = new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
+        Calendar newDate = Calendar.getInstance();
+        DatePickerDialog tpd = new DatePickerDialog(this, DatePickerCallBack, newDate.get(Calendar.YEAR),newDate.get(Calendar.MONTH), newDate.get(Calendar.DAY_OF_MONTH));
         return tpd;
-
     }
+    ///////******************************
 }

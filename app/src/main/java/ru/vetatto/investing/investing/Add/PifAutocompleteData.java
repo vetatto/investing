@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing.PifList;
+package ru.vetatto.investing.investing.Add;
 
 public class PifAutocompleteData {
     private String name, pay, end_date;

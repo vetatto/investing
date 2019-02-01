@@ -34,8 +34,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.LoginGragment;
 import ru.vetatto.investing.investing.HTTP.Get;
-import ru.vetatto.investing.investing.PifList.PifAutocompleteAdapter;
-import ru.vetatto.investing.investing.PifList.PifAutocompleteData;
 import ru.vetatto.investing.investing.R;
 
 public class AddPageFragment extends Fragment {

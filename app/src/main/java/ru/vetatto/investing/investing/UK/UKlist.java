@@ -42,17 +42,9 @@ public class UKlist extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
         RecyclerView recyclerView = findViewById(R.id.UKlist);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
         adapter = new UKAdapter(this, ukData);
         recyclerView.setAdapter(adapter);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -60,7 +52,7 @@ public class UKlist extends AppCompatActivity {
 
 
         Get ukdate_get = new Get();
-        ukdate_get.Get("/all_uk_list/", api_token, new Callback() {
+        ukdate_get.Get("/uk_list/", api_token, new Callback() {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
                 Log.d("TEST", e.getMessage());

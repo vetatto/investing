@@ -48,7 +48,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         Log.d("TEST","Type:"+divider_check);
         NumberFormat f = NumberFormat.getInstance();
         Log.d("ADS","position "+position+" size "+phones.size());
-        if(position==phones.size()-1){
+        if(position==phones.size()){
             AdRequest adRequest = new AdRequest.Builder().addTestDevice("95A895D25C18E95F46845472700A79EB").build();
             holder.adView.loadAd(adRequest);
         }

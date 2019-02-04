@@ -76,17 +76,17 @@ public class MainActivity extends AppCompatActivity
         api_token = sp.getString("API_TOKEN", "");
         String email = sp.getString("email", "");
         String GCM_id =sp.getString("GCM_TOKEN","");
-                if(api_token.isEmpty()){
+        if(api_token.isEmpty()){
             /*android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, new LoginGragment()).commit();*/
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    context.startActivity(intent);
-                    finish();
+            Intent intent = new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
+            finish();
         }
         else{
 
-                        send_gcm(GCM_id, api_token);
+            send_gcm(GCM_id, api_token);
 
             android.support.v4.app.FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();

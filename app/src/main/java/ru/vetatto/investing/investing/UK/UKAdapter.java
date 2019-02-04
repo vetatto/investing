@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.NetworkOnMainThreadException;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -31,6 +34,7 @@ public class UKAdapter extends RecyclerView.Adapter<UKAdapter.ViewHolder>   {
     private LayoutInflater inflater;
     private List<UKData> ukdata;
     int divider_check = 1;
+    Bitmap mIcon_val;
     public UKAdapter(Context context, List<UKData> ukdata) {
         this.ukdata = ukdata;
         this.inflater = LayoutInflater.from(context);
@@ -61,17 +65,20 @@ public class UKAdapter extends RecyclerView.Adapter<UKAdapter.ViewHolder>   {
         }*/
 
 
-            holder.UKTitle.setText(UK.getUKTitle());
+           // holder.UKTitle.setText(UK.getUKTitle());
 
 
         //final Context context = holder.itemView.getContext();
-        try {
-            URL newurl = UK.getUKImage();
-            Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-            holder.logo.setImageBitmap(mIcon_val);
-        }catch(IOException e){
 
-        }
+                URL newurl = UK.getUKImage();
+                Glide.with(holder.itemView.getContext())
+                        .load(newurl)
+                        .into(holder.logo);
+                /*mIcon_val= BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                holder.logo.setImageBitmap(mIcon_val);*/
+
+
+
         /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,12 +99,12 @@ public class UKAdapter extends RecyclerView.Adapter<UKAdapter.ViewHolder>   {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
      //  final ImageView spider;
-        final TextView UKTitle;
+       // final TextView UKTitle;
         final ImageView logo;
         AdView adView;
         ViewHolder(View view) {
             super(view);
-            UKTitle= (TextView) view.findViewById(R.id.UKTitle);
+            //UKTitle= (TextView) view.findViewById(R.id.UKTitle);
             logo = (ImageView) view.findViewById(R.id.UKLogo);
            MobileAds.initialize(view.getContext(), "ca-app-pub-3909765981983100~5463344129");
            adView = view.findViewById(R.id.adView);

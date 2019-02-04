@@ -34,6 +34,7 @@ import ru.vetatto.investing.investing.SMS.SMSData;
 
 public class UKlist extends AppCompatActivity {
     ArrayList<UKData> ukData = new ArrayList();
+    UKAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class UKlist extends AppCompatActivity {
 
 
         RecyclerView recyclerView = findViewById(R.id.UKlist);
-        UKAdapter adapter = new UKAdapter(this, ukData);
+        adapter = new UKAdapter(this, ukData);
         recyclerView.setAdapter(adapter);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String api_token = prefs.getString("API_TOKEN", null);
@@ -84,6 +85,11 @@ public class UKlist extends AppCompatActivity {
                     }  catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
                 } else {
                     Log.d("TEST_SMS", "Ошибка");
                 }

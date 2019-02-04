@@ -33,6 +33,7 @@ import ru.vetatto.investing.investing.Add.Add;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.Login.LoginActivity;
 import ru.vetatto.investing.investing.SMS.SMSRead;
+import ru.vetatto.investing.investing.UK.UKlist;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -168,12 +169,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             fragmentTransaction.replace(R.id.container, new MainFragment()).commit();
         }
-        if( id == R.id.nav_gallery){
+        if( id == R.id.nav_list_uk){
 
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("API_TOKEN", api_token);
             editor.commit();
-            Intent intent = new Intent(context, SMSRead.class);
+            Intent intent = new Intent(context, UKlist.class);
             context.startActivity(intent);
 
         }

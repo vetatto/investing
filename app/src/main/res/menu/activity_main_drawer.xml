@@ -9,6 +9,11 @@
             android:icon="@drawable/ic_briefcase_outline"
             android:title="@string/portfolio"/>
         <item
+            android:id="@+id/nav_list_uk"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="Список Управляющих" />
+
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Сравнение активов"

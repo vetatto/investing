@@ -110,19 +110,22 @@ public class Add extends AppCompatActivity {
     /////***********************************************
     ///// Проверка ввода всех данных и активации кнопки
     /////***********************************************
-    private void button_save_activate(){
-        if(pif_id>0 && pay_price.getText().toString()!="" &&
-                (money_price.getText().length()>0 ||  amount_pay.getText().length()>0) &&
-                (edit_procent_comission.getText().length()>0 || edit_sum_comission.getText().length()>0) &&
-                date_pay.getText().length()>0){
-            Button button_save = findViewById(R.id.button2);
-            button_save.setEnabled(true);
-            button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-        else{
-            Button button_save = findViewById(R.id.button2);
-            button_save.setEnabled(false);
-            button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
+    private void button_save_activate() {
+        try {
+            if (pif_id > 0 && //Если выбран фонд
+                    (pay_price.getText().toString() != "" & Float.valueOf(pay_price.getText().toString()) > 0) & // Если указана стоимость Пая
+                    (money_price.getText().length() > 0 & Float.valueOf(money_price.getText().toString()) > 0) &
+                    (date_pay.getText().length() > 0 & !date_pay.getText().toString().equals("0000-00-00"))) {
+                Button button_save = findViewById(R.id.button2);
+                button_save.setEnabled(true);
+                button_save.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else {
+                Button button_save = findViewById(R.id.button2);
+                button_save.setEnabled(false);
+                button_save.setBackgroundColor(Color.parseColor("#EEEEEE"));
+            }
+        } catch (NumberFormatException e) {
+            ///Обработка ошибок с NumberFormat
         }
     }
     /////*********************************************

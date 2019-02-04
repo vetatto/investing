@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class PortfolioFragmentPagerAdapter extends FragmentStatePagerAdapter {
-    static final int PAGE_COUNT = 2;
+    static final int PAGE_COUNT = 1;
     public PortfolioFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }

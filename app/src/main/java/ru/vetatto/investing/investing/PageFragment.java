@@ -138,9 +138,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
         else if(pageNumber==1){
            // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-            Rootview = inflater.inflate(R.layout.toolbar, null);
-            view = inflater.inflate(R.layout.allpiffragment, null);
-            portfolio_graphic();
+         //   Rootview = inflater.inflate(R.layout.toolbar, null);
+           // view = inflater.inflate(R.layout.allpiffragment, null);
+           // portfolio_graphic();
         }
         return view;
     }

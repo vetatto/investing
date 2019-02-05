@@ -391,7 +391,7 @@
                 android:layout_margin="5dp"
                 android:elevation="0dp"
                 android:paddingBottom="8dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardElevation="1dp">
 
                 <LinearLayout

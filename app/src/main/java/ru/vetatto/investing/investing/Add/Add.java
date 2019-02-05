@@ -93,6 +93,12 @@ public class Add extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeButtonEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
        // ViewPager pager = (ViewPager) findViewById(R.id.addViewPager);
        // AddFragmentPagerAdapter pagerAdapter = new AddFragmentPagerAdapter(getSupportFragmentManager());
@@ -114,7 +120,7 @@ public class Add extends AppCompatActivity {
         try {
             if (pif_id > 0 && //Если выбран фонд
                     (pay_price.getText().toString() != "" & Float.valueOf(pay_price.getText().toString()) > 0) & // Если указана стоимость Пая
-                    (money_price.getText().length() > 0 & Float.valueOf(money_price.getText().toString()) > 0) &
+                     ((money_price.getText().length() > 0 & Float.valueOf(money_price.getText().toString()) > 0) | (amount_pay.getText().length() > 0 & Float.valueOf(amount_pay.getText().toString()) > 0)) &
                     (date_pay.getText().length() > 0 & !date_pay.getText().toString().equals("0000-00-00"))) {
                 Button button_save = findViewById(R.id.button2);
                 button_save.setEnabled(true);

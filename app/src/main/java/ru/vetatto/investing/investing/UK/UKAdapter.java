@@ -65,7 +65,7 @@ public class UKAdapter extends RecyclerView.Adapter<UKAdapter.ViewHolder>   {
         }*/
 
 
-           // holder.UKTitle.setText(UK.getUKTitle());
+            holder.UKTitle.setText(UK.getUKTitle());
 
 
         //final Context context = holder.itemView.getContext();
@@ -99,12 +99,12 @@ public class UKAdapter extends RecyclerView.Adapter<UKAdapter.ViewHolder>   {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
      //  final ImageView spider;
-       // final TextView UKTitle;
+        final TextView UKTitle;
         final ImageView logo;
         AdView adView;
         ViewHolder(View view) {
             super(view);
-            //UKTitle= (TextView) view.findViewById(R.id.UKTitle);
+            UKTitle= (TextView) view.findViewById(R.id.UKTitle);
             logo = (ImageView) view.findViewById(R.id.UKLogo);
            MobileAds.initialize(view.getContext(), "ca-app-pub-3909765981983100~5463344129");
            adView = view.findViewById(R.id.adView);

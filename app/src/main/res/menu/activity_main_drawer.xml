@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_briefcase_outline"
-            android:title="@string/portfolio"/>
+            android:icon="@drawable/menu_icon_portfolio"
+            android:title="@string/portfolio" />
         <item
             android:id="@+id/nav_list_uk"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@drawable/menu_list_icon"
             android:title="Список Управляющих" />
 
         <item
@@ -32,8 +32,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
-            android:title="@string/logout"/>
+            android:icon="@drawable/menu_icon_exit"
+            android:title="@string/logout" />
     </group>
 
 </menu>

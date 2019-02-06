@@ -6,18 +6,33 @@ import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import ru.vetatto.investing.investing.HTTP.Put;
 import ru.vetatto.investing.investing.R;
 import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
 
@@ -27,6 +42,8 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
     private LayoutInflater inflater;
     private List<PifData> phones;
     int divider_check = 1;
+    JSONObject date_pif = new JSONObject();
+
     public PifAdapter(Context context, List<PifData> phones) {
         this.phones = phones;
         this.inflater = LayoutInflater.from(context);
@@ -49,7 +66,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         NumberFormat f = NumberFormat.getInstance();
         Log.d("ADS","position "+position+" size "+phones.size());
         if(position==phones.size()){
-            AdRequest adRequest = new AdRequest.Builder().addTestDevice("95A895D25C18E95F46845472700A79EB").build();
+            AdRequest adRequest = new AdRequest.Builder().build();
             holder.adView.loadAd(adRequest);
         }
         else{
@@ -91,6 +108,72 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                               context.startActivity(intent);
             }
         });
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Log.d("TEST_LONG", "LongClick: " + phone.getukTitle() + " - " + phone.getPifTitle());
+                    PopupMenu popup = new PopupMenu(view.getContext(), view);
+                    popup.inflate(R.menu.context_pif_menu);
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) { ;
+                            if (menuItem.getItemId() == R.id.edit) {
+                                Log.d("TEST_MENU", phone.getPifTitle() + " Редактируем");
+                            }
+                            if (menuItem.getItemId() == R.id.sell) {
+                                try {
+                                    date_pif.put("message", "sell_all");
+                                    date_pif.put("idPif", phone.getPifId());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Put sell_all = new Put();
+                                sell_all.put("/sell_all", phone.getApiToken(), date_pif, new Callback() {
+                                    public void onFailure(Call call, IOException e) {
+                                        Toast.makeText(context,
+                                                "Ошибка "+e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        if (response.isSuccessful()) {
+                                            String responseStr = response.body().string();
+                                            Log.d("TEST_MENU", responseStr);
+                                            try {
+                                                JSONObject dataJsonObj = new JSONObject(responseStr);
+                                                String message = dataJsonObj.getString("message");
+                                                //  Log.d("TESTE", "API_TOKEN: " + api_token);
+                                                if (message.equals("OK")) {
+                                                    Toast.makeText(context, "Операция успешно выполнена", Toast.LENGTH_SHORT).show();
+                                                } else {
+
+                                                    Toast.makeText(context,
+                                                            "Ошибка", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        else{
+
+                                        }
+                                    }
+
+                                });
+                            }
+                                return false;
+                            }
+
+                    });
+                    popup.show();
+                    return true;// returning true instead of false, works for me
+
+                }
+            });
+
+
+
     }
     else{
             if(divider_check==0) {
@@ -137,7 +220,72 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                 }
             });
 
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Log.d("TEST_LONG", "LongClick: " + phone.getukTitle() + " - " + phone.getPifTitle());
+                    PopupMenu popup = new PopupMenu(view.getContext(), view);
+                    popup.inflate(R.menu.context_pif_menu);
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
 
+                        int id = menuItem.getItemId();
+                        if(id == R.id.edit){
+                            Log.d("TEST_MENU", phone.getPifTitle()+ " Редактируем");
+                        }
+                        if(id == R.id.sell){
+
+                        }
+                            Log.d("TEST_MENU", phone.getPifTitle()+ " Удаляем");
+                           try {
+
+                               date_pif.put("message", "sell_all");
+                               date_pif.put("idPif", phone.getPifId());
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        Put sell_all = new Put();
+                        sell_all.put("/sell_all", phone.getApiToken(), date_pif, new Callback() {
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                if (response.isSuccessful()) {
+                                    String responseStr = response.body().string();
+                                    Log.d("TEST_MENU", responseStr);
+                                    try {
+                                        JSONObject dataJsonObj = new JSONObject(responseStr);
+                                        String message =dataJsonObj.getString("message");
+                                        //  Log.d("TESTE", "API_TOKEN: " + api_token);
+                                        if(message.equals("OK")){
+                                            Toast.makeText(context,"Операция успешно выполнена", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+
+                                                    Toast.makeText(context,
+                                                            "Ошибка", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                }
+
+                        });
+
+                        return false;
+                    }
+                    });
+                    popup.show();
+                    return true;// returning true instead of false, works for me
+
+                }
+            });
 
         }
     }

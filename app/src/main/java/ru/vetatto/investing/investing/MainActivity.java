@@ -20,7 +20,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 
@@ -69,9 +72,11 @@ public class MainActivity extends AppCompatActivity
       /*  WhatsNew.newInstance(
                 new WhatsNewItem("0.0.3", "Исправлен ряд ошибок")
         ).presentAutomatically(MainActivity.this);*/
-      /*  MobileAds.initialize(this, "ca-app-pub-3909765981983100~5463344129");
+        MobileAds.initialize(this, "ca-app-pub-3909765981983100~5241203689");
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3909765981983100/6253573812");*/
+        mInterstitialAd.setAdUnitId("ca-app-pub-3909765981983100/4890560338");
+
+        
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         api_token = sp.getString("API_TOKEN", "");
         String email = sp.getString("email", "");

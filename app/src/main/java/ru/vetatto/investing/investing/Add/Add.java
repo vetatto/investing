@@ -42,10 +42,13 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.Dialog.DatePickerFragment;
+import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendAdapter;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.HTTP.Put;
 import ru.vetatto.investing.investing.R;
@@ -161,16 +164,34 @@ public class Add extends AppCompatActivity {
         date_pay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
+
                 if(b==true) {
-                    showDialog(DIALOG_DATE);
+                    DatePickerFragment Dialog = new DatePickerFragment();
+                    Dialog.show(getFragmentManager(), "My New Alert");
+                   Dialog.setOnDatePickerDialogChangeListener(new DatePickerFragment.onDatePickerDialogChangeListener() {
+                       @Override
+                       public void onDatePickerDialogClicked(String date) {
+                           date_pay.setText(date);
+                        }
+                    });
                 }
             }
         });
+
+
+
         /////Если фокус на поле с датой
         date_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    showDialog(DIALOG_DATE);
+                DatePickerFragment Dialog = new DatePickerFragment();
+                Dialog.show(getFragmentManager(), "Дата покупки");
+                Dialog.setOnDatePickerDialogChangeListener(new DatePickerFragment.onDatePickerDialogChangeListener() {
+                    @Override
+                    public void onDatePickerDialogClicked(String date) {
+                        date_pay.setText(date);
+                    }
+                });
             }
         });
         /////*************************************************

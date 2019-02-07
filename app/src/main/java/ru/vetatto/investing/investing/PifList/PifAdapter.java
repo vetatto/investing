@@ -1,5 +1,7 @@
 package ru.vetatto.investing.investing.PifList;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
@@ -32,6 +35,7 @@ import java.util.concurrent.BlockingQueue;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.Dialog.DialogSalePifPay;
 import ru.vetatto.investing.investing.HTTP.Put;
 import ru.vetatto.investing.investing.R;
 import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
@@ -65,8 +69,9 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
         Log.d("TEST","Type:"+divider_check);
         NumberFormat f = NumberFormat.getInstance();
         Log.d("ADS","position "+position+" size "+phones.size());
-        if(position==phones.size()){
-            AdRequest adRequest = new AdRequest.Builder().build();
+        if(position==3){
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .addTestDevice("B5A1BBCCAC3C8A59EC55D8A1384F0B2F").build();
             holder.adView.loadAd(adRequest);
         }
         else{
@@ -122,6 +127,10 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                                 Log.d("TEST_MENU", phone.getPifTitle() + " Редактируем");
                             }
                             if (menuItem.getItemId() == R.id.sell) {
+                                DialogSalePifPay sell_dialog = new DialogSalePifPay();
+                                FragmentManager manager = ((Activity) context).getFragmentManager();
+                                sell_dialog.show(manager,"ddd");
+/*
                                 try {
                                     date_pif.put("message", "sell_all");
                                     date_pif.put("idPif", phone.getPifId());
@@ -160,7 +169,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                                         }
                                     }
 
-                                });
+                                });*/
                             }
                                 return false;
                             }
@@ -310,8 +319,8 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
             datePif = (TextView) view.findViewById(R.id.amount);
             procent= (TextView) view.findViewById(R.id.izm_day);
            divider = (TextView) view.findViewById(R.id.divider);
-           MobileAds.initialize(view.getContext(), "ca-app-pub-3909765981983100~5463344129");
-           adView = view.findViewById(R.id.adView);
+           adView = view.findViewById(R.id.adView);;
+
 
         }
         }

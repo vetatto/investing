@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.Dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

@@ -65,7 +65,7 @@ public class GraphicLegendAdapter extends RecyclerView.Adapter<GraphicLegendAdap
             }
         }
         mBluetoothClickListener.onBluetoothDeviceClicked(hideLegend, showLegend);
-    }
+}
     public interface OnBluetoothDeviceClickedListener {
         void onBluetoothDeviceClicked(List<String> hideLegend,List<String> showLegends);
     }

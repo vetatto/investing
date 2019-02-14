@@ -66,6 +66,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Sell.Sell"
+            android:label="@string/title_activity_add"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Login.Registration"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowNoTitle="true"></activity>

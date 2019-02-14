@@ -137,10 +137,9 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             portfolio_info();
         }
         else if(pageNumber==1){
-           // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-         //   Rootview = inflater.inflate(R.layout.toolbar, null);
-           // view = inflater.inflate(R.layout.allpiffragment, null);
-           // portfolio_graphic();
+            Rootview = inflater.inflate(R.layout.toolbar, null);
+            view = inflater.inflate(R.layout.second_first, null);
+            all_portfolio_billing();
         }
         return view;
     }
@@ -168,162 +167,62 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             menuItem2.setVisible(false);
         }
     }
-///Отображение графика
-    private void portfolio_graphic(){
 
-        Log.d("TEST_GRAPH", "Данные графика");
+
+////*****************************************************
+////Функция отображения состояния счетов по категориям
+// В этой функции в актионбаре отображается сумма по всем инструментам и доход по всем инструментам
+// Деньги, Пифы
+////*****************************************************
+    private void all_portfolio_billing(){
+        Log.d("JSON_BILLING", "TEST :");
         context=this.getContext();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         api_token = sp.getString("API_TOKEN", " ");
-        Get example = new Get();//Делаем запрос к серверу
-        //Log.d("TEST", "/get_portfolio_instrument/"+id);
-        example.Get("/pif_graphics/", api_token, new Callback() {
-                    @Override
-                    public void onFailure(okhttp3.Call call, IOException e) {
-                        Log.d("TEST_GRAPH", "ERROR_FALURE:"+e.getMessage());
+        Get example = new Get();
+        example.Get("/get_index/", api_token, new Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                Log.d("JSON_BILLING", "ERROR_FALURE:"+e.getMessage());
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseStr = response.body().string();
+                    Log.d("JSON_BILLING", responseStr);
+                    //Обрабатываем категорию Деньги
+                    try {
+                        JSONObject dataJsonObj = new JSONObject(responseStr);
+                        JSONArray friends = dataJsonObj.getJSONArray("billing");
+                        for (int i = 0; i < friends.length(); i++) {
+                                JSONObject dataJsonObj2 = friends.getJSONObject(i);
+                                String pif = dataJsonObj2.getString("pif");
+                                String cash = dataJsonObj2.getString("cash");
+                                Log.d("JSON_BILLING","Пифы "+pif);
+                                Log.d("JSON_BILLING","Деньги "+cash);
+                                //phones.add(new PifData(api_token, " ", Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price), ukTitle, date, Float.valueOf(procent), 1, nameCat, sum_money));
+                            }
+
+                    } catch (JSONException e) {
+                        Log.d("JSON_BILLING", e.getMessage());
                     }
+                }
+                final Activity act = getActivity();
+                if (act != null)
+                    act.runOnUiThread(new Runnable() {
+                        public void run() {
 
-                    @Override
-                    public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                        if (response.isSuccessful()) {
-                           responseStr = response.body().string();
-                            generate_data(responseStr);
-                            final Activity act = getActivity();
-                            if (act != null)
-                                act.runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Log.d("TEST_GRAPH","Lines:"+lines.toString());
-                                        final LineChartView chart = (LineChartView) view.findViewById(R.id.chart_all_pif);
-                                        chart.setLineChartData(data_char);
-                                        chart.setViewportCalculationEnabled(true);
-                                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.RVLegend);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                                        legendAdapter = new GraphicLegendAdapter(context,legendData);
-                                        recyclerView.setAdapter(legendAdapter);
-                                        legendAdapter.notifyDataSetChanged();
-
-                                       /////Проверить функцию
-                                        legendAdapter.setOnBluetoothDeviceClickedListener(new GraphicLegendAdapter.OnBluetoothDeviceClickedListener() {
-                                            @Override
-                                            public void onBluetoothDeviceClicked(List<String> hideLegends, List<String> showLegends) {
-                                                //Log.d("TEST_SWITCH",deviceAddress);
-                                              //  LineChartData newData = new LineChartData(data_char.getLines());
-                                              //  newData.getLines().remove(1);
-                                                hideLegend=hideLegends;
-                                                showLegend=showLegends;
-                                                generate_data(responseStr);
-                                                chart.setLineChartData(data_char);
-                                                chart.setViewportCalculationEnabled(true);
-                                            }
-                                        });
-
-                                    }
-                                });
-                        }
-                        else{
-                            Log.d("TEST_GRAPH","ERORR:"+response.toString());
                         }
                     }
-                });
-
-
+            );}
+        });
 
     }
 
- private void generate_data(String responseStr){
-     entries = new ArrayList<Entry>();
-     labels = new ArrayList<String>();
-
-     try {
-         JSONObject dataJsonObj = new JSONObject(responseStr);
-         JSONArray graph_data = dataJsonObj.getJSONArray("graph");
-         List<Line> lines2 = new ArrayList<Line>();
-         Log.d("TEST_GRAPH",String.valueOf(graph_data.length()));
-
-         for (int i = 0; i < graph_data.length(); i++) {
-             ArrayList<PointValue> pointValues = new ArrayList<>();
-             //JSONObject graph_pif_data = graph_data.getJSONObject(i);
-             // Log.d("TEST_GRAPH", graph_pif_data.toString());
-             JSONArray graph_pif_date_array =  graph_data.getJSONArray(i);
-             Log.d("TEST_GRAPH",String.valueOf(graph_pif_date_array.length()));
-             float pay_old =0;
-             for (int b = 0; b < graph_pif_date_array.length(); b++) {
-                 JSONObject graph_pif_date_list = graph_pif_date_array.getJSONObject(b);
-                 String date = graph_pif_date_list.getString("date");
-                 String pay = graph_pif_date_list.getString("pay");
-                 legendTitle = graph_pif_date_list.getString("title");
-
-                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-                 Date dates = sdf.parse(date);
-                 float pay_procent;
-                 if(pay_old==0) {
-                     pay_procent = pay_old;//Float.valueOf(pay);//pay_old;
-                     pay_old=Float.valueOf(pay);
-                 }
-                 else{
-                     pay_procent = (Float.valueOf(pay)/pay_old-1)*100;//Float.valueOf(pay);//
-                     //pay_old=Float.valueOf(pay);
-                 }
-                 PointValue point = new PointValue(dates.getTime(), pay_procent);
-                 point.setLabel(date+" "+pay_procent+" %");
-                 pointValues.add(point);
-                 //Log.d("TEST_GRAPH", date+"-"+pay);
-             }
-             if(hideLegend.contains(legendTitle)){
-
-             }
-             else {
-                 Line line = new Line(pointValues);
-                 Random rnd = new Random();
-                 int color = Color.argb(255, rnd.nextInt(i + 1), rnd.nextInt(256 - i), rnd.nextInt(256 - i));
-                 line.setColor(color);
-                 line.setHasPoints(false);
-                 line.setStrokeWidth(1);
-                 line.setHasPoints(true);
-                 line.setPointRadius(1);
-                 line.setHasLabels(true);
-                 line.setHasLabelsOnlyForSelected(true);
-                 lines2.add(line);
-                 Log.d("TEST_GRAPH", "Добавили линию " + i);
-                 legendData.add(new GraphicLegendData(legendTitle, color));
-             }
-             if(showLegend.contains(legendTitle)){
-                 Line line = new Line(pointValues);
-                 Random rnd = new Random();
-                 int color = Color.argb(255, rnd.nextInt(i + 1), rnd.nextInt(256 - i), rnd.nextInt(256 - i));
-                 line.setColor(color);
-                 line.setHasPoints(false);
-                 line.setStrokeWidth(1);
-                 line.setHasPoints(true);
-                 line.setPointRadius(1);
-                 line.setHasLabels(true);
-                 line.setHasLabelsOnlyForSelected(true);
-                 lines2.add(line);
-                 Log.d("TEST_GRAPH", "Добавили линию " + i);
-                 legendData.add(new GraphicLegendData(legendTitle, color));
-             }
-         }
-
-         data_char = new LineChartData();
-         data_char.setLines(lines2);
-     }catch (JSONException e) {
-         Log.d("TEST_GRAPH","ERROR_JSON:"+e.getMessage());
-     } catch (ParseException e) {
-         e.printStackTrace();
-     }
-
-     Axis axisX = new Axis(axisValues);
-     Axis axisY = new Axis().setHasLines(true);
-     axisX.setName("Axis X");
-     axisY.setName("%");
-     axisX.setMaxLabelChars(4);
-     axisX.setHasLines(true);
-     axisX.setMaxLabelChars(10);
-     data_char.setAxisYRight(axisY);
-     data_char.setAxisXBottom(axisX);
-
- }
+ ///******************************************
 ///Отображение полного списка портфеля
+///**********************************************
     private void portfolio_info(){
         context=this.getContext();
         recyclerView = view.findViewById(R.id.RV1);
@@ -342,10 +241,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         phones.clear();
         adapter = new PifAdapter(context, phones);
         recyclerView.setAdapter(adapter);
-
-
-        //money_sum = getActivity().findViewById(R.id.sum_money);
-       // plus = getActivity().findViewById(R.id.plus);
         hide();
         example.Get("/get_portfolio_instrument", api_token, new Callback() {
             @Override
@@ -609,8 +504,12 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
     }
+///*****************************************
 
 
+    ///******************************************
+    ///Отображение всех пифов в системе
+    ///********************************************
     private  void get_all_pif_list(String sort) {
         Log.d("TEST","ОТображаем весь список");
         context=this.getContext();
@@ -704,7 +603,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
 
     }
-
+///********************************************************
 
     private void hide() {
         portfolio_main.setVisibility(View.INVISIBLE);

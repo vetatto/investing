@@ -35,10 +35,12 @@ import java.util.concurrent.BlockingQueue;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.Add.Add;
 import ru.vetatto.investing.investing.Dialog.DialogSalePifPay;
 import ru.vetatto.investing.investing.HTTP.Put;
 import ru.vetatto.investing.investing.R;
 import ru.vetatto.investing.investing.PifInfo.protfolioPifInfo;
+import ru.vetatto.investing.investing.Sell.Sell;
 
 import static java.lang.Math.round;
 
@@ -127,49 +129,8 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                                 Log.d("TEST_MENU", phone.getPifTitle() + " Редактируем");
                             }
                             if (menuItem.getItemId() == R.id.sell) {
-                                DialogSalePifPay sell_dialog = new DialogSalePifPay();
-                                FragmentManager manager = ((Activity) context).getFragmentManager();
-                                sell_dialog.show(manager,"ddd");
-/*
-                                try {
-                                    date_pif.put("message", "sell_all");
-                                    date_pif.put("idPif", phone.getPifId());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Put sell_all = new Put();
-                                sell_all.put("/sell_all", phone.getApiToken(), date_pif, new Callback() {
-                                    public void onFailure(Call call, IOException e) {
-                                        Toast.makeText(context,
-                                                "Ошибка "+e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                    }
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        if (response.isSuccessful()) {
-                                            String responseStr = response.body().string();
-                                            Log.d("TEST_MENU", responseStr);
-                                            try {
-                                                JSONObject dataJsonObj = new JSONObject(responseStr);
-                                                String message = dataJsonObj.getString("message");
-                                                //  Log.d("TESTE", "API_TOKEN: " + api_token);
-                                                if (message.equals("OK")) {
-                                                    Toast.makeText(context, "Операция успешно выполнена", Toast.LENGTH_SHORT).show();
-                                                } else {
-
-                                                    Toast.makeText(context,
-                                                            "Ошибка", Toast.LENGTH_SHORT).show();
-
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        else{
-
-                                        }
-                                    }
-
-                                });*/
+                                    Intent intent = new Intent(context, Sell.class);
+                                    context.startActivity(intent);
                             }
                                 return false;
                             }
@@ -244,9 +205,11 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                             Log.d("TEST_MENU", phone.getPifTitle()+ " Редактируем");
                         }
                         if(id == R.id.sell){
-
+                            Intent intent = new Intent(context, Sell.class);
+                            context.startActivity(intent);
                         }
-                            Log.d("TEST_MENU", phone.getPifTitle()+ " Удаляем");
+
+                          /*  Log.d("TEST_MENU", phone.getPifTitle()+ " Удаляем");
                            try {
 
                                date_pif.put("message", "sell_all");
@@ -285,7 +248,7 @@ public class PifAdapter extends RecyclerView.Adapter<PifAdapter.ViewHolder>   {
                                 }
                                 }
 
-                        });
+                        });*/
 
                         return false;
                     }

@@ -60,6 +60,8 @@ import lecho.lib.hellocharts.view.LineChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ru.vetatto.investing.investing.Billing.BillingAdapter;
+import ru.vetatto.investing.investing.Billing.BillingData;
 import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendAdapter;
 import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendData;
 import ru.vetatto.investing.investing.HTTP.Get;
@@ -79,6 +81,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     int backColor;
     View view,Rootview;
     Context context;
+    ArrayList<BillingData> billing = new ArrayList();
+    BillingAdapter billingAdapteradapter;
     ArrayList<PifData> phones = new ArrayList();
     ArrayList<PifAllListData> allPif = new ArrayList();
     RecyclerView recyclerView;
@@ -124,7 +128,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         setHasOptionsMenu(true);
         f=NumberFormat.getInstance();
 
-        if(pageNumber==0){
+        if(pageNumber==1){
            // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.second_first, null);
@@ -136,7 +140,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     android.R.color.holo_red_light);
             portfolio_info();
         }
-        else if(pageNumber==1){
+        else if(pageNumber==0){
             Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.second_first, null);
             all_portfolio_billing();
@@ -175,6 +179,16 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 // Деньги, Пифы
 ////*****************************************************
     private void all_portfolio_billing(){
+        context=this.getContext();
+        RecyclerView recyclerView = view.findViewById(R.id.RV1);
+        billingAdapteradapter = new BillingAdapter(context, billing);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        portfolio_main = view.findViewById(R.id.portfolio_main);
+        load_portfolio = view.findViewById(R.id.load_portfolio);
+        load_portfolio.setVisibility(View.GONE);
+        portfolio_main.setVisibility(View.VISIBLE);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(billingAdapteradapter);
         Log.d("JSON_BILLING", "TEST :");
         context=this.getContext();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
@@ -199,10 +213,20 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                                 JSONObject dataJsonObj2 = friends.getJSONObject(i);
                                 String pif = dataJsonObj2.getString("pif");
                                 String cash = dataJsonObj2.getString("cash");
-                                Log.d("JSON_BILLING","Пифы "+pif);
-                                Log.d("JSON_BILLING","Деньги "+cash);
-                                //phones.add(new PifData(api_token, " ", Float.valueOf(date_price), Float.valueOf(amount), "33", id, Float.valueOf(sr_price), ukTitle, date, Float.valueOf(procent), 1, nameCat, sum_money));
+                                JSONArray pifArray = new JSONArray(pif);
+                            for (int b = 0; b < pifArray.length(); b++) {
+                                JSONObject pifJsonObj2 = pifArray.getJSONObject(b);
+                                String pif_amount = pifJsonObj2.getString("amount");
+                                String pif_income = pifJsonObj2.getString("doxod");
+                                billing.add(new BillingData(api_token,"Пифы",pif_amount,pif_income,"0"));
                             }
+                            JSONArray cashArray = new JSONArray(cash);
+                            for (int b = 0; b < cashArray.length(); b++) {
+                                JSONObject cashJsonObj2 = cashArray.getJSONObject(b);
+                                String cash_amount = cashJsonObj2.getString("amount");
+                                billing.add(new BillingData(api_token,"Деньги",cash_amount,null,"0"));
+                            }
+                        }
 
                     } catch (JSONException e) {
                         Log.d("JSON_BILLING", e.getMessage());
@@ -212,7 +236,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-
+                            billingAdapteradapter.notifyDataSetChanged();
                         }
                     }
             );}

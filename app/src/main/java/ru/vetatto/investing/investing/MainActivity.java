@@ -20,22 +20,18 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 
-import io.github.tonnyl.whatsnew.WhatsNew;
-import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import ru.vetatto.investing.investing.Add.Add;
 import ru.vetatto.investing.investing.HTTP.Get;
+import ru.vetatto.investing.investing.IndexViewPager.BillingFragment;
 import ru.vetatto.investing.investing.Login.LoginActivity;
-import ru.vetatto.investing.investing.SMS.SMSRead;
 import ru.vetatto.investing.investing.UK.UKlist;
 
 public class MainActivity extends AppCompatActivity
@@ -123,7 +119,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //onActivityResult(requestCode, resultCode, data);
-        PageFragment.OnResult(requestCode, resultCode, data);
+        BillingFragment.OnResult(requestCode, resultCode, data);
 
     }
     public void onResume() {

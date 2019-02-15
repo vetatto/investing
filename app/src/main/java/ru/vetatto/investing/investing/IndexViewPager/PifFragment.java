@@ -1,4 +1,4 @@
-package ru.vetatto.investing.investing;
+package ru.vetatto.investing.investing.IndexViewPager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,23 +15,20 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 import org.json.JSONArray;
@@ -43,11 +39,9 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.model.Axis;
@@ -55,7 +49,6 @@ import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,20 +59,20 @@ import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendAdapter;
 import ru.vetatto.investing.investing.GraphicEditActiv.GraphicLegendData;
 import ru.vetatto.investing.investing.HTTP.Get;
 import ru.vetatto.investing.investing.Login.LoginActivity;
-import ru.vetatto.investing.investing.PifInfo.PifOperationAdapter;
-import ru.vetatto.investing.investing.PifInfo.PifOperationData;
+import ru.vetatto.investing.investing.MainFragment;
 import ru.vetatto.investing.investing.PifList.PifAdapter;
 import ru.vetatto.investing.investing.PifList.PifAllListAdater;
 import ru.vetatto.investing.investing.PifList.PifAllListData;
 import ru.vetatto.investing.investing.PifList.PifData;
+import ru.vetatto.investing.investing.R;
 
-public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class PifFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout,mSwipeRefreshLayout_pif;
     int pageNumber;
     int backColor;
-    View view,Rootview;
+    View view,view2,Rootview;
     Context context;
     ArrayList<BillingData> billing = new ArrayList();
     BillingAdapter billingAdapteradapter;
@@ -94,8 +87,8 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     TextView plus;
     private static MenuItem menuItem, menuItem2;
     public String api_token;
-    LinearLayout portfolio_main;
-    ProgressBar load_portfolio;
+    LinearLayout portfolio_main, billing_main;
+    ProgressBar load_portfolio, billingLoad;
     NumberFormat f;
     ArrayList<Entry> entries = new ArrayList<Entry>();
     ArrayList<String> labels = new ArrayList<String>();
@@ -109,14 +102,14 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     List<String> hideLegend = new ArrayList<String>();
     List<String> showLegend = new ArrayList<String>();
     String responseStr;
-    static PageFragment newInstance(int page) {
-        PageFragment pageFragment = new PageFragment();
+   public static PifFragment newInstance(int page) {
+        PifFragment pageFragment = new PifFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
         pageFragment.setArguments(arguments);
         return pageFragment;
     }
-
+    Float all_sum,pif_sum;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,122 +120,44 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         f=NumberFormat.getInstance();
-
-        if(pageNumber==1){
-           // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             Rootview = inflater.inflate(R.layout.toolbar, null);
             view = inflater.inflate(R.layout.second_first, null);
-            mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-            mSwipeRefreshLayout.setOnRefreshListener(this);
-            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+            mSwipeRefreshLayout_pif = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+            mSwipeRefreshLayout_pif.setOnRefreshListener(this);
+            mSwipeRefreshLayout_pif.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
             portfolio_info();
-        }
-        else if(pageNumber==0){
-            Rootview = inflater.inflate(R.layout.toolbar, null);
-            view = inflater.inflate(R.layout.second_first, null);
-            all_portfolio_billing();
-        }
-        return view;
+
+       return view;
     }
 
+
+    @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Отменяем анимацию обновления
-                mSwipeRefreshLayout.setRefreshing(false);
-                portfolio_info();
-            }
-        }, 4000);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout_pif.setRefreshing(false);
+                        portfolio_info();
+                    }
+                }, 4000);
     }
+
+
+
     public static void OnResult(int requestCode, int resultCode, Intent data) {
-        Log.d("TEST", data.getStringExtra("TEST"));
-        PifAllListAdater.filter("");
-        allPifAdapter.notifyDataSetChanged();
-        if(allPifAdapter.infilter()==true) {
-            menuItem.setVisible(false);
-            menuItem2.setVisible(true);
-        }
-        else{
-            menuItem.setVisible(true);
-            menuItem2.setVisible(false);
-        }
-    }
+        if(requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            if(data != null) {
+                String value = data.getStringExtra("billing");
+                if(value == "1") {
 
-
-////*****************************************************
-////Функция отображения состояния счетов по категориям
-// В этой функции в актионбаре отображается сумма по всем инструментам и доход по всем инструментам
-// Деньги, Пифы
-////*****************************************************
-    private void all_portfolio_billing(){
-        context=this.getContext();
-        RecyclerView recyclerView = view.findViewById(R.id.RV1);
-        billingAdapteradapter = new BillingAdapter(context, billing);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        portfolio_main = view.findViewById(R.id.portfolio_main);
-        load_portfolio = view.findViewById(R.id.load_portfolio);
-        load_portfolio.setVisibility(View.GONE);
-        portfolio_main.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(billingAdapteradapter);
-        Log.d("JSON_BILLING", "TEST :");
-        context=this.getContext();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        api_token = sp.getString("API_TOKEN", " ");
-        Get example = new Get();
-        example.Get("/get_index/", api_token, new Callback() {
-            @Override
-            public void onFailure(okhttp3.Call call, IOException e) {
-                Log.d("JSON_BILLING", "ERROR_FALURE:"+e.getMessage());
-            }
-
-            @Override
-            public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseStr = response.body().string();
-                    Log.d("JSON_BILLING", responseStr);
-                    //Обрабатываем категорию Деньги
-                    try {
-                        JSONObject dataJsonObj = new JSONObject(responseStr);
-                        JSONArray friends = dataJsonObj.getJSONArray("billing");
-                        for (int i = 0; i < friends.length(); i++) {
-                                JSONObject dataJsonObj2 = friends.getJSONObject(i);
-                                String pif = dataJsonObj2.getString("pif");
-                                String cash = dataJsonObj2.getString("cash");
-                                JSONArray pifArray = new JSONArray(pif);
-                            for (int b = 0; b < pifArray.length(); b++) {
-                                JSONObject pifJsonObj2 = pifArray.getJSONObject(b);
-                                String pif_amount = pifJsonObj2.getString("amount");
-                                String pif_income = pifJsonObj2.getString("doxod");
-                                billing.add(new BillingData(api_token,"Пифы",pif_amount,pif_income,"0"));
-                            }
-                            JSONArray cashArray = new JSONArray(cash);
-                            for (int b = 0; b < cashArray.length(); b++) {
-                                JSONObject cashJsonObj2 = cashArray.getJSONObject(b);
-                                String cash_amount = cashJsonObj2.getString("amount");
-                                billing.add(new BillingData(api_token,"Деньги",cash_amount,null,"0"));
-                            }
-                        }
-
-                    } catch (JSONException e) {
-                        Log.d("JSON_BILLING", e.getMessage());
-                    }
                 }
-                final Activity act = getActivity();
-                if (act != null)
-                    act.runOnUiThread(new Runnable() {
-                        public void run() {
-                            billingAdapteradapter.notifyDataSetChanged();
-                        }
-                    }
-            );}
-        });
-
+            }
+        }
     }
+
 
  ///******************************************
 ///Отображение полного списка портфеля
@@ -250,7 +165,6 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void portfolio_info(){
         context=this.getContext();
         recyclerView = view.findViewById(R.id.RV1);
-
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         portfolio_main = view.findViewById(R.id.portfolio_main);
         load_portfolio = view.findViewById(R.id.load_portfolio);
@@ -265,7 +179,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         phones.clear();
         adapter = new PifAdapter(context, phones);
         recyclerView.setAdapter(adapter);
-        hide();
+        hide_portfolio();
         example.Get("/get_portfolio_instrument", api_token, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -411,10 +325,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (act != null)
                     act.runOnUiThread(new Runnable() {
                         public void run() {
-
-
                             LineChartView chart = (LineChartView) act.findViewById(R.id.chart_line2);
-
                             //In most cased you can call data model methods in builder-pattern-like manner.
                             Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
                             List<Line> lines = new ArrayList<Line>();
@@ -520,7 +431,7 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             else{
                                 procent.setText(f.format( Math.round((sum_money - sum_invest)*100.00)/100.00)+" \u20BD ("+f.format(Math.round(((sum_money - sum_invest) / sum_invest * 100)*100.00)/100.00)+"%)");
                             }
-                            show();
+                            show_portfolio();
                             adapter.notifyDataSetChanged();
 
                         }
@@ -531,109 +442,11 @@ public class PageFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 ///*****************************************
 
 
-    ///******************************************
-    ///Отображение всех пифов в системе
-    ///********************************************
-    private  void get_all_pif_list(String sort) {
-        Log.d("TEST","ОТображаем весь список");
-        context=this.getContext();
-        recyclerView = view.findViewById(R.id.RV1);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        sum_invest=0;
-        sum_money=0;
-        TextView text = view.findViewById(R.id.textView3);
-        Get example = new Get();
-        String response = null;
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        api_token = sp.getString("API_TOKEN", " ");
-        allPif.clear();
-        allPifAdapter = new PifAllListAdater(context, allPif);
-        recyclerView.setAdapter(allPifAdapter);
-        money_sum = view.findViewById(R.id.sum_money);
-        plus = view.findViewById(R.id.plus);
-        example.Get("/get_all_pif_list"+sort, api_token, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                final Activity act = getActivity();
-                if (act != null)
-                    act.runOnUiThread(new Runnable() {
-                        public void run() {
-                            AlertDialog.Builder builder;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog_Alert);
-                            } else {
-                                builder = new AlertDialog.Builder(context);
-                            }
-                            builder.setTitle("Сервер не отвечает")
-                                    .setMessage("Нам не удалось установить связь с сервером. Проверьте подключение к интернету или попробуйте позже!")
-                                    .setPositiveButton("Повторить", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                           portfolio_info();
-                                        }
-                                    })
-                                    .setNegativeButton("Выход", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                           getActivity().finish();
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .show();
-                        }
-                    });
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseStr = response.body().string();
-                    try {
-                        Log.d("TEST",responseStr);
-                        JSONObject dataJsonObj = new JSONObject(responseStr);
-                        JSONArray friends = dataJsonObj.getJSONArray("pif");
-                        for (int i = 0; i < friends.length(); i++) {
-                                JSONObject dataJsonObj2 = friends.getJSONObject(i);
-                                String title = dataJsonObj2.getString("pifTitle");
-                                String sr_price = dataJsonObj2.getString("end_pay");
-                                String change_y = dataJsonObj2.getString("change_y");
-                                String ukTitle = dataJsonObj2.getString("ukTitle");
-                                String pif_cat = dataJsonObj2.getString("pif_cat");
-                                int id =dataJsonObj2.getInt("pif_id");
-                                allPif.add(new PifAllListData(api_token, title, Float.valueOf(sr_price),  change_y, "33", id, 0,ukTitle, "2018-01-12",0, 1, pif_cat));
-                            }
-                        }
-                    catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    String resp = response.message().toString();
-                    if(resp.equals("Unauthorized")) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("API_TOKEN", null);
-                        editor.commit();
-                        Intent intent = new Intent(context,LoginActivity.class);
-                        context.startActivity(intent);
-                    }
-                }
-                final Activity act = getActivity();
-                if (act != null)
-                    act.runOnUiThread(new Runnable() {
-                        public void run() {
-                            allPifAdapter.notifyDataSetChanged();
-
-                        }
-                    });
-            }
-        });
-
-    }
-///********************************************************
-
-    private void hide() {
+    private void hide_portfolio() {
         portfolio_main.setVisibility(View.INVISIBLE);
         load_portfolio.setVisibility(View.VISIBLE);
     }
-    private void show() {
+    private void show_portfolio() {
         portfolio_main.setVisibility(View.VISIBLE);
         load_portfolio.setVisibility(View.INVISIBLE);
     }

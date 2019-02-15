@@ -1,32 +1,18 @@
 package ru.vetatto.investing.investing;
 
-
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 
-import ru.vetatto.investing.investing.PifList.PifAdapter;
-import ru.vetatto.investing.investing.PifList.PifData;
-
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment{
     View view;
-    Context context;
-    ArrayList<PifData> phones = new ArrayList();
-    RecyclerView recyclerView;
-    PifAdapter adapter;
-    float sum_money;
-    float sum_invest;
-    TextView money_sum;
-    TextView plus;
     public String api_token;
+    String all_sum;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,6 +24,7 @@ public class MainFragment extends Fragment {
         pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(listener);
 
+
         return view;
     }
     private ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
@@ -47,12 +34,16 @@ public class MainFragment extends Fragment {
         }
         @Override
         public void onPageSelected(int position) {
+
             if (position == 0) {
                 ((MainActivity) getActivity()).showFloatingActionButton();
+                //BillingFragment.SetActionBar("test");
             }
             if (position == 1) {
                 ((MainActivity) getActivity()).hideFloatingActionButton();
+                //PifFragment.SetActionBar("test");
             }
+
         }
 
         @Override

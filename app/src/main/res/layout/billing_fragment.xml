@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp"
+    android:background="#EEEEEE"
+
+    android:orientation="vertical">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_billing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="#EEEEEE"
+        app:layout_constraintBottom_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.489"
+        tools:layout_editor_absoluteX="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/main_billing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:id="@+id/billing_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#f7f7f7"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#f7f7f7"
+                    android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#f7f7f7"
+                        android:elevation="0dp"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical">
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/RVBilling"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="0dp"
+                            android:background="#f7f7f7"
+                            android:elevation="0dp"
+                            android:longClickable="false">
+
+                        </android.support.v7.widget.RecyclerView>
+
+                    </LinearLayout>
+                </android.support.v4.widget.NestedScrollView>
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/loadBilling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:theme="@style/CircularProgress"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

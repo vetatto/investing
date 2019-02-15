@@ -108,7 +108,7 @@ public class protfolioPifInfo
         Intent intent = new Intent(context, protfolioPifInfo.class);
         intent.putExtra(PARAMS_TYPE, type);
         context.startActivity(intent);*/
-   // }
+    // }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,13 +120,13 @@ public class protfolioPifInfo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
-       actionbar.setDisplayHomeAsUpEnabled(true);
-       actionbar.setHomeButtonEnabled(true);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeButtonEnabled(true);
         final CollapsingToolbarLayout mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbar.setTitle(" ");
         toolbar.setTitle(" ");
         //Columnchart = (ColumnChartView) findViewById(R.id.Columnchart);
-      //  previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
+        //  previewChart = (PreviewColumnChartView) findViewById(R.id.chart_preview);
 
 
         TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
@@ -160,7 +160,7 @@ public class protfolioPifInfo
         dialog.setMessage("Загружаем данные...");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
-       // dialog.show();
+        // dialog.show();
         String api_token = getIntent().getStringExtra("token");
         int id = getIntent().getIntExtra("idPif", 0);
         PifTitle = getIntent().getStringExtra("name");
@@ -179,7 +179,7 @@ public class protfolioPifInfo
         }*/
 
         example = new Get();//Делаем запрос к серверу
-       //Log.d("TEST", "/get_portfolio_instrument/"+id);
+        //Log.d("TEST", "/get_portfolio_instrument/"+id);
         example.Get("/get_portfolio_instrument/"+id, api_token, new Callback() {
             @Override
             public void onFailure(okhttp3.Call call, IOException e) {
@@ -232,35 +232,35 @@ public class protfolioPifInfo
 
                         //// ДАнные пифа
                         JSONObject pifinfo = dataJsonObj.getJSONObject("operation");
-                       // for (int i = 0; i < pifinfo.length(); i++) {
-                          //  JSONArray pifinfo2 = pifinfo.getJSONArray(i);
-                            pif_price = Float.valueOf(pifinfo.getString("pif_price"));
+                        // for (int i = 0; i < pifinfo.length(); i++) {
+                        //  JSONArray pifinfo2 = pifinfo.getJSONArray(i);
+                        pif_price = Float.valueOf(pifinfo.getString("pif_price"));
 
 
-                           try {
-                                   change_m = Float.valueOf(pifinfo.getString("change_m"));
-                                   change_3m = Float.valueOf(pifinfo.getString("change_3m"));
-                                   change_year = Float.valueOf(pifinfo.getString("change_year"));
-                           }
-                           //Отлавливаем сообщение об ошибке
-                           catch(NumberFormatException e) {
-                               Log.d("TEST",e.getMessage());
+                        try {
+                            change_m = Float.valueOf(pifinfo.getString("change_m"));
+                            change_3m = Float.valueOf(pifinfo.getString("change_3m"));
+                            change_year = Float.valueOf(pifinfo.getString("change_year"));
                         }
-                            pif_amount =  Float.valueOf(pifinfo.getString("amount"));
-                            end_price =  Float.valueOf(pifinfo.getString("end_price"));
+                        //Отлавливаем сообщение об ошибке
+                        catch(NumberFormatException e) {
+                            Log.d("TEST",e.getMessage());
+                        }
+                        pif_amount =  Float.valueOf(pifinfo.getString("amount"));
+                        end_price =  Float.valueOf(pifinfo.getString("end_price"));
                            /* for (int d = 0; d < pifinfo2.length(); d++) {
                                 JSONObject dataJsonObj3 = pifinfo2.getJSONObject(d);
                                 float pif_price = Float.valueOf(dataJsonObj3.getString("pif_price"));
                                 float pif_amount =  Float.valueOf(dataJsonObj3.getString("amount"));*/
-                                //entriesPie.add(new PieEntry(pif_price*pif_amount, "Инвестиции")); //revenue1
-                                //if((end_price*pif_amount-pif_price*pif_amount)>0){
-                                //    entriesPie.add(new PieEntry((end_price*pif_amount-pif_price*pif_amount), "Доход")); //revenue1
-                               // }
-                                Log.d("TEST",String.valueOf(pifinfo));
-                           // }
+                        //entriesPie.add(new PieEntry(pif_price*pif_amount, "Инвестиции")); //revenue1
+                        //if((end_price*pif_amount-pif_price*pif_amount)>0){
+                        //    entriesPie.add(new PieEntry((end_price*pif_amount-pif_price*pif_amount), "Доход")); //revenue1
+                        // }
+                        Log.d("TEST",String.valueOf(pifinfo));
+                        // }
 
 
-                } catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                         Log.d("TEST",e.toString());
                     } catch (ParseException e) {
@@ -310,9 +310,9 @@ public class protfolioPifInfo
                             change_3m_text.setText(String.format("%.2f",change_3m)+" %");
                             TextView change_yaer_text =  (TextView) findViewById(R.id.textView9);
                             change_yaer_text.setText(String.format("%.2f",change_year)+" %");
-                             my_sum_pif.setText(f.format(Math.round(day_investing)));
-                             float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
-                             procent_m.setText(String.format("%.2f",(proc_rasch)));
+                            my_sum_pif.setText(f.format(Math.round(day_investing)));
+                            float proc_rasch=(((pif_price*pif_amount)-(end_price*pif_amount))/(pif_price*pif_amount)*(-100));
+                            procent_m.setText(String.format("%.2f",(proc_rasch)));
                            /* PifInfoOperationFragment catFragment = (PifInfoOperationFragment)
                                     getSupportFragmentManager().findFragmentById(R.id.fragment2);*/
 
@@ -324,7 +324,6 @@ public class protfolioPifInfo
                             ft.commit();
                             ;
                             /*generateDefaultData();
-
                             Columnchart.setColumnChartData(Columndata);
                             // Disable zoom/scroll for previewed chart, visible chart ranges depends on preview chart viewport so
                             // zoom/scroll is unnecessary.
@@ -332,13 +331,12 @@ public class protfolioPifInfo
                             Columnchart.setScrollEnabled(false);
                             previewChart.setColumnChartData(previewData);
                             previewChart.setViewportChangeListener(new ViewportListener());
-
                             previewX(false);*/
                         }
                     });
 
                 } else {
-                   // dialog.dismiss();
+                    // dialog.dismiss();
                 }
             }
         });
@@ -434,6 +432,3 @@ public class protfolioPifInfo
         }
     }
 }
-
-
-
